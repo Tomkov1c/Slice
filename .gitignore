@@ -5,6 +5,9 @@ bin
 .metadata
 .classpath
 .project
+.vscode
+.eclipse
+.eclipse
 
 # idea
 out
@@ -27,4 +30,5 @@ repo
 
 win.code-workspace
 mac.code-workspace
+*.code-workspace
 .DS_Store
