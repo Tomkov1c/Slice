@@ -25,5 +25,6 @@ run-data
 
 repo
 
-.code-workspace
+win.code-workspace
+mac.code-workspace
 .DS_Store

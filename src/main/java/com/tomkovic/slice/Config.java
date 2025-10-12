@@ -20,4 +20,6 @@ public class Config {
         .defineInRange("slotSize", 32, 16, 64);
 
     public static final ModConfigSpec SPEC = BUILDER.build();
+
+    
 }
