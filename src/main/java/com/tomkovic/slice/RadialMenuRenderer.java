@@ -2,8 +2,6 @@ package com.tomkovic.slice;
 
 import java.lang.reflect.Field;
 
-import com.tomkovic.slice.Config;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;

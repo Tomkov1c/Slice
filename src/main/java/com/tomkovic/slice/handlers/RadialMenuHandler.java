@@ -4,7 +4,6 @@ import com.tomkovic.slice.KeyBindings;
 import com.tomkovic.slice.RadialMenuRenderer;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
@@ -13,7 +12,6 @@ import net.neoforged.neoforge.client.event.ViewportEvent;
 public class RadialMenuHandler {
     private boolean isMenuOpen = false;
     public static final RadialMenuRenderer renderer = new RadialMenuRenderer();
-    private static final ResourceLocation HOTBAR_LAYER = ResourceLocation.withDefaultNamespace("hotbar");
     private float savedYaw = 0;
     private float savedPitch = 0;
 

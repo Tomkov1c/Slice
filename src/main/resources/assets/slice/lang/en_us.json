@@ -9,5 +9,5 @@
   "slice.configuration.slotSize.tooltip": "Size of the slot background texture.",
 
   "key.slice.open_radial_menu": "Open Radial Menu",
-  "key.categories.slice.radial_menu": "Slice Radial Menu"
+  "key.category.slice.radial_menu": "Slice - Radial Menu"
 }
