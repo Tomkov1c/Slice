@@ -2,24 +2,29 @@ package com.tomkovic.slice;
 
 import net.neoforged.neoforge.common.ModConfigSpec;
 
-// An example config class. This is not required, but it's a good idea to have one to keep your config organized.
-// Demonstrates how to use Neo's config APIs
 public class Config {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
     public static final ModConfigSpec.IntValue RADIAL_MENU_RADIUS = BUILDER
-        .comment("Distance from center to slot")
+        .translation("slice.configuration.radialMenuRadius")
         .defineInRange("radialMenuRadius", 80, 40, 200);
-
+   
     public static final ModConfigSpec.IntValue ITEM_SIZE = BUILDER
-        .comment("Size of each item slot icon")
+        .translation("slice.configuration.itemSize")
         .defineInRange("itemSize", 16, 1, 64);
-
+   
     public static final ModConfigSpec.IntValue SLOT_SIZE = BUILDER
-        .comment("Size of the slot background texture")
+        .translation("slice.configuration.slotSize")
         .defineInRange("slotSize", 32, 16, 64);
-
-    public static final ModConfigSpec SPEC = BUILDER.build();
-
     
+    public static final ModConfigSpec.BooleanValue COUNTERCLOCKWISE_ROTATION = BUILDER
+        .translation("slice.configuration.counterclockwiseRotation")
+        .define("counterclockwiseRotation", false);
+
+    public static final ModConfigSpec.BooleanValue HIDE_UNUSED_SLOTS = BUILDER
+        .translation("slice.configuration.hideUnusedSlots")
+        .define("hideUnusedSlots", false);
+    
+    public static final ModConfigSpec SPEC = BUILDER.build();
+   
 }

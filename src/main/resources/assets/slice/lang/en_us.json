@@ -1,13 +1,21 @@
 {
+  "key.slice.open_radial_menu": "Open Radial Menu",
+  "key.category.slice.radial_menu": "Slice - Radial Menu",
+
+  //
+
   "slice.configuration.radialMenuRadius": "Radial Menu Radius",
-  "slice.configuration.radialMenuRadius.tooltip": "Radius of the radial menu in pixels.",
+  "slice.configuration.radialMenuRadius.tooltip": "Radius of the radial menu in pixels. t",
 
   "slice.configuration.itemSize": "Item Size",
-  "slice.configuration.itemSize.tooltip": "Size of each item slot in the radial menu.",
+  "slice.configuration.itemSize.tooltip": "Size of each item slot in the radial menu. t",
 
   "slice.configuration.slotSize": "Slot Size",
-  "slice.configuration.slotSize.tooltip": "Size of the slot background texture.",
+  "slice.configuration.slotSize.tooltip": "Size of the slot background texture. t",
 
-  "key.slice.open_radial_menu": "Open Radial Menu",
-  "key.category.slice.radial_menu": "Slice - Radial Menu"
+  "slice.configuration.counterclockwiseRotation": "Counterclockwise Rotation",
+  "slice.configuration.counterclockwiseRotation.tooltip": "When enabled, the radial menu rotates counterclockwise instead of clockwise",
+
+  "slice.configuration.hideUnusedSlots": "Hide Unused Slots",
+  "slice.configuration.hideUnusedSlots.tooltip": "When enabled, empty slots in the radial menu will be hidden"
 }

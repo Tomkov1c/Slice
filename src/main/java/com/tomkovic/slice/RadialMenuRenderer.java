@@ -17,6 +17,8 @@ public class RadialMenuRenderer {
     private static int itemSize = 16;
     private static int slotSize = 32;
     private static int slotRadius = 80;
+    private static boolean counterclockwise = false;
+    private static boolean hideUnusedSlots = false;
 
     // Texture locations
     private static final ResourceLocation SLOT_TEXTURE = ResourceLocation.fromNamespaceAndPath("slice", "textures/gui/radial_slot.png");
@@ -44,6 +46,8 @@ public class RadialMenuRenderer {
         itemSize = Config.ITEM_SIZE.get();
         slotSize = Config.SLOT_SIZE.get();
         slotRadius = Config.RADIAL_MENU_RADIUS.get();
+        counterclockwise = Config.COUNTERCLOCKWISE_ROTATION.get();
+        hideUnusedSlots = Config.HIDE_UNUSED_SLOTS.get();
     }
 
     public void onMenuOpen() {
@@ -97,8 +101,31 @@ public class RadialMenuRenderer {
         Inventory inventory = player.getInventory();
         MultiBufferSource.BufferSource bufferSource = mc.renderBuffers().bufferSource();
 
+        // Count non-empty
+        int visibleSlotCount = SLOT_COUNT;
+        if (hideUnusedSlots) {
+            visibleSlotCount = 0;
+            for (int i = 0; i < SLOT_COUNT; i++) {
+                if (!inventory.getItem(i).isEmpty()) {
+                    visibleSlotCount++;
+                }
+            }
+        }
+
+        // Render only visible slots
+        int renderedSlots = 0;
         for (int i = 0; i < SLOT_COUNT; i++) {
-            double angle = (Math.PI * 2 * i / SLOT_COUNT) - Math.PI / 2;
+            ItemStack stack = inventory.getItem(i);
+            
+            // Skip if enabled
+            if (hideUnusedSlots && stack.isEmpty()) {
+                continue;
+            }
+
+            // Calculate clockwise-ness
+            double angleMultiplier = counterclockwise ? -1.0 : 1.0;
+            double angle = (Math.PI * 2 * renderedSlots / visibleSlotCount) * angleMultiplier - Math.PI / 2;
+            
             int x = centerX + (int) (Math.cos(angle) * slotRadius);
             int y = centerY + (int) (Math.sin(angle) * slotRadius);
 
@@ -128,7 +155,6 @@ public class RadialMenuRenderer {
             );
 
             // Draw item scaled and centered
-            ItemStack stack = inventory.getItem(i);
             if (!stack.isEmpty()) {
                 int itemX = x - 8;
                 int itemY = y - 9; // TODO: Less hardcoded
@@ -153,21 +179,49 @@ public class RadialMenuRenderer {
             int textX = x - mc.font.width(slotNum) / 2;
             int textY = y + itemSize / 2 + 12;
             graphics.drawString(mc.font, slotNum, textX, textY, isHovered ? 0xFFFFFF00 : 0xFFFFFFFF);
+            
+            renderedSlots++;
         }
 
         bufferSource.endBatch();
     }
 
     private int getHoveredSlot(double mouseX, double mouseY) {
+        Minecraft mc = Minecraft.getInstance();
+        LocalPlayer player = mc.player;
+        if (player == null) return -1;
+
         double distance = Math.sqrt(mouseX * mouseX + mouseY * mouseY);
 
         if (distance < 20) return -1;
 
         double angle = Math.atan2(mouseY, mouseX);
         angle += Math.PI / 2;
-        if (angle < 0) angle += Math.PI * 2;
+        
+        // Angle
+        if (counterclockwise) {
+            angle = -angle;
+            if (angle < 0) angle += Math.PI * 2;
+        } else {
+            if (angle < 0) angle += Math.PI * 2;
+        }
 
-        double slotAngle = Math.PI * 2 / SLOT_COUNT;
-        return (int) Math.round(angle / slotAngle) % SLOT_COUNT;
+        // Visaul slots
+        Inventory inventory = player.getInventory();
+        int[] visibleSlots = new int[SLOT_COUNT];
+        int visibleSlotCount = 0;
+        
+        for (int i = 0; i < SLOT_COUNT; i++) {
+            if (!hideUnusedSlots || !inventory.getItem(i).isEmpty()) {
+                visibleSlots[visibleSlotCount++] = i;
+            }
+        }
+        
+        if (visibleSlotCount == 0) return -1;
+
+        double slotAngle = Math.PI * 2 / visibleSlotCount;
+        int hoveredIndex = (int) Math.round(angle / slotAngle) % visibleSlotCount;
+        
+        return visibleSlots[hoveredIndex];
     }
 }
