@@ -18,7 +18,7 @@ public class Slice {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public Slice(IEventBus modEventBus, ModContainer modContainer) {
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        modContainer.registerConfig(ModConfig.Type.COMMON, Config.CONFIG_SPEC);
         LOGGER.info("Roundabout Radial Menu Mod Initialized");
 
         ConfigHandler configHandler = new ConfigHandler(RadialMenuHandler.renderer);

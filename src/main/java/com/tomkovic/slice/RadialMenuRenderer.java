@@ -43,11 +43,11 @@ public class RadialMenuRenderer {
     public RadialMenuRenderer() { }
 
     public static void updateFromConfig() {
-        itemSize = Config.ITEM_SIZE.get();
-        slotSize = Config.SLOT_SIZE.get();
-        slotRadius = Config.RADIAL_MENU_RADIUS.get();
-        counterclockwise = Config.COUNTERCLOCKWISE_ROTATION.get();
-        hideUnusedSlots = Config.HIDE_UNUSED_SLOTS.get();
+        itemSize = Config.CONFIG.itemSize.get();
+        slotSize = Config.CONFIG.slotSize.get();
+        slotRadius = Config.CONFIG.radialMenuRadius.get();
+        //counterclockwise = Config.COUNTERCLOCKWISE_ROTATION.get();
+        hideUnusedSlots = Config.CONFIG.hideUnusedSlots.get();
     }
 
     public void onMenuOpen() {
