@@ -25,6 +25,8 @@ public class RadialMenuRenderer {
     private static final ResourceLocation SLOT_HOVERED_TEXTURE = ResourceLocation.fromNamespaceAndPath("slice", "textures/gui/radial_slot_hovered.png");
     private static final ResourceLocation SLOT_ACTIVE_TEXTURE = ResourceLocation.fromNamespaceAndPath("slice", "textures/gui/radial_slot_active.png");
 
+    // JSON layout file location
+    // private static final ResourceLocation JSON_CONFIG = ResourceLocation.fromNamespaceAndPath("slice", "textures/texture_config.json");
 
     private int hoveredSlot = -1;
     private double mouseStartX = 0;
