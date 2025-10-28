@@ -7,7 +7,6 @@ bin
 .project
 .vscode
 .eclipse
-.eclipse
 
 # idea
 out
@@ -28,7 +27,8 @@ run-data
 
 repo
 
-win.code-workspace
-mac.code-workspace
+*.DS_Store
+*.log
+*.tmp
 *.code-workspace
 .DS_Store
