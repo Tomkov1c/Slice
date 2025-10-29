@@ -1,8 +1,9 @@
-package com.example.examplemod;
+package com.tomkovic.slice;
 
 import org.spongepowered.asm.mixin.injection.Slice;
 
-import com.example.examplemod.handlers.RadialMenuHandler;
+import com.tomkovic.slice.Constants;
+import com.tomkovic.slice.handlers.RadialMenuHandler;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;

@@ -1,7 +1,7 @@
-package com.example.examplemod.platform;
+package com.tomkovic.slice.platform;
 
-import com.example.examplemod.Constants;
-import com.example.examplemod.platform.services.IPlatformHelper;
+import com.tomkovic.slice.Constants;
+import com.tomkovic.slice.platform.services.IPlatformHelper;
 
 import java.util.ServiceLoader;
 

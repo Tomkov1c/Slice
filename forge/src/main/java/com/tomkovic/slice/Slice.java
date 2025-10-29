@@ -1,11 +1,14 @@
-package com.example.examplemod;
+package com.tomkovic.slice;
+
+import com.tomkovic.slice.CommonClass;
+import com.tomkovic.slice.Constants;
 
 import net.minecraftforge.fml.common.Mod;
 
 @Mod(Constants.MOD_ID)
-public class ExampleMod {
+public class Slice {
 
-    public ExampleMod() {
+    public Slice() {
 
         // This method is invoked by the Forge mod loader when it is ready
         // to load your mod. You can access Forge and Common code in this

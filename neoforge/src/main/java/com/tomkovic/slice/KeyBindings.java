@@ -1,4 +1,4 @@
-package com.example.examplemod;
+package com.tomkovic.slice;
 
 import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.platform.InputConstants;

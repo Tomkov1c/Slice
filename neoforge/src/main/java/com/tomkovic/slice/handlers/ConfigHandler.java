@@ -1,8 +1,8 @@
-package com.example.examplemod.handlers;
+package com.tomkovic.slice.handlers;
 
 
-import com.example.examplemod.Config;
-import com.example.examplemod.RadialMenuRenderer;
+import com.tomkovic.slice.Config;
+import com.tomkovic.slice.RadialMenuRenderer;
 
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.event.config.ModConfigEvent;

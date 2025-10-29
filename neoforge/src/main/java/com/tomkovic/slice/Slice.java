@@ -1,10 +1,11 @@
-package com.example.examplemod;
+package com.tomkovic.slice;
 
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
-import com.example.examplemod.handlers.ConfigHandler;
-import com.example.examplemod.handlers.RadialMenuHandler;
+import com.tomkovic.slice.Constants;
+import com.tomkovic.slice.handlers.ConfigHandler;
+import com.tomkovic.slice.handlers.RadialMenuHandler;
 
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;

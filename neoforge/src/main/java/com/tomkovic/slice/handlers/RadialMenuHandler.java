@@ -1,7 +1,7 @@
-package com.example.examplemod.handlers;
+package com.tomkovic.slice.handlers;
 
-import com.example.examplemod.KeyBindings;
-import com.example.examplemod.RadialMenuRenderer;
+import com.tomkovic.slice.KeyBindings;
+import com.tomkovic.slice.RadialMenuRenderer;
 
 import net.minecraft.client.Minecraft;
 import net.neoforged.bus.api.SubscribeEvent;

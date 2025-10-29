@@ -1,8 +1,11 @@
-package com.example.examplemod;
+package com.tomkovic.slice;
+
+import com.tomkovic.slice.CommonClass;
+import com.tomkovic.slice.Constants;
 
 import net.fabricmc.api.ModInitializer;
 
-public class ExampleMod implements ModInitializer {
+public class Slice implements ModInitializer {
     
     @Override
     public void onInitialize() {

@@ -1,8 +1,10 @@
-package com.example.examplemod;
+package com.tomkovic.slice;
 
 import java.lang.reflect.Field;
 
 import org.spongepowered.asm.mixin.injection.Slice;
+
+import com.tomkovic.slice.Constants;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;

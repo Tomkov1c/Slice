@@ -1,4 +1,4 @@
-package com.example.examplemod;
+package com.tomkovic.slice;
 
 import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;

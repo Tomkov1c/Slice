@@ -1,4 +1,4 @@
-package com.example.examplemod.platform.services;
+package com.tomkovic.slice.platform.services;
 
 public interface IPlatformHelper {
 
