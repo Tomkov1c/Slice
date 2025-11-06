@@ -19,6 +19,9 @@
   "slice.configuration.hideUnusedSlots": "Hide Unused Slots",
   "slice.configuration.hideUnusedSlots.tooltip": "When enabled, empty slots in the radial menu will be hidden",
 
+  "slice.configuration.hideSlotNumber": "Hide Slots Numbers",
+  "slice.configuration.hideSlotNumber.tooltip": "When enabled, empty remove the slot number from the radial menu",
+
 
   "slice.configuration.rotationDirection": "Rotation Direction"
 

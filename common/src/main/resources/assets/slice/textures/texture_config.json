@@ -1,0 +1,14 @@
+{
+  "x_offset": 0,
+  "y_offset": 0,
+
+  "item_x_offset": -8,
+  "item_y_offset": -8,
+
+  "slot_number_x_offset": 0,
+  "slot_number_y_offset": 12,
+
+  "slot_number_color": "#FFFFFF",
+  "slot_number_color_hovered": "#FFFF00",
+  "slot_number_color_active": "#FFFFFF"
+}
