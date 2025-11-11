@@ -2,9 +2,7 @@ package com.tomkovic.slice;
 
 import java.lang.reflect.Field;
 
-import org.spongepowered.asm.mixin.injection.Slice;
-
-import com.tomkovic.slice.Constants;
+import com.google.gson.JsonObject;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -16,23 +14,18 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
 public class RadialMenuRenderer {
-    private static final int SLOT_COUNT = 9;
 
-    private static int itemSize = 16;
-    private static int slotSize = 32;
-    private static int slotRadius = 80;
+    private static int itemSize = Constants.DEFAULT_ITEM_SIZE;
+    private static int slotSize = Constants.DEFAULT_SLOT_SIZE;
+    private static int slotRadius = Constants.DEFAULT_SLOT_RADIUS;
     private static boolean counterclockwise = false;
     private static boolean hideUnusedSlots = false;
 
-    // Texture locations
-    private static final ResourceLocation SLOT_TEXTURE = ResourceLocation.fromNamespaceAndPath("slice", "textures/gui/radial_slot.png");
-    private static final ResourceLocation SLOT_HOVERED_TEXTURE = ResourceLocation.fromNamespaceAndPath("slice", "textures/gui/radial_slot_hovered.png");
-    private static final ResourceLocation SLOT_ACTIVE_TEXTURE = ResourceLocation.fromNamespaceAndPath("slice", "textures/gui/radial_slot_active.png");
-
-    // JSON layout file location
-    // private static final ResourceLocation JSON_CONFIG = ResourceLocation.fromNamespaceAndPath("slice", "textures/texture_config.json");
+    private static boolean hideSlotNumber = false;
+    private static boolean hideSlotSprite = false;
 
     private int hoveredSlot = -1;
+    private int activeSlot = -1;
     private double mouseStartX = 0;
     private double mouseStartY = 0;
     private static Field selectedField = null;
@@ -52,8 +45,10 @@ public class RadialMenuRenderer {
         itemSize = Config.CONFIG.itemSize.get();
         slotSize = Config.CONFIG.slotSize.get();
         slotRadius = Config.CONFIG.radialMenuRadius.get();
-        //counterclockwise = Config.COUNTERCLOCKWISE_ROTATION.get();
+        counterclockwise = Config.CONFIG.counterclockwiseRotation.get();
         hideUnusedSlots = Config.CONFIG.hideUnusedSlots.get();
+        hideSlotNumber = Config.CONFIG.hideSlotNumber.get();
+        hideSlotSprite = Config.CONFIG.hideSlotSprite.get();
     }
 
     public void onMenuOpen() {
@@ -67,7 +62,7 @@ public class RadialMenuRenderer {
     }
 
     public void onMenuClose() {
-        if (hoveredSlot >= 0 && hoveredSlot < SLOT_COUNT) {
+        if (hoveredSlot >= 0 && hoveredSlot < Constants.SLOT_COUNT && (activeSlot != hoveredSlot)) {
             Minecraft mc = Minecraft.getInstance();
             LocalPlayer player = mc.player;
             if (player != null) {
@@ -91,6 +86,8 @@ public class RadialMenuRenderer {
 
     public void render(GuiGraphics graphics, float partialTick) {
         Minecraft mc = Minecraft.getInstance();
+        JsonObject json = ResourceHelper.readJsonFromResources(mc.getResourceManager(), "textures/texture_config.json");
+
         LocalPlayer player = mc.player;
         if (player == null) return;
 
@@ -108,88 +105,120 @@ public class RadialMenuRenderer {
         MultiBufferSource.BufferSource bufferSource = mc.renderBuffers().bufferSource();
 
         // Count non-empty
-        int visibleSlotCount = SLOT_COUNT;
-        if (hideUnusedSlots) {
-            visibleSlotCount = 0;
-            for (int i = 0; i < SLOT_COUNT; i++) {
-                if (!inventory.getItem(i).isEmpty()) {
-                    visibleSlotCount++;
-                }
-            }
-        }
+        int visibleSlotCount = hideUnusedSlots ? countNonEmptySlots(inventory) : Constants.SLOT_COUNT;
 
-        // Render only visible slots
+        // Render only visible
         int renderedSlots = 0;
-        for (int i = 0; i < SLOT_COUNT; i++) {
+        for (int i = 0; i < Constants.SLOT_COUNT; i++) {
             ItemStack stack = inventory.getItem(i);
             
-            // Skip if enabled
+            // Skip empty
             if (hideUnusedSlots && stack.isEmpty()) {
                 continue;
             }
 
-            // Calculate clockwise-ness
-            double angleMultiplier = counterclockwise ? -1.0 : 1.0;
-            double angle = (Math.PI * 2 * renderedSlots / visibleSlotCount) * angleMultiplier - Math.PI / 2;
+            // Calculate slot position
+            double angle = Utils.calculateSlotAngle(renderedSlots, visibleSlotCount, counterclockwise);
             
-            int x = centerX + (int) (Math.cos(angle) * slotRadius);
-            int y = centerY + (int) (Math.sin(angle) * slotRadius);
+            int x = centerX + (int) (Math.cos(angle) * slotRadius) + Utils.getIntOrDefault(json, Constants.JSON_X_OFFSET, 0);
+            int y = centerY + (int) (Math.sin(angle) * slotRadius) + Utils.getIntOrDefault(json, Constants.JSON_Y_OFFSET, 0);
 
-            int selectedSlot = player.getInventory().getSelectedSlot();
-            boolean isActive = (i == selectedSlot);
+            activeSlot = player.getInventory().getSelectedSlot();
+            boolean isActive = (i == activeSlot);
             boolean isHovered = (i == hoveredSlot);
 
-            ResourceLocation texture;
-            if (isHovered) {
-                texture = SLOT_HOVERED_TEXTURE;
-            } else if (isActive) {
-                texture = SLOT_ACTIVE_TEXTURE;
-            } else {
-                texture = SLOT_TEXTURE;
+            if (!hideSlotSprite) {
+                renderSlot(graphics, x, y, isActive, isHovered);
             }
 
-            graphics.blit(
-                RenderPipelines.GUI_TEXTURED,
-                texture,
-                x - slotSize / 2,
-                y - slotSize / 2,
-                0.0f, 0.0f,
-                slotSize,
-                slotSize,
-                slotSize,
-                slotSize
-            );
-
-            // Draw item scaled and centered
             if (!stack.isEmpty()) {
-                int itemX = x - 8;
-                int itemY = y - 9; // TODO: Less hardcoded
-
-                graphics.pose().pushMatrix();
-
-                graphics.pose().translate(itemX + 8, itemY + 8);
-
-                float scale = itemSize / 16.0f;
-                graphics.pose().scale(scale, scale);
-
-                graphics.pose().translate(-(itemX + 8), -(itemY + 8));
-
-                graphics.renderItem(stack, itemX, itemY);
-                graphics.renderItemDecorations(mc.font, stack, itemX, itemY);
-
-                graphics.pose().popMatrix();
+                renderItem(graphics, mc, json, stack, x, y);
             }
 
-            // Draw slot number
-            String slotNum = String.valueOf(i + 1);
-            int textX = x - mc.font.width(slotNum) / 2;
-            int textY = y + itemSize / 2 + 12;
-            graphics.drawString(mc.font, slotNum, textX, textY, isHovered ? 0xFFFFFF00 : 0xFFFFFFFF);
+            if (!hideSlotNumber) {
+                renderSlotNumber(graphics, mc, json, i, x, y, isActive, isHovered);
+            }
             
             renderedSlots++;
         }
 
         bufferSource.endBatch();
+    }
+
+
+
+    // Private
+    private void renderSlot(GuiGraphics graphics, int x, int y, boolean isActive, boolean isHovered) {
+        ResourceLocation texture;
+        if (isHovered && !isActive) {
+            texture = Constants.SLOT_HOVERED_TEXTURE;
+        } else if (isActive) {
+            texture = Constants.SLOT_ACTIVE_TEXTURE;
+        } else {
+            texture = Constants.SLOT_TEXTURE;
+        }
+
+        graphics.blit(
+            RenderPipelines.GUI_TEXTURED,
+            texture,
+            x - slotSize / 2,
+            y - slotSize / 2,
+            0.0f, 0.0f,
+            slotSize,
+            slotSize,
+            slotSize,
+            slotSize
+        );
+    }
+
+    private void renderItem(GuiGraphics graphics, Minecraft mc, JsonObject json, ItemStack stack, int x, int y) {
+        int itemX = x + Utils.getIntOrDefault(json, Constants.JSON_ITEM_X_OFFSET, 0);
+        int itemY = y + Utils.getIntOrDefault(json, Constants.JSON_ITEM_Y_OFFSET, 0);
+
+        graphics.pose().pushMatrix();
+        graphics.pose().translate(itemX + 8, itemY + 8);
+
+        float scale = itemSize / 16.0f;
+        graphics.pose().scale(scale, scale);
+
+        graphics.pose().translate(-(itemX + 8), -(itemY + 8));
+
+        graphics.renderItem(stack, itemX, itemY);
+        graphics.renderItemDecorations(mc.font, stack, itemX, itemY);
+
+        graphics.pose().popMatrix();
+    }
+
+    private void renderSlotNumber(GuiGraphics graphics, Minecraft mc, JsonObject json, int slotIndex, 
+                                   int x, int y, boolean isActive, boolean isHovered) {
+        String slotNum = String.valueOf(slotIndex + 1);
+        int textX = x - (mc.font.width(slotNum) / 2) + Utils.getIntOrDefault(json, Constants.JSON_SLOT_NUMBER_X_OFFSET, 0);
+        int textY = y + (itemSize / 2) + Utils.getIntOrDefault(json, Constants.JSON_SLOT_NUMBER_Y_OFFSET, 0);
+
+        int colorDefault = Utils.parseColor(json, Constants.JSON_SLOT_NUMBER_COLOR, Constants.DEFAULT_SLOT_NUMBER_COLOR);
+        int colorHovered = Utils.parseColor(json, Constants.JSON_SLOT_NUMBER_COLOR_HOVERED, Constants.DEFAULT_SLOT_NUMBER_COLOR_HOVERED);
+        int colorActive = Utils.parseColor(json, Constants.JSON_SLOT_NUMBER_COLOR_ACTIVE, Constants.DEFAULT_SLOT_NUMBER_COLOR_ACTIVE);
+
+        int color;
+        if (isHovered && !isActive) {
+            color = colorHovered;
+        } else if (isActive) {
+            color = colorActive;
+        } else {
+            color = colorDefault;
+        }
+
+        graphics.drawString(mc.font, slotNum, textX, textY, color);
+    }
+
+    private int countNonEmptySlots(Inventory inventory) {
+        int count = 0;
+        for (int i = 0; i < Constants.SLOT_COUNT; i++) {
+            if (!inventory.getItem(i).isEmpty()) {
+                count++;
+            }
+        }
+        return count;
     }
 
     private int getHoveredSlot(double mouseX, double mouseY) {
@@ -199,25 +228,23 @@ public class RadialMenuRenderer {
 
         double distance = Math.sqrt(mouseX * mouseX + mouseY * mouseY);
 
-        if (distance < 20) return -1;
+        if (distance < Constants.MIN_MOUSE_DISTANCE) return -1;
 
         double angle = Math.atan2(mouseY, mouseX);
         angle += Math.PI / 2;
         
-        // Angle
+        // Normalize angle
         if (counterclockwise) {
             angle = -angle;
-            if (angle < 0) angle += Math.PI * 2;
-        } else {
-            if (angle < 0) angle += Math.PI * 2;
         }
+        angle = Utils.normalizeAngle(angle);
 
-        // Visaul slots
+        // Get visible slots
         Inventory inventory = player.getInventory();
-        int[] visibleSlots = new int[SLOT_COUNT];
+        int[] visibleSlots = new int[Constants.SLOT_COUNT];
         int visibleSlotCount = 0;
         
-        for (int i = 0; i < SLOT_COUNT; i++) {
+        for (int i = 0; i < Constants.SLOT_COUNT; i++) {
             if (!hideUnusedSlots || !inventory.getItem(i).isEmpty()) {
                 visibleSlots[visibleSlotCount++] = i;
             }

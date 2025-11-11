@@ -1,6 +1,5 @@
 package com.tomkovic.slice;
 
-import com.tomkovic.slice.CommonClass;
 import com.tomkovic.slice.Constants;
 
 import net.minecraftforge.fml.common.Mod;
@@ -16,7 +15,5 @@ public class Slice {
 
         // Use Forge to bootstrap the Common mod.
         Constants.LOG.info("Hello Forge world!");
-        CommonClass.init();
-
     }
 }

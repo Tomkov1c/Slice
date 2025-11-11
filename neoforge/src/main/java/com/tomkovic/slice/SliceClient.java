@@ -1,8 +1,5 @@
 package com.tomkovic.slice;
 
-import org.spongepowered.asm.mixin.injection.Slice;
-
-import com.tomkovic.slice.Constants;
 import com.tomkovic.slice.handlers.RadialMenuHandler;
 
 import net.neoforged.api.distmarker.Dist;
@@ -16,9 +13,7 @@ import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.common.NeoForge;
 
-// This class will not load on dedicated servers. Accessing client side code from here is safe.
 @Mod(value = Constants.MOD_ID, dist = Dist.CLIENT)
-// You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
 @EventBusSubscriber(modid = Constants.MOD_ID, value = Dist.CLIENT)
 public class SliceClient {
     public SliceClient(ModContainer container) {

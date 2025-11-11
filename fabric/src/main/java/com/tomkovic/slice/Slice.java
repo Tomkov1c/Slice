@@ -1,6 +1,6 @@
 package com.tomkovic.slice;
 
-import com.tomkovic.slice.CommonClass;
+
 import com.tomkovic.slice.Constants;
 
 import net.fabricmc.api.ModInitializer;
@@ -16,6 +16,5 @@ public class Slice implements ModInitializer {
 
         // Use Fabric to bootstrap the Common mod.
         Constants.LOG.info("Hello Fabric world!");
-        CommonClass.init();
     }
 }
