@@ -32,3 +32,5 @@ repo
 *.tmp
 *.code-workspace
 .DS_Store
+
+*.mp4
