@@ -1,6 +1,6 @@
 <p align="center">
   <img alt="Slice Icon" title="Slice" src=".concepts/Title with sub.png"
-  width="715">
+  width="512">
 </p>
 
 <br>
@@ -92,6 +92,10 @@ Feel free to send feedback on the [issues page](https://github.com/Tomkov1c/Slic
   <ul>
     <li><a href="https://badges.penpow.dev/badges/">Fancy badges</a> (Readme badges)</li>
     <li><a href="https://intergrav.github.io/devins-badges-docs/">Devin's badges</a> (Readme badges)</li>
+    <li><a href="https://github.com/jaredlll08/MultiLoader-Template">jaredlll08 (Multiloader template)</li>
+    <li><a href="https://github.com/JannisX11/blockbench">JanisX11 (Blockbench)</li>
+    <li><a href="https://github.com/ewanhowell5195/MinecraftTitleGenerator">Ewan Howell (Minecraft title generator)</li>
+    <li><a href="https://www.aseprite.org/">Aseprite</li>
   </ul>
 </details>
 

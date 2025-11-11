@@ -2,27 +2,60 @@
   "key.slice.open_radial_menu": "Open Radial Menu",
   "key.category.slice.radial_menu": "Slice - Radial Menu",
 
-  //
-
-  "slice.configuration.radialMenuRadius": "Radial Menu Radius",
-  "slice.configuration.radialMenuRadius.tooltip": "Radius of the radial menu in pixels. t",
-
-  "slice.configuration.itemSize": "Item Size",
-  "slice.configuration.itemSize.tooltip": "Size of each item slot in the radial menu. t",
+    //
+    //Size
+    "slice.configuration.category.display": "Display Options",
+    "slice.configuration.category.display.tooltip": "Options for the visual aspect of the menu.",
   
-  "slice.configuration.slotSize": "Slot Size",
-  "slice.configuration.slotSize.tooltip": "Size of the slot background texture. t",
+      //
+      //Size
+      "slice.configuration.category.size": "Size Options",
+      "slice.configuration.category.size.tooltip": "Options for adjusting the size of UI elements",
+
+      "slice.configuration.radialMenuRadius": "Radial Menu Radius",
+      "slice.configuration.radialMenuRadius.tooltip": "Radius of the radial menu in pixels aka. the distance from the center of the screen",
+      
+      "slice.configuration.itemSize": "Item Size",
+      "slice.configuration.itemSize.tooltip": "Size of each item slot in the radial menu.",
+      
+      "slice.configuration.slotSize": "Slot Size",
+      "slice.configuration.slotSize.tooltip": "Size of the slot background texture.",
+
+      //
+      // Visability
+      "slice.configuration.category.visibility": "Visibility Options",
+      "slice.configuration.category.visibility.tooltip": "Options for hiding UI elements",
+    
+      "slice.configuration.visibility.hideUnusedSlots": "Hide Unused Slots",
+      "slice.configuration.visibility.hideUnusedSlots.tooltip": "When enabled, empty slots in the radial menu will be hidden",
+    
+      "slice.configuration.visibility.hideSlotNumber": "Hide Slots Numbers",
+      "slice.configuration.visibility.hideSlotNumber.tooltip": "When enabled, remove the slot number from the radial menu",
+    
+      "slice.configuration.visibility.hideSlotSprite": "Hide Slots Sprite",
+      "slice.configuration.visibility.hideSlotSprite.tooltip": "When enabled, no slot sprite will be displayed",
+
+    "slice.configuration.counterclockwiseRotation": "Counterclockwise Rotation",
+    "slice.configuration.counterclockwiseRotation.tooltip": "When enabled, the radial menu rotates counterclockwise instead of clockwise",
   
-  "slice.configuration.counterclockwiseRotation": "Counterclockwise Rotation",
-  "slice.configuration.counterclockwiseRotation.tooltip": "When enabled, the radial menu rotates counterclockwise instead of clockwise",
+    //
+    //Behaviour
+    "slice.configuration.category.behaviour": "Visibility Options",
+    "slice.configuration.category.behaviour.tooltip": "Options for hiding UI elements",
 
-  "slice.configuration.hideUnusedSlots": "Hide Unused Slots",
-  "slice.configuration.hideUnusedSlots.tooltip": "When enabled, empty slots in the radial menu will be hidden",
+      "slice.configuration.behaviour.toggleKeybind": "Toggle keybind",
+      "slice.configuration.behaviour.toggleKeybind.tooltip": "When enabled, pressing the \"Open menu\" key will toggle the menu. (No need to keep holding the key)",
 
-  "slice.configuration.hideSlotNumber": "Hide Slots Numbers",
-  "slice.configuration.hideSlotNumber.tooltip": "When enabled, empty remove the slot number from the radial menu",
+    //
+    // Misc
+    "slice.configuration.category.misc": "Miscellaneous",
+    "slice.configuration.category.misc.tooltip": "Miscellaneous Options",
+
+        //
+        "slice.configuration.disableScrollingOnHotbar": "Disable scrolling",
+        "slice.configuration.disableScrollingOnHotbar.tooltip": "Disable scrolling for hotbar.",
 
 
-  "slice.configuration.rotationDirection": "Rotation Direction"
-
+    
+  "just.to.end": ""
 }
