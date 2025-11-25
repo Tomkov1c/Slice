@@ -104,6 +104,8 @@ public class RadialMenuRenderer {
         Inventory inventory = player.getInventory();
         MultiBufferSource.BufferSource bufferSource = mc.renderBuffers().bufferSource();
 
+        boolean offsetFromCenter = Utils.getBooleanOrDefault(json, Constants.JSON_OFFSET_FROM_CENTER, false);
+
         // Count non-empty
         int visibleSlotCount = hideUnusedSlots ? countNonEmptySlots(inventory) : Constants.SLOT_COUNT;
 
@@ -120,19 +122,46 @@ public class RadialMenuRenderer {
             // Calculate slot position
             double angle = Utils.calculateSlotAngle(renderedSlots, visibleSlotCount, counterclockwise);
             
-            int x = centerX + (int) (Math.cos(angle) * slotRadius) + Utils.getIntOrDefault(json, Constants.JSON_X_OFFSET, 0);
-            int y = centerY + (int) (Math.sin(angle) * slotRadius) + Utils.getIntOrDefault(json, Constants.JSON_Y_OFFSET, 0);
-
             activeSlot = player.getInventory().getSelectedSlot();
             boolean isActive = (i == activeSlot);
             boolean isHovered = (i == hoveredSlot);
+
+            String xOffsetKey, yOffsetKey;
+            if (isActive) {
+                xOffsetKey = Constants.JSON_X_OFFSET_ACTIVE;
+                yOffsetKey = Constants.JSON_Y_OFFSET_ACTIVE;
+            } else if (isHovered) {
+                xOffsetKey = Constants.JSON_X_OFFSET_HOVERED;
+                yOffsetKey = Constants.JSON_Y_OFFSET_HOVERED;
+            } else {
+                xOffsetKey = Constants.JSON_X_OFFSET;
+                yOffsetKey = Constants.JSON_Y_OFFSET;
+            }
+            
+            int xOffset = Utils.getIntOrDefault(json, xOffsetKey, Utils.getIntOrDefault(json, Constants.JSON_X_OFFSET, 0));
+            int yOffset = Utils.getIntOrDefault(json, yOffsetKey, Utils.getIntOrDefault(json, Constants.JSON_Y_OFFSET, 0));
+            
+            int baseX = centerX + (int) (Math.cos(angle) * slotRadius);
+            int baseY = centerY + (int) (Math.sin(angle) * slotRadius);
+            
+            int x, y;
+            if (offsetFromCenter) {
+                // Positive offsets move toward center (subtract), negative offsets move outward (add)
+                double normalizedX = Math.cos(angle);
+                double normalizedY = Math.sin(angle);
+                x = baseX - (int) (xOffset * normalizedX);
+                y = baseY - (int) (yOffset * normalizedY);
+            } else {
+                x = baseX + xOffset;
+                y = baseY + yOffset;
+            }
 
             if (!hideSlotSprite) {
                 renderSlot(graphics, x, y, isActive, isHovered);
             }
 
             if (!stack.isEmpty()) {
-                renderItem(graphics, mc, json, stack, x, y);
+                renderItem(graphics, mc, json, stack, x, y, isActive, isHovered);
             }
 
             if (!hideSlotNumber) {
@@ -171,9 +200,21 @@ public class RadialMenuRenderer {
         );
     }
 
-    private void renderItem(GuiGraphics graphics, Minecraft mc, JsonObject json, ItemStack stack, int x, int y) {
-        int itemX = x + Utils.getIntOrDefault(json, Constants.JSON_ITEM_X_OFFSET, 0);
-        int itemY = y + Utils.getIntOrDefault(json, Constants.JSON_ITEM_Y_OFFSET, 0);
+    private void renderItem(GuiGraphics graphics, Minecraft mc, JsonObject json, ItemStack stack, int x, int y, boolean isActive, boolean isHovered) {
+        String xOffsetKey, yOffsetKey;
+        if (isActive) {
+            xOffsetKey = Constants.JSON_ITEM_X_OFFSET_ACTIVE;
+            yOffsetKey = Constants.JSON_ITEM_Y_OFFSET_ACTIVE;
+        } else if (isHovered) {
+            xOffsetKey = Constants.JSON_ITEM_X_OFFSET_HOVERED;
+            yOffsetKey = Constants.JSON_ITEM_Y_OFFSET_HOVERED;
+        } else {
+            xOffsetKey = Constants.JSON_ITEM_X_OFFSET;
+            yOffsetKey = Constants.JSON_ITEM_Y_OFFSET;
+        }
+        
+        int itemX = x + Utils.getIntOrDefault(json, xOffsetKey, Utils.getIntOrDefault(json, Constants.JSON_ITEM_X_OFFSET, 0));
+        int itemY = y + Utils.getIntOrDefault(json, yOffsetKey, Utils.getIntOrDefault(json, Constants.JSON_ITEM_Y_OFFSET, 0));
 
         graphics.pose().pushMatrix();
         graphics.pose().translate(itemX + 8, itemY + 8);
@@ -192,8 +233,24 @@ public class RadialMenuRenderer {
     private void renderSlotNumber(GuiGraphics graphics, Minecraft mc, JsonObject json, int slotIndex, 
                                    int x, int y, boolean isActive, boolean isHovered) {
         String slotNum = String.valueOf(slotIndex + 1);
-        int textX = x - (mc.font.width(slotNum) / 2) + Utils.getIntOrDefault(json, Constants.JSON_SLOT_NUMBER_X_OFFSET, 0);
-        int textY = y + (itemSize / 2) + Utils.getIntOrDefault(json, Constants.JSON_SLOT_NUMBER_Y_OFFSET, 0);
+        
+        String xOffsetKey, yOffsetKey;
+        if (isActive) {
+            xOffsetKey = Constants.JSON_SLOT_NUMBER_X_OFFSET_ACTIVE;
+            yOffsetKey = Constants.JSON_SLOT_NUMBER_Y_OFFSET_ACTIVE;
+        } else if (isHovered) {
+            xOffsetKey = Constants.JSON_SLOT_NUMBER_X_OFFSET_HOVERED;
+            yOffsetKey = Constants.JSON_SLOT_NUMBER_Y_OFFSET_HOVERED;
+        } else {
+            xOffsetKey = Constants.JSON_SLOT_NUMBER_X_OFFSET;
+            yOffsetKey = Constants.JSON_SLOT_NUMBER_Y_OFFSET;
+        }
+        
+        int xOffset = Utils.getIntOrDefault(json, xOffsetKey, Utils.getIntOrDefault(json, Constants.JSON_SLOT_NUMBER_X_OFFSET, 0));
+        int yOffset = Utils.getIntOrDefault(json, yOffsetKey, Utils.getIntOrDefault(json, Constants.JSON_SLOT_NUMBER_Y_OFFSET, 0));
+        
+        int textX = x - (mc.font.width(slotNum) / 2) + xOffset;
+        int textY = y + (itemSize / 2) + yOffset;
 
         int colorDefault = Utils.parseColor(json, Constants.JSON_SLOT_NUMBER_COLOR, Constants.DEFAULT_SLOT_NUMBER_COLOR);
         int colorHovered = Utils.parseColor(json, Constants.JSON_SLOT_NUMBER_COLOR_HOVERED, Constants.DEFAULT_SLOT_NUMBER_COLOR_HOVERED);

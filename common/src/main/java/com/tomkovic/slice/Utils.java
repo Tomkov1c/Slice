@@ -41,6 +41,13 @@ public class Utils {
         while (angle >= Math.PI * 2) angle -= Math.PI * 2;
         return angle;
     }
+
+    public static boolean getBooleanOrDefault(JsonObject json, String key, boolean defaultValue) {
+        if (json != null && json.has(key)) {
+            return json.get(key).getAsBoolean();
+        }
+        return defaultValue;
+    }
     
 
     private Utils() { }
