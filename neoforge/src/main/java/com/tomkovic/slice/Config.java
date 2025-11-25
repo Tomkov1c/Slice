@@ -36,7 +36,8 @@ public class Config {
 
     public final ModConfigSpec.BooleanValue animationsEnabled;
     public final ModConfigSpec.BooleanValue soundeffectsEnabled;
-    public final ModConfigSpec.IntValue maxAngle;
+    public final ModConfigSpec.IntValue startAngle;
+    public final ModConfigSpec.IntValue endAngle;
     public final ModConfigSpec.BooleanValue counterclockwiseRotation;
 
     // Behaviour
@@ -145,9 +146,13 @@ public class Config {
                         .translation("slice.configuration.display.soundEffects")
                         .define("soundEffects", true);
 
-                this.maxAngle = display
+                this.startAngle = display
                         .translation("slice.configuration.display.maxAngle")
-                        .defineInRange("maxAngle", 360, 0, 360);
+                        .defineInRange("startAngle", 360, 0, 360);
+                
+                this.endAngle = display
+                        .translation("slice.configuration.display.endAngle")
+                        .defineInRange("endAngle", 360, 0, 360);
 
                 this.counterclockwiseRotation = display
                         .translation("slice.configuration.display.counterclockwiseRotation")

@@ -77,8 +77,11 @@
     "slice.configuration.display.soundEffects": "Soundeffects",
     "slice.configuration.display.soundEffects.tooltip": "When enabled, menu will play soundeffects",
 
-    "slice.configuration.display.maxAngle": "Max Angle",
-    "slice.configuration.display.maxAngle.tooltip": "The max angle the menu can be.",
+    "slice.configuration.display.maxAngle": "Start Angle",
+    "slice.configuration.display.maxAngle.tooltip": "The start angle from which the menu starts drawing. If the same as End Angle, the menu will go full 360.",
+
+    "slice.configuration.display.endAngle": "End Angle",
+    "slice.configuration.display.endAngle.tooltip": "The end angle at which the menu stops drawing. If the same as Start Angle, the menu will go full 360.",
 
     "slice.configuration.display.counterclockwiseRotation": "Counterclockwise Rotation",
     "slice.configuration.display.counterclockwiseRotation.tooltip": "When enabled, the radial menu rotates counterclockwise instead of clockwise",

@@ -25,6 +25,9 @@ public class RadialMenuRenderer {
     private static boolean hideSlotSprite = false;
     private static boolean[] disabledSlots = new boolean[Constants.SLOT_COUNT];
 
+    private static int startAngle = 0;
+    private static int endAngle = 360;
+
     private int hoveredSlot = -1;
     private int activeSlot = -1;
     private double mouseStartX = 0;
@@ -40,7 +43,7 @@ public class RadialMenuRenderer {
         }
     }
 
-    public RadialMenuRenderer() { }
+    public RadialMenuRenderer() {}
 
     public static void updateFromConfig() {
         itemSize = Config.CONFIG.itemSize.get();
@@ -50,8 +53,13 @@ public class RadialMenuRenderer {
         hideUnusedSlots = Config.CONFIG.hideUnusedSlots.get();
         hideSlotNumber = Config.CONFIG.hideSlotNumber.get();
         hideSlotSprite = Config.CONFIG.hideSlotSprite.get();
-        
-        // Update disabled slots array
+
+        startAngle = Config.CONFIG.startAngle.get();
+        endAngle = Config.CONFIG.endAngle.get();
+
+        if (startAngle == 360) startAngle = 360;
+        if (endAngle == 360) endAngle = 360;
+
         disabledSlots[0] = Config.CONFIG.disableSlot1.get();
         disabledSlots[1] = Config.CONFIG.disableSlot2.get();
         disabledSlots[2] = Config.CONFIG.disableSlot3.get();
@@ -89,7 +97,9 @@ public class RadialMenuRenderer {
                 }
 
                 if (mc.getConnection() != null) {
-                    mc.getConnection().send(new net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket(hoveredSlot));
+                    mc.getConnection().send(
+                        new net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket(hoveredSlot)
+                    );
                 }
             }
         }
@@ -116,46 +126,55 @@ public class RadialMenuRenderer {
         Inventory inventory = player.getInventory();
         MultiBufferSource.BufferSource bufferSource = mc.renderBuffers().bufferSource();
 
-        boolean offsetFromCenter = Utils.getBooleanOrDefault(json, Constants.JSON_OFFSET_FROM_CENTER, false);
+        boolean offsetFromCenter =
+            Utils.getBooleanOrDefault(json, Constants.JSON_OFFSET_FROM_CENTER, false);
 
-        // Count non-empty
-        int visibleSlotCount = 0;
-        if (hideUnusedSlots) {
-            for (int i = 0; i < Constants.SLOT_COUNT; i++) {
-                if (!disabledSlots[i] && !inventory.getItem(i).isEmpty()) {
-                    visibleSlotCount++;
-                }
-            }
-        } else {
-            for (int i = 0; i < Constants.SLOT_COUNT; i++) {
-                if (!disabledSlots[i]) {
-                    visibleSlotCount++;
-                }
+        // Visible slots
+        int[] visibleSlots = new int[Constants.SLOT_COUNT];
+        int visibleCount = 0;
+        for (int i = 0; i < Constants.SLOT_COUNT; i++) {
+            if (!disabledSlots[i] && (!hideUnusedSlots || !inventory.getItem(i).isEmpty())) {
+                visibleSlots[visibleCount++] = i;
             }
         }
 
-        // Render only visible
-        int renderedSlots = 0;
-        for (int i = 0; i < Constants.SLOT_COUNT; i++) {
-            // Skip disabled slots
-            if (disabledSlots[i]) {
-                continue;
-            }
-            
-            ItemStack stack = inventory.getItem(i);
-            
-            // Skip empty
-            if (hideUnusedSlots && stack.isEmpty()) {
-                continue;
+        if (visibleCount == 0) return;
+
+        // Angle range
+        double startRad = Math.toRadians(startAngle) - Math.PI / 2;
+        double endRad = Math.toRadians(endAngle) - Math.PI / 2;
+        boolean fullCircle = (startAngle == endAngle);
+        double angleRange = fullCircle ? Math.PI * 2 : (endRad - startRad + 2*Math.PI) % (2*Math.PI);
+
+        // Evenly distribute
+        double angleStep;
+        if (fullCircle) {
+            angleStep = angleRange / visibleCount;
+        } else {
+            angleStep = visibleCount > 1 ? angleRange / (visibleCount - 1) : 0;
+        }
+
+        activeSlot = inventory.getSelectedSlot();
+        for (int i = 0; i < visibleCount; i++) {
+            int slotIndex = visibleSlots[i];
+            ItemStack stack = inventory.getItem(slotIndex);
+
+            int displayIndex = counterclockwise ? (visibleCount - 1 - i) : i;
+
+            double angle;
+            if (fullCircle || visibleCount > 1) {
+                angle = startRad + displayIndex * angleStep;
+            } else {
+                angle = startRad + angleRange / 2;
             }
 
-            // Calculate slot position
-            double angle = Utils.calculateSlotAngle(renderedSlots, visibleSlotCount, counterclockwise);
-            
-            activeSlot = player.getInventory().getSelectedSlot();
-            boolean isActive = (i == activeSlot);
-            boolean isHovered = (i == hoveredSlot);
+            int baseX = centerX + (int)(Math.cos(angle) * slotRadius);
+            int baseY = centerY + (int)(Math.sin(angle) * slotRadius);
 
+            boolean isActive = (slotIndex == activeSlot);
+            boolean isHovered = (slotIndex == hoveredSlot);
+
+            // Offsets
             String xOffsetKey, yOffsetKey;
             if (isActive) {
                 xOffsetKey = Constants.JSON_X_OFFSET_ACTIVE;
@@ -167,62 +186,40 @@ public class RadialMenuRenderer {
                 xOffsetKey = Constants.JSON_X_OFFSET;
                 yOffsetKey = Constants.JSON_Y_OFFSET;
             }
-            
-            int xOffset = Utils.getIntOrDefault(json, xOffsetKey, Utils.getIntOrDefault(json, Constants.JSON_X_OFFSET, 0));
-            int yOffset = Utils.getIntOrDefault(json, yOffsetKey, Utils.getIntOrDefault(json, Constants.JSON_Y_OFFSET, 0));
-            
-            int baseX = centerX + (int) (Math.cos(angle) * slotRadius);
-            int baseY = centerY + (int) (Math.sin(angle) * slotRadius);
-            
-            int x, y;
-            if (offsetFromCenter) {
-                // Positive offsets move toward center (subtract), negative offsets move outward (add)
-                double normalizedX = Math.cos(angle);
-                double normalizedY = Math.sin(angle);
-                x = baseX - (int) (xOffset * normalizedX);
-                y = baseY - (int) (yOffset * normalizedY);
-            } else {
-                x = baseX + xOffset;
-                y = baseY + yOffset;
-            }
 
-            if (!hideSlotSprite) {
+            int xOffset = Utils.getIntOrDefault(json, xOffsetKey, 0);
+            int yOffset = Utils.getIntOrDefault(json, yOffsetKey, 0);
+
+            int x = baseX + xOffset;
+            int y = baseY + yOffset;
+
+            if (!hideSlotSprite)
                 renderSlot(graphics, x, y, isActive, isHovered);
-            }
 
-            if (!stack.isEmpty()) {
+            if (!stack.isEmpty())
                 renderItem(graphics, mc, json, stack, x, y, isActive, isHovered);
-            }
 
-            if (!hideSlotNumber) {
-                renderSlotNumber(graphics, mc, json, i, x, y, isActive, isHovered);
-            }
-            
-            renderedSlots++;
+            if (!hideSlotNumber)
+                renderSlotNumber(graphics, mc, json, slotIndex, x, y, isActive, isHovered);
         }
 
         bufferSource.endBatch();
     }
 
+    // --- Rendering helpers ---
 
+    private void renderSlot(GuiGraphics g, int x, int y, boolean active, boolean hovered) {
+        ResourceLocation tex =
+            active ? Constants.SLOT_ACTIVE_TEXTURE :
+            hovered ? Constants.SLOT_HOVERED_TEXTURE :
+                      Constants.SLOT_TEXTURE;
 
-    // Private
-    private void renderSlot(GuiGraphics graphics, int x, int y, boolean isActive, boolean isHovered) {
-        ResourceLocation texture;
-        if (isHovered && !isActive) {
-            texture = Constants.SLOT_HOVERED_TEXTURE;
-        } else if (isActive) {
-            texture = Constants.SLOT_ACTIVE_TEXTURE;
-        } else {
-            texture = Constants.SLOT_TEXTURE;
-        }
-
-        graphics.blit(
+        g.blit(
             RenderPipelines.GUI_TEXTURED,
-            texture,
+            tex,
             x - slotSize / 2,
             y - slotSize / 2,
-            0.0f, 0.0f,
+            0F, 0F,
             slotSize,
             slotSize,
             slotSize,
@@ -230,118 +227,114 @@ public class RadialMenuRenderer {
         );
     }
 
-    private void renderItem(GuiGraphics graphics, Minecraft mc, JsonObject json, ItemStack stack, int x, int y, boolean isActive, boolean isHovered) {
-        String xOffsetKey, yOffsetKey;
-        if (isActive) {
-            xOffsetKey = Constants.JSON_ITEM_X_OFFSET_ACTIVE;
-            yOffsetKey = Constants.JSON_ITEM_Y_OFFSET_ACTIVE;
-        } else if (isHovered) {
-            xOffsetKey = Constants.JSON_ITEM_X_OFFSET_HOVERED;
-            yOffsetKey = Constants.JSON_ITEM_Y_OFFSET_HOVERED;
-        } else {
-            xOffsetKey = Constants.JSON_ITEM_X_OFFSET;
-            yOffsetKey = Constants.JSON_ITEM_Y_OFFSET;
-        }
-        
-        int itemX = x + Utils.getIntOrDefault(json, xOffsetKey, Utils.getIntOrDefault(json, Constants.JSON_ITEM_X_OFFSET, 0));
-        int itemY = y + Utils.getIntOrDefault(json, yOffsetKey, Utils.getIntOrDefault(json, Constants.JSON_ITEM_Y_OFFSET, 0));
+    private void renderItem(GuiGraphics g, Minecraft mc, JsonObject json,
+                            ItemStack stack, int x, int y,
+                            boolean active, boolean hovered) {
 
-        graphics.pose().pushMatrix();
-        graphics.pose().translate(itemX + 8, itemY + 8);
+        String xKey = active ? Constants.JSON_ITEM_X_OFFSET_ACTIVE :
+                      hovered ? Constants.JSON_ITEM_X_OFFSET_HOVERED :
+                                Constants.JSON_ITEM_X_OFFSET;
 
-        float scale = itemSize / 16.0f;
-        graphics.pose().scale(scale, scale);
+        String yKey = active ? Constants.JSON_ITEM_Y_OFFSET_ACTIVE :
+                      hovered ? Constants.JSON_ITEM_Y_OFFSET_HOVERED :
+                                Constants.JSON_ITEM_Y_OFFSET;
 
-        graphics.pose().translate(-(itemX + 8), -(itemY + 8));
+        int ix = x + Utils.getIntOrDefault(json, xKey, 0);
+        int iy = y + Utils.getIntOrDefault(json, yKey, 0);
 
-        graphics.renderItem(stack, itemX, itemY);
-        graphics.renderItemDecorations(mc.font, stack, itemX, itemY);
+        g.pose().pushMatrix();
+        g.pose().translate(ix + 8, iy + 8);
 
-        graphics.pose().popMatrix();
+        float scale = itemSize / 16f;
+        g.pose().scale(scale, scale);
+        g.pose().translate(-(ix + 8), -(iy + 8));
+
+        g.renderItem(stack, ix, iy);
+        g.renderItemDecorations(mc.font, stack, ix, iy);
+
+        g.pose().popMatrix();
     }
 
-    private void renderSlotNumber(GuiGraphics graphics, Minecraft mc, JsonObject json, int slotIndex, 
-                                   int x, int y, boolean isActive, boolean isHovered) {
-        String slotNum = String.valueOf(slotIndex + 1);
-        
-        String xOffsetKey, yOffsetKey;
-        if (isActive) {
-            xOffsetKey = Constants.JSON_SLOT_NUMBER_X_OFFSET_ACTIVE;
-            yOffsetKey = Constants.JSON_SLOT_NUMBER_Y_OFFSET_ACTIVE;
-        } else if (isHovered) {
-            xOffsetKey = Constants.JSON_SLOT_NUMBER_X_OFFSET_HOVERED;
-            yOffsetKey = Constants.JSON_SLOT_NUMBER_Y_OFFSET_HOVERED;
-        } else {
-            xOffsetKey = Constants.JSON_SLOT_NUMBER_X_OFFSET;
-            yOffsetKey = Constants.JSON_SLOT_NUMBER_Y_OFFSET;
-        }
-        
-        int xOffset = Utils.getIntOrDefault(json, xOffsetKey, Utils.getIntOrDefault(json, Constants.JSON_SLOT_NUMBER_X_OFFSET, 0));
-        int yOffset = Utils.getIntOrDefault(json, yOffsetKey, Utils.getIntOrDefault(json, Constants.JSON_SLOT_NUMBER_Y_OFFSET, 0));
-        
-        int textX = x - (mc.font.width(slotNum) / 2) + xOffset;
-        int textY = y + (itemSize / 2) + yOffset;
+    private void renderSlotNumber(GuiGraphics g, Minecraft mc, JsonObject json,
+                                  int index, int x, int y,
+                                  boolean active, boolean hovered) {
 
-        int colorDefault = Utils.parseColor(json, Constants.JSON_SLOT_NUMBER_COLOR, Constants.DEFAULT_SLOT_NUMBER_COLOR);
-        int colorHovered = Utils.parseColor(json, Constants.JSON_SLOT_NUMBER_COLOR_HOVERED, Constants.DEFAULT_SLOT_NUMBER_COLOR_HOVERED);
-        int colorActive = Utils.parseColor(json, Constants.JSON_SLOT_NUMBER_COLOR_ACTIVE, Constants.DEFAULT_SLOT_NUMBER_COLOR_ACTIVE);
+        String num = String.valueOf(index + 1);
 
-        int color;
-        if (isHovered && !isActive) {
-            color = colorHovered;
-        } else if (isActive) {
-            color = colorActive;
-        } else {
-            color = colorDefault;
-        }
+        String xKey = active ? Constants.JSON_SLOT_NUMBER_X_OFFSET_ACTIVE :
+                       hovered ? Constants.JSON_SLOT_NUMBER_X_OFFSET_HOVERED :
+                                 Constants.JSON_SLOT_NUMBER_X_OFFSET;
 
-        graphics.drawString(mc.font, slotNum, textX, textY, color);
+        String yKey = active ? Constants.JSON_SLOT_NUMBER_Y_OFFSET_ACTIVE :
+                       hovered ? Constants.JSON_SLOT_NUMBER_Y_OFFSET_HOVERED :
+                                 Constants.JSON_SLOT_NUMBER_Y_OFFSET;
+
+        int xOffset = Utils.getIntOrDefault(json, xKey, 0);
+        int yOffset = Utils.getIntOrDefault(json, yKey, 0);
+
+        int tx = x - mc.font.width(num) / 2 + xOffset;
+        int ty = y + itemSize / 2 + yOffset;
+
+        int colDefault = Utils.parseColor(json, Constants.JSON_SLOT_NUMBER_COLOR, Constants.DEFAULT_SLOT_NUMBER_COLOR);
+        int colHover   = Utils.parseColor(json, Constants.JSON_SLOT_NUMBER_COLOR_HOVERED, Constants.DEFAULT_SLOT_NUMBER_COLOR_HOVERED);
+        int colActive  = Utils.parseColor(json, Constants.JSON_SLOT_NUMBER_COLOR_ACTIVE, Constants.DEFAULT_SLOT_NUMBER_COLOR_ACTIVE);
+
+        int col = active ? colActive : hovered ? colHover : colDefault;
+
+        g.drawString(mc.font, num, tx, ty, col);
     }
 
-    private int countNonEmptySlots(Inventory inventory) {
-        int count = 0;
-        for (int i = 0; i < Constants.SLOT_COUNT; i++) {
-            if (!disabledSlots[i] && !inventory.getItem(i).isEmpty()) {
-                count++;
-            }
-        }
-        return count;
-    }
+    // -------------------------
+    //       HOVER LOGIC
+    // -------------------------
 
-    private int getHoveredSlot(double mouseX, double mouseY) {
+    private int getHoveredSlot(double mx, double my) {
         Minecraft mc = Minecraft.getInstance();
-        LocalPlayer player = mc.player;
-        if (player == null) return -1;
+        LocalPlayer p = mc.player;
+        if (p == null) return -1;
 
-        double distance = Math.sqrt(mouseX * mouseX + mouseY * mouseY);
+        double dist = Math.sqrt(mx*mx + my*my);
+        if (dist < Constants.MIN_MOUSE_DISTANCE) return -1;
 
-        if (distance < Constants.MIN_MOUSE_DISTANCE) return -1;
+        double angle = Math.atan2(my, mx) + Math.PI / 2;
+        if (counterclockwise) angle = -angle;
 
-        double angle = Math.atan2(mouseY, mouseX);
-        angle += Math.PI / 2;
-        
-        // Normalize angle
-        if (counterclockwise) {
-            angle = -angle;
-        }
         angle = Utils.normalizeAngle(angle);
 
-        // Get visible slots
-        Inventory inventory = player.getInventory();
-        int[] visibleSlots = new int[Constants.SLOT_COUNT];
-        int visibleSlotCount = 0;
-        
-        for (int i = 0; i < Constants.SLOT_COUNT; i++) {
-            if (!disabledSlots[i] && (!hideUnusedSlots || !inventory.getItem(i).isEmpty())) {
-                visibleSlots[visibleSlotCount++] = i;
+        // Get visible
+        Inventory inv = p.getInventory();
+        int[] vis = new int[Constants.SLOT_COUNT];
+        int count = 0;
+        for (int i = 0; i < Constants.SLOT_COUNT; i++)
+            if (!disabledSlots[i] && (!hideUnusedSlots || !inv.getItem(i).isEmpty()))
+                vis[count++] = i;
+
+        if (count == 0) return -1;
+
+        double startRad = Math.toRadians(startAngle);
+        double endRad = Math.toRadians(endAngle);
+
+        boolean fullCircle = startAngle == endAngle;
+
+        double range = fullCircle ? Math.PI * 2 :
+            (endRad - startRad + Math.PI * 2) % (Math.PI * 2);
+
+        double step = count > 1 ? range / count : 0;
+
+        int best = -1;
+        double bestDiff = Double.MAX_VALUE;
+
+        for (int i = 0; i < count; i++) {
+            double slotAngle = Utils.normalizeAngle(startRad + i * step);
+            double diff = Math.abs(Utils.normalizeAngle(angle - slotAngle));
+
+            if (diff > Math.PI) diff = Math.PI * 2 - diff;
+
+            if (diff < bestDiff) {
+                bestDiff = diff;
+                best = vis[i];
             }
         }
-        
-        if (visibleSlotCount == 0) return -1;
-
-        double slotAngle = Math.PI * 2 / visibleSlotCount;
-        int hoveredIndex = (int) Math.round(angle / slotAngle) % visibleSlotCount;
-        
-        return visibleSlots[hoveredIndex];
+        return best;
     }
 }
