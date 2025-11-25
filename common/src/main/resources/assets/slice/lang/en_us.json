@@ -38,6 +38,39 @@
       "slice.configuration.display.visibility.hideSlotSprite": "Hide Slots Sprite",
       "slice.configuration.display.visibility.hideSlotSprite.tooltip": "When enabled, no slot sprite will be displayed",
 
+        //
+        // Visability
+        "slice.configuration.category.display.visibility.disabledSlots": "Disabled Slots",
+        "slice.configuration.category.display.visibility.disabledSlots.tooltip": "Options do disable specific slots from displaying int he menu.",
+
+        "slice.configuration.display.visibility.disabledSlots.disableSlot1": "Disable Slot 1",
+        "slice.configuration.display.visibility.disabledSlots.disableSlot1.tooltip": "When enabled, slot number 1 wont be displayed in the menu.",
+
+        "slice.configuration.display.visibility.disabledSlots.disableSlot2": "Disable Slot 2",
+        "slice.configuration.display.visibility.disabledSlots.disableSlot2.tooltip": "When enabled, slot number 2 wont be displayed in the menu.",
+
+        "slice.configuration.display.visibility.disabledSlots.disableSlot3": "Disable Slot 3",
+        "slice.configuration.display.visibility.disabledSlots.disableSlot3.tooltip": "When enabled, slot number 3 wont be displayed in the menu.",
+
+        "slice.configuration.display.visibility.disabledSlots.disableSlot4": "Disable Slot 4",
+        "slice.configuration.display.visibility.disabledSlots.disableSlot4.tooltip": "When enabled, slot number 4 wont be displayed in the menu.",
+
+        "slice.configuration.display.visibility.disabledSlots.disableSlot5": "Disable Slot 5",
+        "slice.configuration.display.visibility.disabledSlots.disableSlot5.tooltip": "When enabled, slot number 5 wont be displayed in the menu.",
+
+        "slice.configuration.display.visibility.disabledSlots.disableSlot6": "Disable Slot 6",
+        "slice.configuration.display.visibility.disabledSlots.disableSlot6.tooltip": "When enabled, slot number 6 wont be displayed in the menu.",
+
+        "slice.configuration.display.visibility.disabledSlots.disableSlot7": "Disable Slot 7",
+        "slice.configuration.display.visibility.disabledSlots.disableSlot7.tooltip": "When enabled, slot number 7 wont be displayed in the menu.",
+
+        "slice.configuration.display.visibility.disabledSlots.disableSlot8": "Disable Slot 8",
+        "slice.configuration.display.visibility.disabledSlots.disableSlot8.tooltip": "When enabled, slot number 8 wont be displayed in the menu.",
+
+        "slice.configuration.display.visibility.disabledSlots.disableSlot9": "Disable Slot 9",
+        "slice.configuration.display.visibility.disabledSlots.disableSlot9.tooltip": "When enabled, slot number 9 wont be displayed in the menu.",
+      
+
     "slice.configuration.display.enableAnimations": "Animations",
     "slice.configuration.display.enableAnimations.tooltip": "When enabled, menu elements will be animated",
 

@@ -23,6 +23,7 @@ public class RadialMenuRenderer {
 
     private static boolean hideSlotNumber = false;
     private static boolean hideSlotSprite = false;
+    private static boolean[] disabledSlots = new boolean[Constants.SLOT_COUNT];
 
     private int hoveredSlot = -1;
     private int activeSlot = -1;
@@ -49,6 +50,17 @@ public class RadialMenuRenderer {
         hideUnusedSlots = Config.CONFIG.hideUnusedSlots.get();
         hideSlotNumber = Config.CONFIG.hideSlotNumber.get();
         hideSlotSprite = Config.CONFIG.hideSlotSprite.get();
+        
+        // Update disabled slots array
+        disabledSlots[0] = Config.CONFIG.disableSlot1.get();
+        disabledSlots[1] = Config.CONFIG.disableSlot2.get();
+        disabledSlots[2] = Config.CONFIG.disableSlot3.get();
+        disabledSlots[3] = Config.CONFIG.disableSlot4.get();
+        disabledSlots[4] = Config.CONFIG.disableSlot5.get();
+        disabledSlots[5] = Config.CONFIG.disableSlot6.get();
+        disabledSlots[6] = Config.CONFIG.disableSlot7.get();
+        disabledSlots[7] = Config.CONFIG.disableSlot8.get();
+        disabledSlots[8] = Config.CONFIG.disableSlot9.get();
     }
 
     public void onMenuOpen() {
@@ -107,11 +119,29 @@ public class RadialMenuRenderer {
         boolean offsetFromCenter = Utils.getBooleanOrDefault(json, Constants.JSON_OFFSET_FROM_CENTER, false);
 
         // Count non-empty
-        int visibleSlotCount = hideUnusedSlots ? countNonEmptySlots(inventory) : Constants.SLOT_COUNT;
+        int visibleSlotCount = 0;
+        if (hideUnusedSlots) {
+            for (int i = 0; i < Constants.SLOT_COUNT; i++) {
+                if (!disabledSlots[i] && !inventory.getItem(i).isEmpty()) {
+                    visibleSlotCount++;
+                }
+            }
+        } else {
+            for (int i = 0; i < Constants.SLOT_COUNT; i++) {
+                if (!disabledSlots[i]) {
+                    visibleSlotCount++;
+                }
+            }
+        }
 
         // Render only visible
         int renderedSlots = 0;
         for (int i = 0; i < Constants.SLOT_COUNT; i++) {
+            // Skip disabled slots
+            if (disabledSlots[i]) {
+                continue;
+            }
+            
             ItemStack stack = inventory.getItem(i);
             
             // Skip empty
@@ -271,7 +301,7 @@ public class RadialMenuRenderer {
     private int countNonEmptySlots(Inventory inventory) {
         int count = 0;
         for (int i = 0; i < Constants.SLOT_COUNT; i++) {
-            if (!inventory.getItem(i).isEmpty()) {
+            if (!disabledSlots[i] && !inventory.getItem(i).isEmpty()) {
                 count++;
             }
         }
@@ -302,7 +332,7 @@ public class RadialMenuRenderer {
         int visibleSlotCount = 0;
         
         for (int i = 0; i < Constants.SLOT_COUNT; i++) {
-            if (!hideUnusedSlots || !inventory.getItem(i).isEmpty()) {
+            if (!disabledSlots[i] && (!hideUnusedSlots || !inventory.getItem(i).isEmpty())) {
                 visibleSlots[visibleSlotCount++] = i;
             }
         }

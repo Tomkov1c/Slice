@@ -22,6 +22,18 @@ public class Config {
         public final ModConfigSpec.BooleanValue hideSlotNumber;
         public final ModConfigSpec.BooleanValue hideSlotSprite;
 
+                // Display / Visibility / Disable Slots
+                public final ModConfigSpec.BooleanValue disableSlot1;
+                public final ModConfigSpec.BooleanValue disableSlot2;
+                public final ModConfigSpec.BooleanValue disableSlot3;
+                public final ModConfigSpec.BooleanValue disableSlot4;
+                public final ModConfigSpec.BooleanValue disableSlot5;
+                public final ModConfigSpec.BooleanValue disableSlot6;
+                public final ModConfigSpec.BooleanValue disableSlot7;
+                public final ModConfigSpec.BooleanValue disableSlot8;
+                public final ModConfigSpec.BooleanValue disableSlot9;
+
+
     public final ModConfigSpec.BooleanValue animationsEnabled;
     public final ModConfigSpec.BooleanValue soundeffectsEnabled;
     public final ModConfigSpec.IntValue maxAngle;
@@ -66,7 +78,7 @@ public class Config {
                 
                         this.backgroundBlur = visibility
                                 .translation("slice.configuration.display.visibility.backgroundBlur")
-                                .define("backgroundBlur", true);
+                                .define("backgroundBlur", false);
                 
                         this.hideUnusedSlots = visibility
                                 .translation("slice.configuration.display.visibility.hideUnusedSlots")
@@ -79,6 +91,49 @@ public class Config {
                         this.hideSlotSprite = visibility
                                 .translation("slice.configuration.display.visibility.hideSlotSprite")
                                 .define("hideSlotSprite", false);
+
+                        var disabledSlots = builder
+                                .translation("slice.configuration.category.display.visibility.disabledSlots")
+                                .push("visibility");
+
+                                this.disableSlot1 = disabledSlots
+                                        .translation("slice.configuration.display.visibility.disabledSlots.disableSlot1")
+                                        .define("disableSlot1", false);
+
+                                this.disableSlot2 = disabledSlots
+                                        .translation("slice.configuration.display.visibility.disabledSlots.disableSlot2")
+                                        .define("disableSlot2", false);
+
+                                this.disableSlot3 = disabledSlots
+                                        .translation("slice.configuration.display.visibility.disabledSlots.disableSlot3")
+                                        .define("disableSlot3", false);
+
+                                this.disableSlot4 = disabledSlots
+                                        .translation("slice.configuration.display.visibility.disabledSlots.disableSlot4")
+                                        .define("disableSlot4", false);
+
+                                this.disableSlot5 = disabledSlots
+                                        .translation("slice.configuration.display.visibility.disabledSlots.disableSlot5")
+                                        .define("disableSlot5", false);
+                                
+                                this.disableSlot6 = disabledSlots
+                                        .translation("slice.configuration.display.visibility.disabledSlots.disableSlot6")
+                                        .define("disableSlot6", false);
+
+                                this.disableSlot7 = disabledSlots
+                                        .translation("slice.configuration.display.visibility.disabledSlots.disableSlot7")
+                                        .define("disableSlot7", false);
+
+                                this.disableSlot8 = disabledSlots
+                                        .translation("slice.configuration.display.visibility.disabledSlots.disableSlot8")
+                                        .define("disableSlot8", false);
+                                
+                                this.disableSlot9 = disabledSlots
+                                        .translation("slice.configuration.display.visibility.disabledSlots.disableSlot9")
+                                        .define("disableSlot9", false);
+
+
+                        disabledSlots.pop();
                 
                 visibility.pop();
 
@@ -112,7 +167,7 @@ public class Config {
 
                 this.quickSwitch = behaviour
                         .translation("slice.configuration.behaviour.quickSwitch")
-                        .define("quickSwitch", true);
+                        .define("quickSwitch", false);
 
                 this.clickToSelect = behaviour
                         .translation("slice.configuration.behaviour.clickToSelect")
@@ -120,7 +175,7 @@ public class Config {
 
                 this.showTooltip = behaviour
                         .translation("slice.configuration.behaviour.showTooltip")
-                        .define("showTooltip", true);
+                        .define("showTooltip", false);
 
         behaviour.pop();
 
