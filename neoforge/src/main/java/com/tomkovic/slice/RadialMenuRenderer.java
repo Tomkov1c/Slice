@@ -293,48 +293,97 @@ public class RadialMenuRenderer {
         LocalPlayer p = mc.player;
         if (p == null) return -1;
 
-        double dist = Math.sqrt(mx*mx + my*my);
+        double dist = Math.sqrt(mx * mx + my * my);
         if (dist < Constants.MIN_MOUSE_DISTANCE) return -1;
 
-        double angle = Math.atan2(my, mx) + Math.PI / 2;
-        if (counterclockwise) angle = -angle;
-
-        angle = Utils.normalizeAngle(angle);
-
-        // Get visible
+        double mouseAngle = Math.atan2(my, mx);
+        
         Inventory inv = p.getInventory();
-        int[] vis = new int[Constants.SLOT_COUNT];
-        int count = 0;
-        for (int i = 0; i < Constants.SLOT_COUNT; i++)
-            if (!disabledSlots[i] && (!hideUnusedSlots || !inv.getItem(i).isEmpty()))
-                vis[count++] = i;
-
-        if (count == 0) return -1;
-
-        double startRad = Math.toRadians(startAngle);
-        double endRad = Math.toRadians(endAngle);
-
-        boolean fullCircle = startAngle == endAngle;
-
-        double range = fullCircle ? Math.PI * 2 :
-            (endRad - startRad + Math.PI * 2) % (Math.PI * 2);
-
-        double step = count > 1 ? range / count : 0;
-
-        int best = -1;
-        double bestDiff = Double.MAX_VALUE;
-
-        for (int i = 0; i < count; i++) {
-            double slotAngle = Utils.normalizeAngle(startRad + i * step);
-            double diff = Math.abs(Utils.normalizeAngle(angle - slotAngle));
-
-            if (diff > Math.PI) diff = Math.PI * 2 - diff;
-
-            if (diff < bestDiff) {
-                bestDiff = diff;
-                best = vis[i];
+        int[] visibleSlots = new int[Constants.SLOT_COUNT];
+        int visibleCount = 0;
+        for (int i = 0; i < Constants.SLOT_COUNT; i++) {
+            if (!disabledSlots[i] && (!hideUnusedSlots || !inv.getItem(i).isEmpty())) {
+                visibleSlots[visibleCount++] = i;
             }
         }
-        return best;
+
+        if (visibleCount == 0) return -1;
+
+        double startRad = Math.toRadians(startAngle) - Math.PI / 2;
+        double endRad = Math.toRadians(endAngle) - Math.PI / 2;
+        
+        boolean fullCircle = (startAngle == endAngle);
+        
+        double angleRange;
+        if (fullCircle) {
+            angleRange = Math.PI * 2;
+        } else {
+            angleRange = (endRad - startRad + 2 * Math.PI) % (2 * Math.PI);
+        }
+
+        double angleStep;
+        if (fullCircle) {
+            angleStep = angleRange / visibleCount;
+        } else {
+            angleStep = visibleCount > 1 ? angleRange / (visibleCount - 1) : 0;
+        }
+
+        mouseAngle = (mouseAngle + 2 * Math.PI) % (2 * Math.PI);
+        
+        int bestSlot = -1;
+        double bestAngularDistance = Double.MAX_VALUE;
+
+        for (int i = 0; i < visibleCount; i++) {
+            int slotIndex = visibleSlots[i];
+            
+            int displayIndex = counterclockwise ? (visibleCount - 1 - i) : i;
+            
+            double slotAngle;
+            if (fullCircle || visibleCount > 1) {
+                slotAngle = startRad + displayIndex * angleStep;
+            } else {
+                slotAngle = startRad + angleRange / 2;
+            }
+            
+            slotAngle = (slotAngle + 2 * Math.PI) % (2 * Math.PI);
+            
+            double angularDistance = Math.abs(mouseAngle - slotAngle);
+            if (angularDistance > Math.PI) {
+                angularDistance = 2 * Math.PI - angularDistance;
+            }
+            
+            if (!fullCircle) {
+                double normalizedStart = (startRad + 2 * Math.PI) % (2 * Math.PI);
+                double relativeAngle = (mouseAngle - normalizedStart + 2 * Math.PI) % (2 * Math.PI);
+                
+                if (relativeAngle > angleRange) {
+                    // Mouse is outside the arc
+                    double distToStart = Math.abs((mouseAngle - normalizedStart + Math.PI) % (2 * Math.PI) - Math.PI);
+                    double distToEnd = Math.abs((mouseAngle - (normalizedStart + angleRange)) % (2 * Math.PI));
+                    if (distToEnd > Math.PI) distToEnd = 2 * Math.PI - distToEnd;
+                    
+                    // Reasonably close to the arc
+                    double minDistToArc = Math.min(distToStart, distToEnd);
+                    if (minDistToArc > Math.PI / 4) {
+                        continue;
+                    }
+                }
+            }
+            
+            if (angularDistance < bestAngularDistance) {
+                bestAngularDistance = angularDistance;
+                bestSlot = slotIndex;
+            }
+        }
+        
+        // For non-full circles
+        if (!fullCircle && bestSlot != -1) {
+            double maxAcceptableDistance = fullCircle ? Math.PI : angleStep / 2 + 0.2;
+            if (bestAngularDistance > maxAcceptableDistance) {
+                return -1;
+            }
+        }
+
+        return bestSlot;
     }
 }
