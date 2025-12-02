@@ -12,7 +12,7 @@
       "slice.configuration.category.display.size": "Size Options",
       "slice.configuration.category.display.size.tooltip": "Options for adjusting the size of UI elements",
 
-      "slice.configuration.display.size.radialMenuRadius": "Radial Menu Radius",
+      "slice.configuration.display.size.radialMenuRadius": "Radius Size",
       "slice.configuration.display.size.radialMenuRadius.tooltip": "Radius of the radial menu in pixels aka. the distance from the center of the screen",
       
       "slice.configuration.display.size.itemSize": "Item Size",
