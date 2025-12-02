@@ -12,9 +12,6 @@ public class Constants {
 	public static final Logger LOG = LoggerFactory.getLogger(MOD_NAME);
 
 	public static final int SLOT_COUNT = 9;
-    public static final int DEFAULT_ITEM_SIZE = 16;
-    public static final int DEFAULT_SLOT_SIZE = 32;
-    public static final int DEFAULT_SLOT_RADIUS = 80;
     public static final int MIN_MOUSE_DISTANCE = 20;
     
     // Default colors

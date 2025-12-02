@@ -42,9 +42,10 @@ public class Config {
 
     // Behaviour
     public final ModConfigSpec.BooleanValue toggleKeybind;
-    public final ModConfigSpec.BooleanValue quickSwitch;
     public final ModConfigSpec.BooleanValue clickToSelect;
     public final ModConfigSpec.BooleanValue showTooltip;
+    public final ModConfigSpec.IntValue innerDeadzone;
+    public final ModConfigSpec.IntValue outerDeadzone;
 
     // Misc
     public final BooleanValue disableScrollingOnHotbar;
@@ -170,9 +171,6 @@ public class Config {
                         .translation("slice.configuration.behaviour.toggleKeybind")
                         .define("toggleKeybind", false);
 
-                this.quickSwitch = behaviour
-                        .translation("slice.configuration.behaviour.quickSwitch")
-                        .define("quickSwitch", false);
 
                 this.clickToSelect = behaviour
                         .translation("slice.configuration.behaviour.clickToSelect")
@@ -181,6 +179,14 @@ public class Config {
                 this.showTooltip = behaviour
                         .translation("slice.configuration.behaviour.showTooltip")
                         .define("showTooltip", false);
+
+                this.innerDeadzone = behaviour
+                        .translation("slice.configuration.behaviour.innerDeadzone")
+                        .defineInRange("innerDeadzone", 72, 0, 1000);
+                
+                this.outerDeadzone = behaviour
+                        .translation("slice.configuration.behaviour.outerDeadzone")
+                        .defineInRange("outerDeadzone", 47, 0, 1000);
 
         behaviour.pop();
 

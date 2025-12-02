@@ -15,20 +15,23 @@ import net.minecraft.world.item.ItemStack;
 
 public class RadialMenuRenderer {
 
-    private static int itemSize = Constants.DEFAULT_ITEM_SIZE;
-    private static int slotSize = Constants.DEFAULT_SLOT_SIZE;
-    private static int slotRadius = Constants.DEFAULT_SLOT_RADIUS;
-    private static boolean counterclockwise = false;
-    private static boolean hideUnusedSlots = false;
+    private static int itemSize = Config.CONFIG.itemSize.getDefault();
+    private static int slotSize = Config.CONFIG.slotSize.getDefault();
+    private static int slotRadius = Config.CONFIG.radialMenuRadius.getDefault();
+    private static boolean counterclockwise = Config.CONFIG.counterclockwiseRotation.getDefault();
+    private static boolean hideUnusedSlots = Config.CONFIG.hideUnusedSlots.getDefault();
 
-    private static boolean hideSlotNumber = false;
-    private static boolean hideSlotSprite = false;
+    private static boolean hideSlotNumber = Config.CONFIG.hideSlotNumber.getDefault();
+    private static boolean hideSlotSprite = Config.CONFIG.hideSlotSprite.getDefault();
     private static boolean[] disabledSlots = new boolean[Constants.SLOT_COUNT];
 
-    private static int startAngle = 0;
-    private static int endAngle = 360;
+    private static int startAngle = Config.CONFIG.startAngle.getDefault();
+    private static int endAngle = Config.CONFIG.endAngle.getDefault();
     
-    private static int backgroundDarkenOpacity = 0;
+    private static int backgroundDarkenOpacity = Config.CONFIG.backgroundDarkenOpacity.getDefault();
+    
+    private static int innerDeadzoneRadius = Config.CONFIG.innerDeadzone.getDefault();
+    private static int outerDeadzoneRadius = Config.CONFIG.outerDeadzone.getDefault();
 
     private int hoveredSlot = -1;
     private int activeSlot = -1;
@@ -61,6 +64,10 @@ public class RadialMenuRenderer {
         
         // Load background darkening opacity
         backgroundDarkenOpacity = Config.CONFIG.backgroundDarkenOpacity.get();
+        
+        // Load deadzone settings
+        innerDeadzoneRadius = Config.CONFIG.innerDeadzone.get();
+        outerDeadzoneRadius = Config.CONFIG.outerDeadzone.get();
 
         if (startAngle == 360) startAngle = 360;
         if (endAngle == 360) endAngle = 360;
@@ -311,7 +318,14 @@ public class RadialMenuRenderer {
         if (p == null) return -1;
 
         double dist = Math.sqrt(mx * mx + my * my);
-        if (dist < Constants.MIN_MOUSE_DISTANCE) return -1;
+        
+        double innerBoundary = slotRadius - innerDeadzoneRadius;
+        
+        double outerBoundary = slotRadius + outerDeadzoneRadius;
+        
+        if (dist < innerBoundary || dist > outerBoundary) {
+            return -1;
+        }
 
         double mouseAngle = Math.atan2(my, mx);
         
