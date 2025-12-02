@@ -1,5 +1,6 @@
 package com.tomkovic.slice.handlers;
 
+import com.tomkovic.slice.Config;
 import com.tomkovic.slice.KeyBindings;
 import com.tomkovic.slice.RadialMenuRenderer;
 
@@ -11,9 +12,16 @@ import net.neoforged.neoforge.client.event.ViewportEvent;
 
 public class RadialMenuHandler {
     private boolean isMenuOpen = false;
+    private boolean keyPreviouslyPressed = false; // track key state for toggle
     public static final RadialMenuRenderer renderer = new RadialMenuRenderer();
     private float savedYaw = 0;
     private float savedPitch = 0;
+
+    private static boolean isToggleEnabled = Config.CONFIG.toggleKeybind.getDefault();
+
+    public static void updateFromConfig() { 
+        isToggleEnabled = Config.CONFIG.toggleKeybind.getAsBoolean();
+    }
 
     @SubscribeEvent
     public void onKeyInput(InputEvent.Key event) {
@@ -22,25 +30,44 @@ public class RadialMenuHandler {
             return;
         }
 
-        if (KeyBindings.OPEN_RADIAL_MENU.isDown()) {
-            if (!isMenuOpen) {
-                isMenuOpen = true;
-                if (mc.player != null) {
-                    savedYaw = mc.player.getYRot();
-                    savedPitch = mc.player.getXRot();
+        boolean isKeyDown = KeyBindings.OPEN_RADIAL_MENU.isDown();
+
+        if (isToggleEnabled) {
+            if (isKeyDown && !keyPreviouslyPressed) {
+                keyPreviouslyPressed = true;
+                if (!isMenuOpen) {
+                    openMenu(mc);
+                } else {
+                    closeMenu(mc);
                 }
-                // Ungrab mouse 
-                mc.mouseHandler.releaseMouse();
-                renderer.onMenuOpen();
+            } else if (!isKeyDown) {
+                keyPreviouslyPressed = false;
             }
         } else {
-            if (isMenuOpen) {
-                isMenuOpen = false;
-                // Grab mouse
-                mc.mouseHandler.grabMouse();
-                renderer.onMenuClose();
+            if (isKeyDown) {
+                if (!isMenuOpen) {
+                    openMenu(mc);
+                }
+            } else {
+                if (isMenuOpen) {
+                    closeMenu(mc);
+                }
             }
         }
+    }
+
+    private void openMenu(Minecraft mc) {
+        isMenuOpen = true;
+        savedYaw = mc.player.getYRot();
+        savedPitch = mc.player.getXRot();
+        mc.mouseHandler.releaseMouse();
+        renderer.onMenuOpen();
+    }
+
+    private void closeMenu(Minecraft mc) {
+        isMenuOpen = false;
+        mc.mouseHandler.grabMouse();
+        renderer.onMenuClose();
     }
 
     @SubscribeEvent

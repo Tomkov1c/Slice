@@ -14,6 +14,7 @@ public class ConfigHandler {
     public void onConfigReload(ModConfigEvent.Reloading event) {
         if (event.getConfig().getSpec() == Config.CONFIG_SPEC) {
             RadialMenuRenderer.updateFromConfig();
+            RadialMenuHandler.updateFromConfig();
         }
     }
 
@@ -21,6 +22,7 @@ public class ConfigHandler {
     public void onConfigLoad(ModConfigEvent.Loading event) {
         if (event.getConfig().getSpec() == Config.CONFIG_SPEC) {
             RadialMenuRenderer.updateFromConfig();
+            RadialMenuHandler.updateFromConfig();
         }
     }
 
