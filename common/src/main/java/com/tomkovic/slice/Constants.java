@@ -54,6 +54,8 @@ public class Constants {
     public static final String JSON_SLOT_NUMBER_COLOR = "slot_number_color";
     public static final String JSON_SLOT_NUMBER_COLOR_HOVERED = "slot_number_color_hovered";
     public static final String JSON_SLOT_NUMBER_COLOR_ACTIVE = "slot_number_color_active";
+
+    public static final String JSON_BACKGROUND_OVERLAY_COLOR = "background_darkening_color";
     
     private Constants() { }
 }

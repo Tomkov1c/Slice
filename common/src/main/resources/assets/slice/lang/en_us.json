@@ -26,8 +26,8 @@
       "slice.configuration.category.display.visibility": "Visibility Options",
       "slice.configuration.category.display.visibility.tooltip": "Options for hiding UI elements",
 
-      "slice.configuration.display.visibility.backgroundBlur": "Background Blur",
-      "slice.configuration.display.visibility.backgroundBlur.tooltip": "When enabled, menu backdrop will be blured.",
+      "slice.configuration.display.visibility.backgroundDarkenOpacity": "Background alpha",
+      "slice.configuration.display.visibility.backgroundDarkenOpacity.tooltip": "How much of the background color is visible when the menu is open.",
     
       "slice.configuration.display.visibility.hideUnusedSlots": "Hide Unused Slots",
       "slice.configuration.display.visibility.hideUnusedSlots.tooltip": "When enabled, empty slots in the radial menu will be hidden",

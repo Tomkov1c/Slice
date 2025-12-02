@@ -33,5 +33,7 @@
 
   "slot_number_color": "#FFFFFF",
   "slot_number_color_hovered": "#FFFF00",
-  "slot_number_color_active": "#FFFFFF"
+  "slot_number_color_active": "#FFFFFF",
+
+  "background_overlay_color": "#000000"
 }

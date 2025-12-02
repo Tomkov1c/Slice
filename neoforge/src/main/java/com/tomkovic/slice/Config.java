@@ -17,7 +17,7 @@ public class Config {
         public final ModConfigSpec.IntValue slotSize;
 
         // Display / Visibility
-        public final ModConfigSpec.BooleanValue backgroundBlur;
+        public final ModConfigSpec.IntValue backgroundDarkenOpacity;
         public final ModConfigSpec.BooleanValue hideUnusedSlots;
         public final ModConfigSpec.BooleanValue hideSlotNumber;
         public final ModConfigSpec.BooleanValue hideSlotSprite;
@@ -77,9 +77,9 @@ public class Config {
                         .translation("slice.configuration.category.display.visibility")
                         .push("visibility");
                 
-                        this.backgroundBlur = visibility
-                                .translation("slice.configuration.display.visibility.backgroundBlur")
-                                .define("backgroundBlur", false);
+                        backgroundDarkenOpacity = visibility
+                                .translation("slice.configuration.display.visibility.backgroundDarkenOpacity")
+                                .defineInRange("backgroundDarkenOpacity", 0, 0, 255);
                 
                         this.hideUnusedSlots = visibility
                                 .translation("slice.configuration.display.visibility.hideUnusedSlots")

@@ -27,6 +27,8 @@ public class RadialMenuRenderer {
 
     private static int startAngle = 0;
     private static int endAngle = 360;
+    
+    private static int backgroundDarkenOpacity = 0;
 
     private int hoveredSlot = -1;
     private int activeSlot = -1;
@@ -56,6 +58,9 @@ public class RadialMenuRenderer {
 
         startAngle = Config.CONFIG.startAngle.get();
         endAngle = Config.CONFIG.endAngle.get();
+        
+        // Load background darkening opacity
+        backgroundDarkenOpacity = Config.CONFIG.backgroundDarkenOpacity.get();
 
         if (startAngle == 360) startAngle = 360;
         if (endAngle == 360) endAngle = 360;
@@ -117,6 +122,18 @@ public class RadialMenuRenderer {
         int screenHeight = mc.getWindow().getGuiScaledHeight();
         int centerX = screenWidth / 2;
         int centerY = screenHeight / 2;
+
+        if (backgroundDarkenOpacity > 0) {
+            int baseColor = Utils.parseColor(json, Constants.JSON_BACKGROUND_OVERLAY_COLOR, 0x000000);
+            
+            int r = (baseColor >> 16) & 0xFF;
+            int g = (baseColor >> 8) & 0xFF;
+            int b = baseColor & 0xFF;
+            
+            int colorWithAlpha = (backgroundDarkenOpacity << 24) | (r << 16) | (g << 8) | b;
+            
+            graphics.fill(0, 0, screenWidth, screenHeight, colorWithAlpha);
+        }
 
         double mouseX = mc.mouseHandler.xpos() * screenWidth / mc.getWindow().getScreenWidth() - centerX;
         double mouseY = mc.mouseHandler.ypos() * screenHeight / mc.getWindow().getScreenHeight() - centerY;
