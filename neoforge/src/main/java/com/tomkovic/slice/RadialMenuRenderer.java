@@ -69,9 +69,6 @@ public class RadialMenuRenderer {
         innerDeadzoneRadius = Config.CONFIG.innerDeadzone.get();
         outerDeadzoneRadius = Config.CONFIG.outerDeadzone.get();
 
-        if (startAngle == 360) startAngle = 360;
-        if (endAngle == 360) endAngle = 360;
-
         disabledSlots[0] = Config.CONFIG.disableSlot1.get();
         disabledSlots[1] = Config.CONFIG.disableSlot2.get();
         disabledSlots[2] = Config.CONFIG.disableSlot3.get();

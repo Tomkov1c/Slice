@@ -34,8 +34,6 @@ public class Config {
                 public final ModConfigSpec.BooleanValue disableSlot9;
 
 
-    public final ModConfigSpec.BooleanValue animationsEnabled;
-    public final ModConfigSpec.BooleanValue soundeffectsEnabled;
     public final ModConfigSpec.IntValue startAngle;
     public final ModConfigSpec.IntValue endAngle;
     public final ModConfigSpec.BooleanValue counterclockwiseRotation;
@@ -138,14 +136,6 @@ public class Config {
                         disabledSlots.pop();
                 
                 visibility.pop();
-
-                this.animationsEnabled = display
-                        .translation("slice.configuration.display.enableAnimations")
-                        .define("enableAnimations", true);
-
-                this.soundeffectsEnabled = display
-                        .translation("slice.configuration.display.soundEffects")
-                        .define("soundEffects", true);
 
                 this.startAngle = display
                         .translation("slice.configuration.display.maxAngle")

@@ -71,12 +71,6 @@
         "slice.configuration.display.visibility.disabledSlots.disableSlot9.tooltip": "When enabled, slot number 9 wont be displayed in the menu.",
       
 
-    "slice.configuration.display.enableAnimations": "Animations",
-    "slice.configuration.display.enableAnimations.tooltip": "When enabled, menu elements will be animated",
-
-    "slice.configuration.display.soundEffects": "Soundeffects",
-    "slice.configuration.display.soundEffects.tooltip": "When enabled, menu will play soundeffects",
-
     "slice.configuration.display.maxAngle": "Start Angle",
     "slice.configuration.display.maxAngle.tooltip": "The start angle from which the menu starts drawing. If the same as End Angle, the menu will go full 360.",
 
