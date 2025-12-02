@@ -33,6 +33,8 @@ public class RadialMenuRenderer {
     private static int innerDeadzoneRadius = Config.CONFIG.innerDeadzone.getDefault();
     private static int outerDeadzoneRadius = Config.CONFIG.outerDeadzone.getDefault();
 
+    public static boolean clickToSelect = Config.CONFIG.clickToSelect.getDefault();
+
     private int hoveredSlot = -1;
     private int activeSlot = -1;
     private double mouseStartX = 0;
@@ -78,6 +80,8 @@ public class RadialMenuRenderer {
         disabledSlots[6] = Config.CONFIG.disableSlot7.get();
         disabledSlots[7] = Config.CONFIG.disableSlot8.get();
         disabledSlots[8] = Config.CONFIG.disableSlot9.get();
+
+        clickToSelect = Config.CONFIG.clickToSelect.get();
     }
 
     public void onMenuOpen() {
@@ -91,6 +95,13 @@ public class RadialMenuRenderer {
     }
 
     public void onMenuClose() {
+        if (!clickToSelect) {
+            selectHoveredSlot();
+        }
+        hoveredSlot = -1;
+    }
+
+    public void selectHoveredSlot() {
         if (hoveredSlot >= 0 && hoveredSlot < Constants.SLOT_COUNT && (activeSlot != hoveredSlot)) {
             Minecraft mc = Minecraft.getInstance();
             LocalPlayer player = mc.player;
@@ -112,7 +123,6 @@ public class RadialMenuRenderer {
                 }
             }
         }
-        hoveredSlot = -1;
     }
 
     public void render(GuiGraphics graphics, float partialTick) {
