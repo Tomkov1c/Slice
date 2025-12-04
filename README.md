@@ -15,10 +15,12 @@
 > **Note:** This project is in early development and may be unstable.
 
 ## Features
-
-- Fully customizable
-- Custom texture pack
-
+- Flexible layout control with adjustable radius, item size, and rotation angles
+- Visibility options for slots, numbers, and sprites
+- Multiple interaction modes (toggle menu or click-to-select item)
+- Configurable inner and outer deadzones
+- Hotbar scrolling toggle
+- Custom texture pack support
 
 ## Supported Versions
 > **FYI**: <br> ✅ - Supported, ❌ - Unsupported, 🔍 - Planned / In development

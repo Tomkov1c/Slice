@@ -39,7 +39,7 @@
       "slice.configuration.display.visibility.hideSlotSprite.tooltip": "When enabled, no slot sprite will be displayed",
 
         //
-        // Visability
+        // Disable Slots
         "slice.configuration.category.display.visibility.disabledSlots": "Disabled Slots",
         "slice.configuration.category.display.visibility.disabledSlots.tooltip": "Options do disable specific slots from displaying int he menu.",
 
