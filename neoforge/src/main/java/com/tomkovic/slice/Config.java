@@ -41,7 +41,6 @@ public class Config {
     // Behaviour
     public final ModConfigSpec.BooleanValue toggleKeybind;
     public final ModConfigSpec.BooleanValue clickToSelect;
-    public final ModConfigSpec.BooleanValue showTooltip;
     public final ModConfigSpec.IntValue innerDeadzone;
     public final ModConfigSpec.IntValue outerDeadzone;
 
@@ -165,10 +164,6 @@ public class Config {
                 this.clickToSelect = behaviour
                         .translation("slice.configuration.behaviour.clickToSelect")
                         .define("clickToSelect", false);
-
-                this.showTooltip = behaviour
-                        .translation("slice.configuration.behaviour.showTooltip")
-                        .define("showTooltip", false);
 
                 this.innerDeadzone = behaviour
                         .translation("slice.configuration.behaviour.innerDeadzone")

@@ -91,9 +91,6 @@
       "slice.configuration.behaviour.clickToSelect": "Click to Select",
       "slice.configuration.behaviour.clickToSelect.tooltip": "When enabled, to switch to a desired slot, you'll need to click on the slot, not just release the button.",
 
-      "slice.configuration.behaviour.showTooltip": "Show Tooltip",
-      "slice.configuration.behaviour.showTooltip.tooltip": "When enabled, hovering over a slot will show the item's tooltip that's in that slot.",
-
       "slice.configuration.behaviour.innerDeadzone": "Inner Deadzone",
       "slice.configuration.behaviour.innerDeadzone.tooltip": "Extends the selectable area inward from the menu radius. Increase to require moving the mouse further from center before slots can be selected.",
 
