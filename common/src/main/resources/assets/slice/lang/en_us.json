@@ -77,8 +77,8 @@
     "slice.configuration.display.endAngle": "End Angle",
     "slice.configuration.display.endAngle.tooltip": "The end angle at which the menu stops drawing. If the same as Start Angle, the menu will go full 360.",
 
-    "slice.configuration.display.counterclockwiseRotation": "Counterclockwise Rotation",
-    "slice.configuration.display.counterclockwiseRotation.tooltip": "When enabled, the radial menu rotates counterclockwise instead of clockwise",
+    "slice.configuration.display.counterclockwiseRotation": "Reverse Rotation",
+    "slice.configuration.display.counterclockwiseRotation.tooltip": "When enabled, the radial menu reverses it's order. (9th slot -> 1st slot)",
   
     //
     //Behaviour

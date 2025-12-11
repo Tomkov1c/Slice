@@ -28,6 +28,7 @@
 
 | Version    |  | Loaders                 | Minimum required version |
 |------------|--|-------------------------|--------------------------|
+| 1.21.11     |❌|
 | 1.21.10     |❌|
 | 1.21.9     |✅| <img src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/compact-minimal/supported/neoforge_vector.svg?raw=true"> | 21.9.0
 | 1.21.8     |❌|
