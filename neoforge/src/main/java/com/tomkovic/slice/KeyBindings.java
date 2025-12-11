@@ -7,10 +7,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 
 public class KeyBindings {
+    @SuppressWarnings("null")
     public static final KeyMapping.Category CATEGORY_OBJECT = new KeyMapping.Category(
         ResourceLocation.fromNamespaceAndPath("slice", "radial_menu")
     );
     
+    @SuppressWarnings("null")
     public static final KeyMapping OPEN_RADIAL_MENU = new KeyMapping(
         "key.slice.open_radial_menu",
         KeyConflictContext.IN_GAME,
@@ -29,9 +31,7 @@ public class KeyBindings {
     }
     
     public static int getMouseButton() {
-        if (isMouseButton()) {
-            return OPEN_RADIAL_MENU.getKey().getValue();
-        }
+        if (isMouseButton()) return OPEN_RADIAL_MENU.getKey().getValue();
         return -1;
     }
 }

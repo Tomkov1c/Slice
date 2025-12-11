@@ -6,7 +6,6 @@ import com.tomkovic.slice.classes.SlotPosition;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -86,23 +85,22 @@ public class RadialMenuRenderer {
         hoveredSlot = -1;
     }
 
+    @SuppressWarnings("null")
     public void selectHoveredSlot() {
         if (hoveredSlot < 0 || hoveredSlot >= Constants.SLOT_COUNT || activeSlot == hoveredSlot) return;
+
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
         if (player == null) return;
+
         try {
-            if (selectedField != null) {
-                selectedField.setInt(player.getInventory(), hoveredSlot);
-            }
+            if (selectedField != null) selectedField.setInt(player.getInventory(), hoveredSlot);
         } catch (Exception e) {
             Constants.LOG.error("Failed to set selected slot", e);
         }
-        if (mc.getConnection() != null) {
-            mc.getConnection().send(
-                new net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket(hoveredSlot)
-            );
-        }
+
+        if (mc.getConnection() != null)
+            mc.getConnection().send( new net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket(hoveredSlot) );
     }
 
     private SlotPosition[] calculateSlotPositions(int[] visibleSlots, int centerX, int centerY) {
@@ -135,22 +133,24 @@ public class RadialMenuRenderer {
         
         class RenderHelper {
             void renderAll() {
+
                 Minecraft mc = Minecraft.getInstance();
+
+                if (mc.isPaused()) return;
+
+                mc.mouseHandler.releaseMouse();
+
                 LocalPlayer player = mc.player;
                 if (player == null) return;
                 
                 JsonObject json = ResourceHelper.readJsonFromResources(mc.getResourceManager(), "textures/texture_config.json");
+
                 int screenWidth = mc.getWindow().getGuiScaledWidth();
                 int screenHeight = mc.getWindow().getGuiScaledHeight();
                 int centerX = screenWidth / 2;
                 int centerY = screenHeight / 2;
 
-                // Background darkening
-                if (backgroundDarkenOpacity > 0) {
-                    int baseColor = Utils.parseColor(json, Constants.JSON_BACKGROUND_OVERLAY_COLOR, 0x000000);
-                    int colorWithAlpha = (backgroundDarkenOpacity << 24) | (baseColor & 0xFFFFFF);
-                    graphics.fill(0, 0, screenWidth, screenHeight, colorWithAlpha);
-                }
+                if (backgroundDarkenOpacity > 0) renderBackground(json, screenWidth, screenHeight);
 
                 Inventory inventory = player.getInventory();
                 int[] visibleSlots = getVisibleSlots(inventory);
@@ -160,6 +160,7 @@ public class RadialMenuRenderer {
 
                 double mouseX = mc.mouseHandler.xpos() * screenWidth / mc.getWindow().getScreenWidth() - centerX;
                 double mouseY = mc.mouseHandler.ypos() * screenHeight / mc.getWindow().getScreenHeight() - centerY;
+
                 hoveredSlot = getHoveredSlot(mouseX, mouseY, slotPositions);
 
                 activeSlot = inventory.getSelectedSlot();
@@ -182,6 +183,7 @@ public class RadialMenuRenderer {
                 mc.renderBuffers().bufferSource().endBatch();
             }
 
+            @SuppressWarnings("null")
             void renderSlot(int x, int y, boolean active, boolean hovered) {
                 ResourceLocation tex = active ? Constants.SLOT_ACTIVE_TEXTURE :
                     hovered ? Constants.SLOT_HOVERED_TEXTURE :
@@ -191,6 +193,7 @@ public class RadialMenuRenderer {
                     0F, 0F, slotSize, slotSize, slotSize, slotSize);
             }
 
+            @SuppressWarnings("null")
             void renderItem(Minecraft mc, JsonObject json, ItemStack stack, int x, int y, boolean active, boolean hovered) {
                 String state = active ? "_active" : (hovered ? "_hovered" : "");
                 int ix = x + Utils.getIntOrDefault(json, Constants.JSON_ITEM_X_OFFSET + state, 0);
@@ -205,6 +208,7 @@ public class RadialMenuRenderer {
                 graphics.pose().popMatrix();
             }
 
+            @SuppressWarnings("null")
             void renderSlotNumber(Minecraft mc, JsonObject json, int index, int x, int y, boolean active, boolean hovered) {
                 String num = String.valueOf(index + 1);
                 String state = active ? "_active" : (hovered ? "_hovered" : "");
@@ -216,6 +220,12 @@ public class RadialMenuRenderer {
                     hovered ? Utils.parseColor(json, Constants.JSON_SLOT_NUMBER_COLOR_HOVERED, Constants.DEFAULT_SLOT_NUMBER_COLOR_HOVERED) :
                     Utils.parseColor(json, Constants.JSON_SLOT_NUMBER_COLOR, Constants.DEFAULT_SLOT_NUMBER_COLOR);
                 graphics.drawString(mc.font, num, tx, ty, col);
+            }
+
+            void renderBackground(JsonObject json, int screenWidth, int screenHeight) {
+                int baseColor = Utils.parseColor(json, Constants.JSON_BACKGROUND_OVERLAY_COLOR, 0x000000);
+                int colorWithAlpha = (backgroundDarkenOpacity << 24) | (baseColor & 0xFFFFFF);
+                graphics.fill(0, 0, screenWidth, screenHeight, colorWithAlpha);
             }
         }
 
@@ -236,19 +246,17 @@ public class RadialMenuRenderer {
     }
 
     private int getHoveredSlot(double mx, double my, SlotPosition[] slotPositions) {
+        Minecraft mc = Minecraft.getInstance();
+
+        if (mc.isPaused()) return -1;
+
+        if (slotPositions == null || slotPositions.length == 0) return -1;
+
         double dist = Math.sqrt(mx * mx + my * my);
         double innerBoundary = slotRadius - innerDeadzoneRadius;
         double outerBoundary = slotRadius + outerDeadzoneRadius;
+
         if (dist < innerBoundary || dist > outerBoundary) return -1;
-
-        if (slotPositions.length == 0) return -1;
-
-        boolean fullCircle = (startAngle == endAngle) || ((startAngle == 0 && endAngle == 360) || ( startAngle == 360 && endAngle == 0));
-        double startRad = Math.toRadians(startAngle) - Math.PI / 2;
-        double endRad = Math.toRadians(endAngle) - Math.PI / 2;
-        double angleRange = fullCircle ? Math.PI * 2 : (endRad - startRad + 2 * Math.PI) % (2 * Math.PI);
-        double angleStep = fullCircle ? angleRange / slotPositions.length :
-                              (slotPositions.length > 1 ? angleRange / (slotPositions.length - 1) : 0);
 
         double mouseAngle = (Math.atan2(my, mx) + 2 * Math.PI) % (2 * Math.PI);
 
@@ -257,20 +265,9 @@ public class RadialMenuRenderer {
 
         for (SlotPosition pos : slotPositions) {
             double slotAngle = (pos.angle + 2 * Math.PI) % (2 * Math.PI);
+
             double angularDistance = Math.abs(mouseAngle - slotAngle);
             if (angularDistance > Math.PI) angularDistance = 2 * Math.PI - angularDistance;
-
-            if (!fullCircle) {
-                double normalizedStart = (startRad + 2 * Math.PI) % (2 * Math.PI);
-                double relativeAngle = (mouseAngle - normalizedStart + 2 * Math.PI) % (2 * Math.PI);
-                if (relativeAngle > angleRange) {
-                    double distToStart = Math.abs((mouseAngle - normalizedStart + Math.PI) % (2 * Math.PI) - Math.PI);
-                    double distToEnd = Math.abs((mouseAngle - (normalizedStart + angleRange)) % (2 * Math.PI));
-                    if (distToEnd > Math.PI) distToEnd = 2 * Math.PI - distToEnd;
-                    double minDistToArc = Math.min(distToStart, distToEnd);
-                    if (minDistToArc > Math.PI / 4) continue;
-                }
-            }
 
             if (angularDistance < bestAngularDistance) {
                 bestAngularDistance = angularDistance;
@@ -278,11 +275,10 @@ public class RadialMenuRenderer {
             }
         }
 
-        if (!fullCircle && bestSlot != -1) {
-            double maxAcceptableDistance = angleStep / 2 + 0.2;
-            if (bestAngularDistance > maxAcceptableDistance) return -1;
-        }
+        double maxAcceptable = (Math.PI * 2 / slotPositions.length) / 2 + 0.2;
+        if (bestAngularDistance > maxAcceptable) return -1;
 
         return bestSlot;
     }
+
 }

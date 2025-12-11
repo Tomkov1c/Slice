@@ -12,8 +12,6 @@ public class HotbarScrollHandler {
     
     @SubscribeEvent
     public static void onMouseScroll(InputEvent.MouseScrollingEvent event) {
-        if (Config.CONFIG.disableScrollingOnHotbar.get()) {
-            event.setCanceled(true);
-        }
+        if (Config.CONFIG.disableScrollingOnHotbar.get()) event.setCanceled(true);
     }
 }

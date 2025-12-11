@@ -26,6 +26,7 @@ public class SliceClient {
         Constants.LOG.info("Roundabout Client Setup Complete");
     }
 
+    @SuppressWarnings("null")
     @SubscribeEvent
     static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
         event.register(KeyBindings.OPEN_RADIAL_MENU);
