@@ -1,6 +1,7 @@
 package com.tomkovic.slice.handlers;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import com.tomkovic.slice.CommonRenderFunctions;
 import com.tomkovic.slice.Config;
 import com.tomkovic.slice.KeyBindings;
 import com.tomkovic.slice.RadialMenuRenderer;

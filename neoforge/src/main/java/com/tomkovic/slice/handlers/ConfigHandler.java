@@ -1,6 +1,5 @@
 package com.tomkovic.slice.handlers;
 
-
 import com.tomkovic.slice.Config;
 import com.tomkovic.slice.RadialMenuRenderer;
 
