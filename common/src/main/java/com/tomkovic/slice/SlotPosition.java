@@ -1,4 +1,4 @@
-package com.tomkovic.slice.classes;
+package com.tomkovic.slice;
 
 public class SlotPosition {
     public final int slotIndex;

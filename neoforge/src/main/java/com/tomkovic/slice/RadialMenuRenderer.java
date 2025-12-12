@@ -1,7 +1,7 @@
 package com.tomkovic.slice;
+
 import java.lang.reflect.Field;
 import com.google.gson.JsonObject;
-import com.tomkovic.slice.classes.SlotPosition;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -32,7 +32,7 @@ public class RadialMenuRenderer {
     private double mouseStartY = 0;
     private static Field selectedField = null;
 
-    static {
+    public RadialMenuRenderer() {
         try {
             selectedField = Inventory.class.getDeclaredField("selected");
             selectedField.setAccessible(true);
@@ -85,50 +85,6 @@ public class RadialMenuRenderer {
         hoveredSlot = -1;
     }
 
-    @SuppressWarnings("null")
-    public void selectHoveredSlot() {
-        if (hoveredSlot < 0 || hoveredSlot >= Constants.SLOT_COUNT || activeSlot == hoveredSlot) return;
-
-        Minecraft mc = Minecraft.getInstance();
-        LocalPlayer player = mc.player;
-        if (player == null) return;
-
-        try {
-            if (selectedField != null) selectedField.setInt(player.getInventory(), hoveredSlot);
-        } catch (Exception e) {
-            Constants.LOG.error("Failed to set selected slot", e);
-        }
-
-        if (mc.getConnection() != null)
-            mc.getConnection().send( new net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket(hoveredSlot) );
-    }
-
-    private SlotPosition[] calculateSlotPositions(int[] visibleSlots, int centerX, int centerY) {
-        SlotPosition[] positions = new SlotPosition[visibleSlots.length];
-        
-        boolean fullCircle = (startAngle == endAngle) || ((startAngle == 0 && endAngle == 360) || ( startAngle == 360 && endAngle == 0));
-        double startRad = Math.toRadians(startAngle) - Math.PI / 2;
-        double endRad = Math.toRadians(endAngle) - Math.PI / 2;
-        double angleRange = fullCircle ? Math.PI * 2 : (endRad - startRad + 2 * Math.PI) % (2 * Math.PI);
-        double angleStep = fullCircle ? angleRange / visibleSlots.length : 
-                              (visibleSlots.length > 1 ? angleRange / (visibleSlots.length - 1) : 0);
-
-        for (int i = 0; i < visibleSlots.length; i++) {
-            int slotIndex = visibleSlots[i];
-            int displayIndex = counterclockwise ? (visibleSlots.length - 1 - i) : i;
-            double angle = (fullCircle || visibleSlots.length > 1) ? 
-                startRad + displayIndex * angleStep : 
-                startRad + angleRange / 2;
-            
-            int baseX = centerX + (int)(Math.cos(angle) * slotRadius);
-            int baseY = centerY + (int)(Math.sin(angle) * slotRadius);
-            
-            positions[i] = new SlotPosition(slotIndex, angle, baseX, baseY);
-        }
-        
-        return positions;
-    }
-
     public void render(GuiGraphics graphics, float partialTick) {
         
         class RenderHelper {
@@ -153,15 +109,15 @@ public class RadialMenuRenderer {
                 if (backgroundDarkenOpacity > 0) renderBackground(json, screenWidth, screenHeight);
 
                 Inventory inventory = player.getInventory();
-                int[] visibleSlots = getVisibleSlots(inventory);
+                int[] visibleSlots = CommonRenderFunctions.getVisibleSlots(inventory, hideUnusedSlots, disabledSlots);
                 if (visibleSlots.length == 0) return;
 
-                SlotPosition[] slotPositions = calculateSlotPositions(visibleSlots, centerX, centerY);
+                SlotPosition[] slotPositions = CommonRenderFunctions.calculateSlotPositions(visibleSlots, centerX, centerY, startAngle, endAngle, counterclockwise, slotRadius);
 
                 double mouseX = mc.mouseHandler.xpos() * screenWidth / mc.getWindow().getScreenWidth() - centerX;
                 double mouseY = mc.mouseHandler.ypos() * screenHeight / mc.getWindow().getScreenHeight() - centerY;
 
-                hoveredSlot = getHoveredSlot(mouseX, mouseY, slotPositions);
+                hoveredSlot = CommonRenderFunctions.getHoveredSlot(mouseX, mouseY, slotPositions, slotRadius, innerDeadzoneRadius, outerDeadzoneRadius);
 
                 activeSlot = inventory.getSelectedSlot();
 
@@ -232,53 +188,11 @@ public class RadialMenuRenderer {
         new RenderHelper().renderAll();
     }
 
-    private int[] getVisibleSlots(Inventory inventory) {
-        int[] temp = new int[Constants.SLOT_COUNT];
-        int count = 0;
-        for (int i = 0; i < Constants.SLOT_COUNT; i++) {
-            if (!disabledSlots[i] && (!hideUnusedSlots || !inventory.getItem(i).isEmpty())) {
-                temp[count++] = i;
-            }
-        }
-        int[] result = new int[count];
-        System.arraycopy(temp, 0, result, 0, count);
-        return result;
+    public void selectHoveredSlot() {
+        if (hoveredSlot < 0 || hoveredSlot >= Constants.SLOT_COUNT || activeSlot == hoveredSlot) return;
+
+        CommonRenderFunctions.selectSlot(hoveredSlot);
     }
 
-    private int getHoveredSlot(double mx, double my, SlotPosition[] slotPositions) {
-        Minecraft mc = Minecraft.getInstance();
-
-        if (mc.isPaused()) return -1;
-
-        if (slotPositions == null || slotPositions.length == 0) return -1;
-
-        double dist = Math.sqrt(mx * mx + my * my);
-        double innerBoundary = slotRadius - innerDeadzoneRadius;
-        double outerBoundary = slotRadius + outerDeadzoneRadius;
-
-        if (dist < innerBoundary || dist > outerBoundary) return -1;
-
-        double mouseAngle = (Math.atan2(my, mx) + 2 * Math.PI) % (2 * Math.PI);
-
-        int bestSlot = -1;
-        double bestAngularDistance = Double.MAX_VALUE;
-
-        for (SlotPosition pos : slotPositions) {
-            double slotAngle = (pos.angle + 2 * Math.PI) % (2 * Math.PI);
-
-            double angularDistance = Math.abs(mouseAngle - slotAngle);
-            if (angularDistance > Math.PI) angularDistance = 2 * Math.PI - angularDistance;
-
-            if (angularDistance < bestAngularDistance) {
-                bestAngularDistance = angularDistance;
-                bestSlot = pos.slotIndex;
-            }
-        }
-
-        double maxAcceptable = (Math.PI * 2 / slotPositions.length) / 2 + 0.2;
-        if (bestAngularDistance > maxAcceptable) return -1;
-
-        return bestSlot;
-    }
 
 }
