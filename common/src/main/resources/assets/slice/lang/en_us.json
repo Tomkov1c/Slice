@@ -91,6 +91,9 @@
       "slice.configuration.behaviour.clickToSelect": "Click to Select",
       "slice.configuration.behaviour.clickToSelect.tooltip": "When enabled, to switch to a desired slot, you'll need to click on the slot, not just release the button.",
 
+      "slice.configuration.behaviour.closeOnSelect": "Close on Select (CtS only)",
+      "slice.configuration.behaviour.closeOnSelect.tooltip": "When enabled, selecting a slot will close the menu if you have \"Click to Select\" enabled.",
+
       "slice.configuration.behaviour.innerDeadzone": "Inner Deadzone",
       "slice.configuration.behaviour.innerDeadzone.tooltip": "Extends the selectable area inward from the menu radius. Increase to require moving the mouse further from center before slots can be selected.",
 

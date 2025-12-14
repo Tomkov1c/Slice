@@ -16,10 +16,14 @@ public class RadialMenuHandler {
     public static final RadialMenuRenderer renderer = new RadialMenuRenderer();
 
     private static boolean isToggleEnabled = Config.CONFIG.toggleKeybind.getDefault();
+    private static boolean clickToSelect = Config.CONFIG.clickToSelect.getDefault();
+    private static boolean closeOnSelect = Config.CONFIG.closeOnSelect.getDefault();
 
 
     public static void updateFromConfig() { 
         isToggleEnabled = Config.CONFIG.toggleKeybind.getAsBoolean();
+        clickToSelect = Config.CONFIG.clickToSelect.getAsBoolean();
+        closeOnSelect = Config.CONFIG.closeOnSelect.getAsBoolean();
     }
     
     @SubscribeEvent
@@ -60,7 +64,7 @@ public class RadialMenuHandler {
         if (RadialMenuState.isMenuOpen) renderer.render(event.getGuiGraphics(), event.getPartialTick().getGameTimeDeltaPartialTick(false));
     }
 
-    
+
 
     private void handleMenuClick(Minecraft mc, InputEvent.MouseButton.Pre event) {
         event.setCanceled(true);
@@ -71,7 +75,9 @@ public class RadialMenuHandler {
 
             renderer.selectHoveredSlot();
 
-            RadialMenuState.closeMenu(mc, () -> renderer.onMenuClose());
+            if (closeOnSelect) {
+                RadialMenuState.closeMenu(mc, () -> renderer.onMenuClose());
+            }
         }
     }
 
