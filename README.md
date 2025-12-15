@@ -22,6 +22,11 @@
 - Hotbar scrolling toggle
 - Custom texture pack support
 
+## Screenshots
+
+![alt text](.github/InGame1.png)
+[Click to watch the demo](https://www.youtube.com/watch?v=kq3pwFCv4ZM)
+
 ## Supported Versions
 > **FYI**: <br> ✅ - Supported, ❌ - Unsupported, 🔍 - Planned / In development
 <br> Minimum loader versions are in the same order as in Loaders column
@@ -105,6 +110,6 @@ Feel free to send feedback on the [issues page](https://github.com/Tomkov1c/Slic
 
 <hr>
 
-<a href="https://github.com/sponsors/Tomkov1c">
-  <img alt="ghsponsors-singular" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/ghsponsors-singular_vector.svg">
+<a href="https://ko-fi.com/tomkliner">
+  <img alt="ghsponsors-singular" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/kofi-singular_vector.svg">
 </a>
