@@ -18,12 +18,14 @@ public class RadialMenuHandler {
     private static boolean isToggleEnabled = Config.CONFIG.toggleKeybind.getDefault();
     private static boolean clickToSelect = Config.CONFIG.clickToSelect.getDefault();
     private static boolean closeOnSelect = Config.CONFIG.closeOnSelect.getDefault();
+    private static boolean disableScrollingOnHotbar = Config.CONFIG.disableScrollingOnHotbar.getDefault();
 
 
     public static void updateFromConfig() { 
         isToggleEnabled = Config.CONFIG.toggleKeybind.getAsBoolean();
         clickToSelect = Config.CONFIG.clickToSelect.getAsBoolean();
         closeOnSelect = Config.CONFIG.closeOnSelect.getAsBoolean();
+        disableScrollingOnHotbar = Config.CONFIG.disableScrollingOnHotbar.getAsBoolean();
     }
     
     @SubscribeEvent
@@ -56,7 +58,7 @@ public class RadialMenuHandler {
     
     @SubscribeEvent
     public void onMouseScroll(InputEvent.MouseScrollingEvent event) {
-        if (RadialMenuState.isMenuOpen) event.setCanceled(true);
+        if (RadialMenuState.isMenuOpen || disableScrollingOnHotbar) event.setCanceled(true);
     }
     
     @SubscribeEvent
