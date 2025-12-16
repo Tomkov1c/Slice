@@ -9,7 +9,11 @@
   <a href="https://modrinth.com/mod/slice">
     <img alt="modrinth" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg">
   </a>
+</p>
+<br>
+<p align="center">
   <img alt="neoforge" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy/supported/neoforge_vector.svg?raw=true">
+  <img alt="forge" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/forge_vector.svg">
 </p>
 
 > **Note:** This project is in early development and may be unstable.
@@ -33,9 +37,9 @@
 
 | Version    |  | Loaders                 | Minimum required version |
 |------------|--|-------------------------|--------------------------|
-| 1.21.11     |❌|
-| 1.21.10     |❌|
-| 1.21.9     |✅| <img src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/compact-minimal/supported/neoforge_vector.svg?raw=true"> | 21.9.0
+| 1.21.11    |❌|
+| 1.21.10    |❌|
+| 1.21.9     |✅| <img width="35" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/compact-minimal/supported/neoforge_vector.svg?raw=true"> <img width="35" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg"> | 21.9.0, 59.0.5
 | 1.21.8     |❌|
 | 1.21.7     |❌|
 | 1.21.6     |❌|
