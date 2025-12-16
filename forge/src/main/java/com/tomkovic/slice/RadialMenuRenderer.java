@@ -3,9 +3,11 @@ package com.tomkovic.slice;
 import java.lang.reflect.Field;
 import com.google.gson.JsonObject;
 
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -135,8 +137,7 @@ public class RadialMenuRenderer {
                     if (!stack.isEmpty()) renderItem(mc, json, stack, x, y, isActive, isHovered);
                     if (!hideSlotNumber) renderSlotNumber(mc, json, pos.slotIndex, x, y, isActive, isHovered);
                 }
-
-                 mc.renderBuffers().bufferSource().endBatch();
+                mc.renderBuffers().bufferSource().endBatch();
             }
 
             @SuppressWarnings("null")
@@ -144,10 +145,9 @@ public class RadialMenuRenderer {
                 ResourceLocation tex = active ? Constants.SLOT_ACTIVE_TEXTURE :
                     hovered ? Constants.SLOT_HOVERED_TEXTURE :
                     Constants.SLOT_TEXTURE;
-                graphics.blit(tex,
+                graphics.blit(RenderPipelines.GUI_TEXTURED, tex,
                     x - slotSize / 2, y - slotSize / 2,
-                    0, 0, slotSize, slotSize,
-                    slotSize, slotSize);
+                    0F, 0F, slotSize, slotSize, slotSize, slotSize);
             }
 
             @SuppressWarnings("null")

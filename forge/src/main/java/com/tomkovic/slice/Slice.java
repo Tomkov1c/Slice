@@ -1,5 +1,7 @@
 package com.tomkovic.slice;
 
+import java.lang.invoke.MethodHandles;
+
 import com.tomkovic.slice.handlers.ConfigHandler;
 import com.tomkovic.slice.handlers.RadialMenuHandler;
 
@@ -16,10 +18,8 @@ public class Slice {
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.CONFIG_SPEC);
 
-        MinecraftForge.EVENT_BUS.register(new ConfigHandler());
 
-        RadialMenuHandler handler = new RadialMenuHandler();
+        BusGroup.DEFAULT.register(MethodHandles.lookup() , new ConfigHandler());
 
-        BusGroup.DEFAULT.register(null, handler);
     }
 }

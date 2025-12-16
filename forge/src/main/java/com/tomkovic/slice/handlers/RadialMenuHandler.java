@@ -10,11 +10,11 @@ import com.tomkovic.slice.RadialMenuState;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.InputEvent.MouseScrollingEvent;
-import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = net.minecraftforge.api.distmarker.Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID,  bus = EventBusSubscriber.Bus.FORGE, value = net.minecraftforge.api.distmarker.Dist.CLIENT)
 public class RadialMenuHandler {
 
     public static final RadialMenuRenderer renderer = new RadialMenuRenderer();
@@ -31,32 +31,44 @@ public class RadialMenuHandler {
         disableScrollingOnHotbar = Config.CONFIG.disableScrollingOnHotbar.get();
     }
 
-    // Just need these to not crash the game
-
     @SubscribeEvent
-    public void onKeyInput(InputEvent.Key event) {
-
+    public static void onKeyInput(InputEvent.Key event) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null || mc.screen != null) return;
+        
+        if (KeyBindings.isMouseButton()) return;
+        
+        RadialMenuState.handleMenuToggle(mc, KeyBindings.isOpenRadialMenuPressed(), false, isToggleEnabled, () -> renderer.onMenuOpen(), () -> renderer.onMenuClose());
     }
 
     @SubscribeEvent
-    public void onMouseInput(InputEvent.MouseButton event) { 
-
+    public static void onMouseInput(InputEvent.MouseButton.Pre event) { 
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null || mc.screen != null) return;
+        
+        if (KeyBindings.isMouseButton() && event.getButton() == KeyBindings.getMouseButton()) {
+            //event.setResult(Event.De);
+            
+            boolean isPress = event.getAction() == InputConstants.PRESS;
+            boolean isRelease = event.getAction() == InputConstants.RELEASE;
+            
+            RadialMenuState.handleMenuToggle(mc, isPress, isRelease, isToggleEnabled, () -> renderer.onMenuOpen(), () -> renderer.onMenuClose());
+            return;
+        }
+        
+        if (RadialMenuState.isMenuOpen) handleMenuClick(mc, event);
     }
 
     @SubscribeEvent
-    public void onMouseScroll(MouseScrollingEvent event) { 
-
-     }
-
-    @SubscribeEvent
-    public void onRenderGui(ScreenEvent.Render.Pre event) { 
-
+    public static void onMouseScroll(MouseScrollingEvent event) { 
+        if (RadialMenuState.isMenuOpen || disableScrollingOnHotbar) {
+            //event.setCanceled(true);
+        }   
     }
 
 
-
-    private static void handleMenuClick(Minecraft mc, InputEvent.MouseButton event) {
-        //event.setCanceled(true);
+    private static void handleMenuClick(Minecraft mc, InputEvent.MouseButton.Pre event) {
+        //event.setCanceled();
 
         if (clickToSelect && event.getButton() == 0 && event.getAction() == InputConstants.PRESS) {
             renderer.selectHoveredSlot();
