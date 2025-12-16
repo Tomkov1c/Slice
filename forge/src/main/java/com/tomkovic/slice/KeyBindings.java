@@ -4,11 +4,15 @@ import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
+import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class KeyBindings {
     
-   public static final KeyMapping.Category CATEGORY = new KeyMapping.Category(
+    public static final KeyMapping.Category CATEGORY = new KeyMapping.Category(
         ResourceLocation.fromNamespaceAndPath("slice", "radial_menu")
     );
     
@@ -31,5 +35,11 @@ public class KeyBindings {
     public static int getMouseButton() {
         if (isMouseButton()) return OPEN_RADIAL_MENU.getKey().getValue();
         return -1;
+    }
+
+
+    @SubscribeEvent
+    public static void registerKeyMappings(RegisterKeyMappingsEvent event) {
+        event.register(KeyBindings.OPEN_RADIAL_MENU);
     }
 }
