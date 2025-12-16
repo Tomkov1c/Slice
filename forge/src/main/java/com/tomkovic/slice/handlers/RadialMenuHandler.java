@@ -8,6 +8,8 @@ import com.tomkovic.slice.RadialMenuRenderer;
 import com.tomkovic.slice.RadialMenuState;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.client.event.AddGuiOverlayLayersEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.InputEvent.MouseScrollingEvent;
 import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
@@ -66,6 +68,17 @@ public class RadialMenuHandler {
         }   
     }
 
+    @SubscribeEvent
+    public static void registerGuiOverlays(AddGuiOverlayLayersEvent event) {
+        event.getLayeredDraw().add(
+            ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "radial_menu"),
+            (guiGraphics, partialTick) -> {
+                if (RadialMenuState.isMenuOpen) {
+                    RadialMenuHandler.renderer.render(guiGraphics, partialTick.getGameTimeDeltaPartialTick(false));
+                }
+            }
+        );
+    }
 
     private static void handleMenuClick(Minecraft mc, InputEvent.MouseButton.Pre event) {
         //event.setCanceled();

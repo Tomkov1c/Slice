@@ -2,9 +2,15 @@ package com.tomkovic.slice;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
+import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import com.tomkovic.slice.handlers.RadialMenuHandler;
+
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Config {
     public static final Config CONFIG;
     public static final ForgeConfigSpec CONFIG_SPEC;
@@ -94,7 +100,7 @@ public class Config {
 
                         var disabledSlots = builder
                                 .translation("slice.configuration.category.display.visibility.disabledSlots")
-                                .push("visibility");
+                                .push("disabledSlots");
 
                                 this.disableSlot1 = disabledSlots
                                         .translation("slice.configuration.display.visibility.disabledSlots.disableSlot1")
@@ -196,5 +202,15 @@ public class Config {
         Pair<Config, ForgeConfigSpec> pair = new ForgeConfigSpec.Builder().configure(Config::new);
         CONFIG = pair.getLeft();
         CONFIG_SPEC = pair.getRight();
+    }
+
+    @SubscribeEvent
+    public static void onLoad(final ModConfigEvent event) {
+        Constants.LOG.debug("Config event fired for mod: " + event.getConfig().getModId());
+        if (event.getConfig().getModId().equals(Constants.MOD_ID)) {
+            Constants.LOG.debug("Updating config values");
+            RadialMenuRenderer.updateFromConfig();
+            RadialMenuHandler.updateFromConfig();
+        }
     }
 }
