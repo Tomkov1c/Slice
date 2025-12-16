@@ -8,6 +8,7 @@ import net.minecraftforge.fml.event.config.ModConfigEvent;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import com.tomkovic.slice.handlers.ConfigHandler;
 import com.tomkovic.slice.handlers.RadialMenuHandler;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -206,11 +207,6 @@ public class Config {
 
     @SubscribeEvent
     public static void onLoad(final ModConfigEvent event) {
-        Constants.LOG.debug("Config event fired for mod: " + event.getConfig().getModId());
-        if (event.getConfig().getModId().equals(Constants.MOD_ID)) {
-            Constants.LOG.debug("Updating config values");
-            RadialMenuRenderer.updateFromConfig();
-            RadialMenuHandler.updateFromConfig();
-        }
+        if (event.getConfig().getModId().equals(Constants.MOD_ID)) ConfigHandler.getCurrentConfig();
     }
 }

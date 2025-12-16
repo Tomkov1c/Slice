@@ -43,8 +43,6 @@ public class RadialMenuRenderer {
     }
     
     public static void updateFromConfig() {
-        Constants.LOG.debug("Updated config");
-
         itemSize = Config.CONFIG.itemSize.get();
         slotSize = Config.CONFIG.slotSize.get();
         slotRadius = Config.CONFIG.radialMenuRadius.get();

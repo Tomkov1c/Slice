@@ -14,24 +14,17 @@ public class ConfigHandler {
         
     @SubscribeEvent
     public static void onConfigReload(ModConfigEvent.Reloading event) {
-        Constants.LOG.debug("Config Reloaded");
-
-        if (event.getConfig().getSpec() == Config.CONFIG_SPEC) {
-            initialize();
-        }
+        if (event.getConfig().getSpec() == Config.CONFIG_SPEC)getCurrentConfig();
     }
 
     @SubscribeEvent
     public static void onConfigLoad(ModConfigEvent.Loading event) {
-        Constants.LOG.debug("Config Loaded");
-
-        if (event.getConfig().getSpec() == Config.CONFIG_SPEC) {
-            initialize();
-        }
+        if (event.getConfig().getSpec() == Config.CONFIG_SPEC) getCurrentConfig();
     }
 
 
-    public static void initialize() {
+
+    public static void getCurrentConfig() {
         RadialMenuRenderer.updateFromConfig();
         RadialMenuHandler.updateFromConfig();
     }
