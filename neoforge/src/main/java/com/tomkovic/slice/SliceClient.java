@@ -23,13 +23,12 @@ public class SliceClient {
 
     @SubscribeEvent
     static void onClientSetup(FMLClientSetupEvent event) {
-        Constants.LOG.info("Roundabout Client Setup Complete");
+
     }
 
     @SuppressWarnings("null")
     @SubscribeEvent
     static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
         event.register(KeyBindings.OPEN_RADIAL_MENU);
-        Constants.LOG.info("Registered Radial Menu Keybinding");
     }
 }
