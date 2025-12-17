@@ -40,55 +40,51 @@ public class RadialMenuHandler {
         
         if (KeyBindings.isMouseButton()) return;
         
-        RadialMenuState.handleMenuToggle(mc, KeyBindings.isOpenRadialMenuPressed(), false, isToggleEnabled, () -> renderer.onMenuOpen(), () -> renderer.onMenuClose());
+        RadialMenuState.handleMenuToggle(KeyBindings.isOpenRadialMenuPressed(), false, isToggleEnabled, () -> renderer.onMenuOpen(), () -> renderer.onMenuClose());
     }
 
     @SubscribeEvent
-    public static void onMouseInput(InputEvent.MouseButton.Pre event) { 
+    public static boolean onMouseInput(InputEvent.MouseButton.Pre event) { 
         Minecraft mc = Minecraft.getInstance();
-        if (mc.player == null || mc.screen != null) return;
+        if (mc.player == null || mc.screen != null) return false;
         
         if (KeyBindings.isMouseButton() && event.getButton() == KeyBindings.getMouseButton()) {
-            //event.setResult(Event.De);
             
             boolean isPress = event.getAction() == InputConstants.PRESS;
             boolean isRelease = event.getAction() == InputConstants.RELEASE;
             
-            RadialMenuState.handleMenuToggle(mc, isPress, isRelease, isToggleEnabled, () -> renderer.onMenuOpen(), () -> renderer.onMenuClose());
-            return;
+            RadialMenuState.handleMenuToggle(isPress, isRelease, isToggleEnabled, () -> renderer.onMenuOpen(), () -> renderer.onMenuClose());
+            return true;
         }
         
-        if (RadialMenuState.isMenuOpen) handleMenuClick(mc, event);
+        if (RadialMenuState.isMenuOpen) handleMenuClick(event);
+
+        return false;
     }
 
     @SubscribeEvent
-    public static void onMouseScroll(MouseScrollingEvent event) { 
-        if (RadialMenuState.isMenuOpen || disableScrollingOnHotbar) {
-            //event.setCanceled(true);
-        }   
-    }
+    public static boolean onMouseScroll(MouseScrollingEvent event) { return RadialMenuState.isMenuOpen || disableScrollingOnHotbar; }
 
     @SubscribeEvent
     public static void registerGuiOverlays(AddGuiOverlayLayersEvent event) {
         event.getLayeredDraw().add(
             ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "radial_menu"),
             (guiGraphics, partialTick) -> {
-                if (RadialMenuState.isMenuOpen) {
-                    RadialMenuHandler.renderer.render(guiGraphics, partialTick.getGameTimeDeltaPartialTick(false));
-                }
+                if (RadialMenuState.isMenuOpen) RadialMenuHandler.renderer.render(guiGraphics, partialTick.getGameTimeDeltaPartialTick(false));
             }
         );
     }
 
-    private static void handleMenuClick(Minecraft mc, InputEvent.MouseButton.Pre event) {
-        //event.setCanceled();
+    @SubscribeEvent
+    public static boolean handleMenuClick(InputEvent.MouseButton.Pre event) {
+        if (!RadialMenuState.isMenuOpen) return false;
 
         if (clickToSelect && event.getButton() == 0 && event.getAction() == InputConstants.PRESS) {
             renderer.selectHoveredSlot();
 
-            if (closeOnSelect) {
-                RadialMenuState.closeMenu(mc, () -> renderer.onMenuClose());
-            }
+            if (closeOnSelect) RadialMenuState.closeMenu(() -> renderer.onMenuClose());
         }
+
+        return true;
     }
 }

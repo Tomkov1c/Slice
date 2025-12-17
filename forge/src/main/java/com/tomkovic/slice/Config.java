@@ -9,7 +9,6 @@ import net.minecraftforge.fml.event.config.ModConfigEvent;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.tomkovic.slice.handlers.ConfigHandler;
-import com.tomkovic.slice.handlers.RadialMenuHandler;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Config {
