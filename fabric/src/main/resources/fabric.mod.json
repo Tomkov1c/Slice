@@ -18,6 +18,9 @@
     "entrypoints": {
         "main": [
             "${group}.Slice"
+        ],
+        "client": [
+            "com.tomkovic.slice.SliceClient"
         ]
     },
     "mixins": [
