@@ -6,28 +6,30 @@ public class RadialMenuState {
     public static boolean isMenuOpen = false;
     public static boolean keyPreviouslyPressed = false;
     public static boolean keyProcessed = false;
+
+    private static Minecraft mc = Minecraft.getInstance();
     
     public boolean isMenuOpen() {
         return isMenuOpen;
     }
     
-    public static void handleMenuToggle(Minecraft mc, boolean isKeyDown, boolean isKeyUp, boolean isToggleEnabled, Runnable onMenuOpen, Runnable onMenuClose) {
+    public static void handleMenuToggle(boolean isKeyDown, boolean isKeyUp, boolean isToggleEnabled, Runnable onMenuOpen, Runnable onMenuClose) {
         if (isToggleEnabled) {
-            handleToggleMode(mc, isKeyDown, isKeyUp, onMenuOpen, onMenuClose);
+            handleToggleMode(isKeyDown, isKeyUp, onMenuOpen, onMenuClose);
         } else {
-            handleHoldMode(mc, isKeyDown, isKeyUp, onMenuOpen, onMenuClose);
+            handleHoldMode(isKeyDown, isKeyUp, onMenuOpen, onMenuClose);
         }
     }
     
-    private static void handleToggleMode(Minecraft mc, boolean isPress, boolean isRelease, Runnable onMenuOpen, Runnable onMenuClose) {
+    private static void handleToggleMode(boolean isPress, boolean isRelease, Runnable onMenuOpen, Runnable onMenuClose) {
         if (isPress && !keyPreviouslyPressed && !keyProcessed) {
             keyPreviouslyPressed = true;
             keyProcessed = true;
             
             if (isMenuOpen) {
-                closeMenu(mc, onMenuClose);
+                closeMenu(onMenuClose);
             } else {
-                openMenu(mc, onMenuOpen);
+                openMenu(onMenuOpen);
             }
         } else if (isRelease || !isPress) {
             keyPreviouslyPressed = false;
@@ -35,22 +37,22 @@ public class RadialMenuState {
         }
     }
     
-    private static void handleHoldMode(Minecraft mc, boolean isPress, boolean isRelease, Runnable onMenuOpen, Runnable onMenuClose) {
+    private static void handleHoldMode(boolean isPress, boolean isRelease, Runnable onMenuOpen, Runnable onMenuClose) {
         if (isPress && !isMenuOpen) {
-            openMenu(mc, onMenuOpen);
+            openMenu(onMenuOpen);
         } else if ((isRelease || !isPress) && isMenuOpen) {
-            closeMenu(mc, onMenuClose);
+            closeMenu(onMenuClose);
         }
     }
     
     
-    public static void openMenu(Minecraft mc, Runnable onMenuOpen) {
+    public static void openMenu(Runnable onMenuOpen) {
         isMenuOpen = true;
         mc.mouseHandler.releaseMouse();
         onMenuOpen.run();
     }
     
-    public static void closeMenu(Minecraft mc, Runnable onMenuClose) {
+    public static void closeMenu(Runnable onMenuClose) {
         isMenuOpen = false;
         mc.mouseHandler.grabMouse();
         onMenuClose.run();

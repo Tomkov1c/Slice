@@ -35,7 +35,7 @@ public class RadialMenuHandler {
         
         if (KeyBindings.isMouseButton()) return;
         
-        RadialMenuState.handleMenuToggle(mc, KeyBindings.isOpenRadialMenuPressed(), false, isToggleEnabled, () -> renderer.onMenuOpen(), () -> renderer.onMenuClose());
+        RadialMenuState.handleMenuToggle(KeyBindings.isOpenRadialMenuPressed(), false, isToggleEnabled, () -> renderer.onMenuOpen(), () -> renderer.onMenuClose());
     }
     
     @SubscribeEvent
@@ -49,7 +49,7 @@ public class RadialMenuHandler {
             boolean isPress = event.getAction() == InputConstants.PRESS;
             boolean isRelease = event.getAction() == InputConstants.RELEASE;
             
-            RadialMenuState.handleMenuToggle(mc, isPress, isRelease, isToggleEnabled, () -> renderer.onMenuOpen(), () -> renderer.onMenuClose());
+            RadialMenuState.handleMenuToggle(isPress, isRelease, isToggleEnabled, () -> renderer.onMenuOpen(), () -> renderer.onMenuClose());
             return;
         }
         
@@ -78,7 +78,7 @@ public class RadialMenuHandler {
             renderer.selectHoveredSlot();
 
             if (closeOnSelect) {
-                RadialMenuState.closeMenu(mc, () -> renderer.onMenuClose());
+                RadialMenuState.closeMenu(() -> renderer.onMenuClose());
             }
         }
     }
