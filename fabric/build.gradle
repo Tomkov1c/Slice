@@ -35,3 +35,33 @@ loom {
         }
     }
 }
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mod_id", project.mod_id
+
+    filesMatching("fabric.mod.json") {
+        expand([
+            "version": project.version,
+            "mod_id": project.mod_id,
+            "mod_name": project.mod_name,
+            "description": project.description,
+            "mod_author": project.mod_author,
+            "license": project.license,
+            "fabric_loader_version": project.fabric_loader_version,
+            "minecraft_version": project.minecraft_version,
+            "java_version": project.java_version,
+            "group": project.group,
+
+            "website_link": project.website_link,
+            "issues_link": project.issues_link,
+            "source_link": project.source_link,
+        ])
+    }
+
+    filesMatching("slice.mixins.json") {
+        expand([
+            "group": project.group,
+        ])
+    }
+}
