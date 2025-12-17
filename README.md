@@ -10,7 +10,6 @@
     <img alt="modrinth" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg">
   </a>
 </p>
-<br>
 <p align="center">
   <img alt="neoforge" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy/supported/neoforge_vector.svg?raw=true">
   <img alt="forge" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/forge_vector.svg">
@@ -39,7 +38,7 @@
 |------------|--|-------------------------|--------------------------|
 | 1.21.11    |❌|
 | 1.21.10    |❌|
-| 1.21.9     |✅| <img width="35" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/compact-minimal/supported/neoforge_vector.svg?raw=true"> <img width="35" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg"> | 21.9.0, 59.0.5
+| 1.21.9     |✅| <img width="35" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"> <img width="35" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg"> | 21.9.0, 59.0.5
 | 1.21.8     |❌|
 | 1.21.7     |❌|
 | 1.21.6     |❌|
@@ -92,6 +91,28 @@
 | 1.7.10     |❌|
 
 All mod loaders are planned to be supported
+
+## How to customize/configure
+
+### <img width="20" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/compact-minimal/supported/neoforge_vector.svg?raw=true"> Neoforge
+Neoforge offers an in-game config menu.
+```
+Main Menu > Mods > *Select Slice* > Config
+```
+
+### <img width="20" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/forge_vector.svg"> Forge
+Slice is supposed to be a minimal, less-bloated mod; that's why I didn't bother to implement or incorporate a config screen from an external library for it. You can just edit the file.
+
+#### <img width="15" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/available/modrinth_vector.svg"> Modrinth
+
+```
+Profile > (⋮) button > Open folder > (Explorer) config > (Explorer) slice-common.toml
+```
+
+#### <img width="15" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/social/github-plural_vector.svg"> Stock launcher
+```
+(File Explorer) %appdata% > .minecraft > config > slice-common.toml
+```
 
 ## Feedback
 
