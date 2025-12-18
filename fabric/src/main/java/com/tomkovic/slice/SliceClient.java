@@ -4,6 +4,7 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import com.tomkovic.slice.handlers.*;
 
 public class SliceClient implements ClientModInitializer{
 
@@ -15,5 +16,10 @@ public class SliceClient implements ClientModInitializer{
 
         AutoConfig.register(Config.class, Toml4jConfigSerializer::new);
         CONFIG = AutoConfig.getConfigHolder(Config.class).getConfig();
+
+        RadialMenuHandler.updateFromConfig();
+        RadialMenuHandler.register();
+
+        ConfigHandler.registerListener();
     }
 }
