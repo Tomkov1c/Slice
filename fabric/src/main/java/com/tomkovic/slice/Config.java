@@ -1,12 +1,10 @@
 package com.tomkovic.slice;
 
 import me.shedaniel.autoconfig.ConfigData;
-import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
-import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
 
-@Config(name = "slice")
-public class SliceConfig implements ConfigData {
+@me.shedaniel.autoconfig.annotation.Config(name = "slice") 
+public class Config implements ConfigData {
 
     @ConfigEntry.Category("display")
     @ConfigEntry.Gui.TransitiveObject

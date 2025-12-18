@@ -1,6 +1,5 @@
 package com.tomkovic.slice;
 
-import com.tomkovic.slice.SliceConfig;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
@@ -13,12 +12,12 @@ public final class SliceConfigScreen {
     private SliceConfigScreen() {}
 
     public static Screen create(Screen parent) {
-        SliceConfig config = AutoConfig.getConfigHolder(SliceConfig.class).getConfig();
+        Config config = AutoConfig.getConfigHolder(Config.class).getConfig();
 
         ConfigBuilder builder = ConfigBuilder.create()
                 .setParentScreen(parent)
                 .setTitle(Component.translatable("slice.configuration.title"))
-                .setSavingRunnable(() -> AutoConfig.getConfigHolder(SliceConfig.class).save());
+                .setSavingRunnable(() -> AutoConfig.getConfigHolder(Config.class).save());
 
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
 
@@ -169,6 +168,11 @@ public final class SliceConfigScreen {
                 .setDefaultValue(true)
                 .setTooltip(Component.translatable("slice.configuration.behaviour.closeOnSelect.tooltip"))
                 .setSaveConsumer(v -> config.behaviour.closeOnSelect = v)
+                .build()
+        );
+
+        behaviour.addEntry(entryBuilder
+                .startTextDescription(Component.translatable("slice.configuration.behaviour.section.Deadzones"))
                 .build()
         );
 
