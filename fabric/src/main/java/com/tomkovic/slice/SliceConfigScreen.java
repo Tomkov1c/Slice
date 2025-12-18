@@ -103,6 +103,68 @@ public final class SliceConfigScreen {
                 .build()
         );
 
+        /* ==== Disabled Slots Section ==== */
+        display.addEntry(entryBuilder
+                .startTextDescription(Component.translatable("slice.configuration.category.display.visibility.disabledSlots"))
+                .build()
+        );
+
+        display.addEntry(entryBuilder
+                .startBooleanToggle(Component.translatable("slice.configuration.display.visibility.disabledSlots.disableSlot1"),
+                        config.display.visibility.disabledSlots.disableSlot1)
+                .setSaveConsumer(v -> config.display.visibility.disabledSlots.disableSlot1 = v)
+                .build()
+        );
+        display.addEntry(entryBuilder
+                .startBooleanToggle(Component.translatable("slice.configuration.display.visibility.disabledSlots.disableSlot2"),
+                        config.display.visibility.disabledSlots.disableSlot2)
+                .setSaveConsumer(v -> config.display.visibility.disabledSlots.disableSlot2 = v)
+                .build()
+        );
+        display.addEntry(entryBuilder
+                .startBooleanToggle(Component.translatable("slice.configuration.display.visibility.disabledSlots.disableSlot3"),
+                        config.display.visibility.disabledSlots.disableSlot3)
+                .setSaveConsumer(v -> config.display.visibility.disabledSlots.disableSlot3 = v)
+                .build()
+        );
+        display.addEntry(entryBuilder
+                .startBooleanToggle(Component.translatable("slice.configuration.display.visibility.disabledSlots.disableSlot4"),
+                        config.display.visibility.disabledSlots.disableSlot4)
+                .setSaveConsumer(v -> config.display.visibility.disabledSlots.disableSlot4 = v)
+                .build()
+        );
+        display.addEntry(entryBuilder
+                .startBooleanToggle(Component.translatable("slice.configuration.display.visibility.disabledSlots.disableSlot5"),
+                        config.display.visibility.disabledSlots.disableSlot5)
+                .setSaveConsumer(v -> config.display.visibility.disabledSlots.disableSlot5 = v)
+                .build()
+        );
+        display.addEntry(entryBuilder
+                .startBooleanToggle(Component.translatable("slice.configuration.display.visibility.disabledSlots.disableSlot6"),
+                        config.display.visibility.disabledSlots.disableSlot6)
+                .setSaveConsumer(v -> config.display.visibility.disabledSlots.disableSlot6 = v)
+                .build()
+        );
+        display.addEntry(entryBuilder
+                .startBooleanToggle(Component.translatable("slice.configuration.display.visibility.disabledSlots.disableSlot7"),
+                        config.display.visibility.disabledSlots.disableSlot7)
+                .setSaveConsumer(v -> config.display.visibility.disabledSlots.disableSlot7 = v)
+                .build()
+        );
+        display.addEntry(entryBuilder
+                .startBooleanToggle(Component.translatable("slice.configuration.display.visibility.disabledSlots.disableSlot8"),
+                        config.display.visibility.disabledSlots.disableSlot8)
+                .setSaveConsumer(v -> config.display.visibility.disabledSlots.disableSlot8 = v)
+                .build()
+        );
+        display.addEntry(entryBuilder
+                .startBooleanToggle(Component.translatable("slice.configuration.display.visibility.disabledSlots.disableSlot9"),
+                        config.display.visibility.disabledSlots.disableSlot9)
+                .setSaveConsumer(v -> config.display.visibility.disabledSlots.disableSlot9 = v)
+                .build()
+        );
+
+
         // ---- Angles Section
 
         display.addEntry(entryBuilder
