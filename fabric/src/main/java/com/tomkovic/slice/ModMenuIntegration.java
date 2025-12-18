@@ -11,6 +11,8 @@ public class ModMenuIntegration implements ModMenuApi {
     
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return parent -> AutoConfig.getConfigScreen(SliceConfig.class, parent).get();
+        return SliceConfigScreen::create;
+        
+        //return parent -> AutoConfig.getConfigScreen(SliceConfig.class, parent).get();
     }
 }

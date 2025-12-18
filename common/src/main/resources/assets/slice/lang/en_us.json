@@ -1,4 +1,6 @@
 {
+  "slice.configuration.title": "Slice",
+
   "key.slice.open_radial_menu": "Open Radial Menu",
   "key.category.slice.radial_menu": "Slice - Radial Menu",
 
@@ -110,7 +112,7 @@
         "slice.configuration.misc.disableScrollingOnHotbar": "Disable scrolling",
         "slice.configuration.misc.disableScrollingOnHotbar.tooltip": "Disable scrolling for hotbar.",
 
-
+    "slice.configuration.category.other": "Other",
     
   "just.to.end": ""
 }
