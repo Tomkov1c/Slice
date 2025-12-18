@@ -13,6 +13,7 @@
 <p align="center">
   <img alt="neoforge" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy/supported/neoforge_vector.svg?raw=true">
   <img alt="forge" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/forge_vector.svg">
+  <img alt="forge" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/fabric_vector.svg">
 </p>
 
 > **Note:** This project is in early development and may be unstable.
@@ -38,7 +39,7 @@
 |------------|--|-------------------------|--------------------------|
 | 1.21.11    |❌|
 | 1.21.10    |❌|
-| 1.21.9     |✅| <img width="35" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"> <img width="35" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg"> | 21.9.0, 59.0.5
+| 1.21.9     |✅| <img width="35" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"> <img width="35" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg"> <img width="35" src="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg"> | 21.9.0, 59.0.5, 0.17.3
 | 1.21.8     |❌|
 | 1.21.7     |❌|
 | 1.21.6     |❌|
@@ -112,6 +113,11 @@ Profile > (⋮) button > Open folder > (Explorer) config > (Explorer) slice-comm
 #### <img width="15" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/social/github-plural_vector.svg"> Stock launcher
 ```
 (File Explorer) %appdata% > .minecraft > config > slice-common.toml
+```
+### <img width="20" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/fabric_vector.svg"> Fabric
+Download [Mod Menu](https://modrinth.com/mod/modmenu) and use their config menu instead.
+```
+Main Menu > Mods > *Select Slice* > -Config button next to the name-
 ```
 
 ## Feedback
