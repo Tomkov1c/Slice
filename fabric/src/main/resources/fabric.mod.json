@@ -21,6 +21,9 @@
         ],
         "client": [
             "com.tomkovic.slice.SliceClient"
+        ],
+        "modmenu": [
+            "com.tomkovic.slice.ModMenuIntegration"
         ]
     },
     "mixins": [
