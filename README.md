@@ -40,8 +40,7 @@
 |------------|--|-------------------------|--------------------------|
 | 1.21.11    |❌|
 | 1.21.10    |❌|
-| 1.21.9     |✅| <img width="35" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"> <img width="35" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg"> <img width="35" src="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg"> <img width="35" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg">
- | 21.9.0, 59.0.5, 0.17.3, 0.30.0-beta
+| 1.21.9     |✅| <img width="35" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"> <img width="35" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg"> <img width="35" src="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg"> <img width="35" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg">| 21.9.0, 59.0.5, 0.17.3, 0.30.0-beta
 | 1.21.8     |❌|
 | 1.21.7     |❌|
 | 1.21.6     |❌|
