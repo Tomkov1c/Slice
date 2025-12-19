@@ -33,9 +33,16 @@
 [Click to watch the demo](https://www.youtube.com/watch?v=kq3pwFCv4ZM)
 
 ## Supported Versions
+
+
 > **FYI**: <br> ✅ - Supported, ❌ - Unsupported, 🔍 - Planned / In development
 <br> Minimum loader versions are in the same order as in Loaders column
 
+
+<details>
+  <summary>
+  Expand table
+  </summary>
 | Version    |  | Loaders                 | Minimum required version |
 |------------|--|-------------------------|--------------------------|
 | 1.21.11    |❌|
@@ -92,6 +99,8 @@
 | 1.8        |❌|
 | 1.7.10     |❌|
 
+</details>
+
 All mod loaders are planned to be supported
 
 ## How to customize/configure
@@ -116,6 +125,12 @@ Profile > (⋮) button > Open folder > (Explorer) config > (Explorer) slice-comm
 (File Explorer) %appdata% > .minecraft > config > slice-common.toml
 ```
 ### <img width="20" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/fabric_vector.svg"> Fabric
+Download [Mod Menu](https://modrinth.com/mod/modmenu) and use their config menu instead.
+```
+Main Menu > Mods > *Select Slice* > -Config button next to the name-
+```
+
+### <img width="20" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/quilt_vector.svg"> Quilt
 Download [Mod Menu](https://modrinth.com/mod/modmenu) and use their config menu instead.
 ```
 Main Menu > Mods > *Select Slice* > -Config button next to the name-
