@@ -35,18 +35,13 @@ public class RadialMenuHandler {
     public static void register() {
         Minecraft mc = Minecraft.getInstance();
 
-        // Key input handling
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (mc.player == null || mc.screen != null) return;
 
             if (!KeyBindings.isMouseButton()) {
                 boolean pressed = KeyBindings.isOpenRadialMenuPressed();
-                RadialMenuState.handleMenuToggle(
-                        pressed,
-                        false,
-                        isToggleEnabled,
-                        () -> renderer.onMenuOpen(),
-                        () -> renderer.onMenuClose()
+                RadialMenuState.handleMenuToggle(pressed, false, isToggleEnabled,
+                    () -> renderer.onMenuOpen(), () -> renderer.onMenuClose()
                 );
             }
         });
@@ -55,28 +50,16 @@ public class RadialMenuHandler {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (mc.player == null || mc.screen != null) return;
 
-            if (KeyBindings.isMouseButton() && KeyBindings.isOpenRadialMenuPressed()) {
-                RadialMenuState.handleMenuToggle(
-                        true,
-                        false,
-                        isToggleEnabled,
-                        () -> renderer.onMenuOpen(),
-                        () -> renderer.onMenuClose()
+            if (KeyBindings.isMouseButton() && KeyBindings.isOpenRadialMenuPressed())
+                RadialMenuState.handleMenuToggle(true, false, isToggleEnabled,
+                    () -> renderer.onMenuOpen(), () -> renderer.onMenuClose()
                 );
-            }
 
             if (RadialMenuState.isMenuOpen) handleMenuClick(mc);
         });
 
-        // Mouse scroll prevention & GUI rendering
         HudRenderCallback.EVENT.register((graphics, tickDelta) -> {
-            if (RadialMenuState.isMenuOpen || disableScrollingOnHotbar) {
-                // If you have a scrolling system, cancel it here
-            }
-
-            if (RadialMenuState.isMenuOpen) {
-                renderer.render(graphics, tickDelta.getGameTimeDeltaPartialTick(false));
-            }
+            if (RadialMenuState.isMenuOpen) renderer.render(graphics, tickDelta.getGameTimeDeltaPartialTick(false));
         });
     }
 
@@ -84,9 +67,7 @@ public class RadialMenuHandler {
         if (clickToSelect && RadialMenuRenderer.clickToSelect) {
             renderer.selectHoveredSlot();
 
-            if (closeOnSelect) {
-                RadialMenuState.closeMenu(() -> renderer.onMenuClose());
-            }
+            if (closeOnSelect) RadialMenuState.closeMenu(() -> renderer.onMenuClose());
         }
     }
 }
