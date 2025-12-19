@@ -33,16 +33,9 @@
 [Click to watch the demo](https://www.youtube.com/watch?v=kq3pwFCv4ZM)
 
 ## Supported Versions
-
-
 > **FYI**: <br> ✅ - Supported, ❌ - Unsupported, 🔍 - Planned / In development
 <br> Minimum loader versions are in the same order as in Loaders column
 
-
-<details>
-  <summary>
-  Expand table
-  </summary>
 | Version    |  | Loaders                 | Minimum required version |
 |------------|--|-------------------------|--------------------------|
 | 1.21.11    |❌|
@@ -99,8 +92,6 @@
 | 1.8        |❌|
 | 1.7.10     |❌|
 
-</details>
-
 All mod loaders are planned to be supported
 
 ## How to customize/configure
@@ -112,7 +103,7 @@ Main Menu > Mods > *Select Slice* > Config
 ```
 
 ### <img width="20" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/forge_vector.svg"> Forge
-Slice is supposed to be a minimal, less-bloated mod; that's why I didn't bother to implement or incorporate a config screen from an external library for it. You can just edit the file.
+I cannot be bothered to implement a config screen for forge. Please just edit the config file yourself.
 
 #### <img width="15" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/available/modrinth_vector.svg"> Modrinth
 
@@ -129,7 +120,6 @@ Download [Mod Menu](https://modrinth.com/mod/modmenu) and use their config menu 
 ```
 Main Menu > Mods > *Select Slice* > -Config button next to the name-
 ```
-
 ### <img width="20" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/quilt_vector.svg"> Quilt
 Download [Mod Menu](https://modrinth.com/mod/modmenu) and use their config menu instead.
 ```
@@ -138,7 +128,7 @@ Main Menu > Mods > *Select Slice* > -Config button next to the name-
 
 ## Feedback
 
-Feel free to send feedback on the [issues page](https://github.com/Tomkov1c/Slice/issues). Feature requests and bug reports are always welcome!
+Feel free to send feedback on the [issues page](https://github.com/Tomkov1c/Slice/issues). Feature requests and bug reports are always welcome! Stars too :)
 
 <details>
   <summary>
