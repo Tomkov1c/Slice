@@ -34,7 +34,7 @@
 
 ## Supported Versions
 > **FYI**: <br> ✅ - Supported, ❌ - Unsupported, 🔍 - Planned / In development
-<br> Minimum loader versions are in the same order as in Loaders column
+<br> Minimum loader versions are in the same order as are loaders in Loaders column
 
 | Version    |  | Loaders                 | Minimum required version |
 |------------|--|-------------------------|--------------------------|
