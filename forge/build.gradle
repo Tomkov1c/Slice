@@ -85,3 +85,20 @@ sourceSets.each {
     it.output.resourcesDir = dir
     it.java.destinationDirectory = dir
 }
+
+
+processResources {
+    inputs.property 'version', version
+    inputs.property 'mod_id', mod_id
+    inputs.property 'mod_name', mod_name
+    
+    filesMatching('META-INF/mods.toml') {
+        expand(
+            'mod_id': mod_id,
+            'mod_name': mod_name,
+            'mod_version': version,
+            'minecraft_version': minecraft_version,
+            'forge_version': forge_version
+        )
+    }
+}
