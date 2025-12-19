@@ -17,7 +17,7 @@
   <img alt="forge" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/quilt_vector.svg">
 </p>
 
-> **Note:** This project is in early development and may be unstable.
+> **Note:** This project is in beta and may be buggy.
 
 ## Features
 - Flexible layout control with adjustable radius, item size, and rotation angles
