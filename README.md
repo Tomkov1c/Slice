@@ -30,7 +30,7 @@
 ## Screenshots
 
 ![alt text](.github/InGame1.png)
-[Click to watch the demo](https://www.youtube.com/watch?v=kq3pwFCv4ZM)
+[Click to watch the trailer/demo](https://www.youtube.com/watch?v=kq3pwFCv4ZM)
 
 ## Supported Versions
 > **FYI**: <br> ✅ - Supported, ❌ - Unsupported, 🔍 - Planned / In development
