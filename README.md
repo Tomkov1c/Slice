@@ -34,65 +34,129 @@
 
 ## Supported Versions
 > **FYI**: <br> ✅ - Supported, ❌ - Unsupported, 🔍 - Planned / In development
-<br> Minimum loader versions are in the same order as are loaders in Loaders column
+<br> Minimum loader versions are in the same order as loaders in Loaders column
 
-| Version    |  | Loaders                 | Minimum required version |
-|------------|--|-------------------------|--------------------------|
-| 1.21.11    |❌|
-| 1.21.10    |❌| <img width="35" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"> | 21.10.0
-| 1.21.9     |✅| <img width="35" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"> <img width="35" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg"> <img width="35" src="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg"> <img width="35" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg">| 21.9.0, 59.0.5, 0.17.3, 0.30.0-beta
-| 1.21.8     |❌|
-| 1.21.7     |❌|
-| 1.21.6     |❌|
-| 1.21.5     |❌|
-| 1.21.4     |❌|
-| 1.21.3     |❌|
-| 1.21.2     |❌|
-| 1.21.1     |🔍|
-| 1.21       |❌|
-| 1.20.2     |❌|
-| 1.20.1     |❌|
-| 1.20       |❌|
-| 1.19.4     |❌|
-| 1.19.3     |❌|
-| 1.19.2     |❌|
-| 1.19.1     |❌|
-| 1.19       |❌|
-| 1.18.2     |❌|
-| 1.18.1     |❌|
-| 1.18       |❌|
-| 1.17.1     |❌|
-| 1.17       |❌|
-| 1.16.5     |❌|
-| 1.16.4     |❌|
-| 1.16.3     |❌|
-| 1.16.2     |❌|
-| 1.16.1     |❌|
-| 1.16       |❌|
-| 1.15.2     |❌|
-| 1.15.1     |❌|
-| 1.15       |❌|
-| 1.14.4     |❌|
-| 1.14.3     |❌|
-| 1.14.2     |❌|
-| 1.14.1     |❌|
-| 1.14       |❌|
-| 1.13.2     |❌|
-| 1.13.1     |❌|
-| 1.13       |❌|
-| 1.12.2     |❌|
-| 1.12       |❌|
-| 1.11.2     |❌|
-| 1.11       |❌|
-| 1.10.2     |❌|
-| 1.10       |❌|
-| 1.9.4      |❌|
-| 1.9        |❌|
-| 1.8.9      |❌|
-| 1.8        |❌|
-| 1.7.10     |❌|
+<table>
+    <th>Version</th>
+    <th></th>
+    <th>Loaders</th>
+    <th>Minimum required version</th>
+    <tr><td>1.21.11</td>  <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.21.10</td>  <td>✅</td>
+        <td>
+            <img width="35" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"> 
+        </td>
+      <td>21.10.0</td>
+    </tr>
+    <tr><td>1.21.9</td> <td>✅</td>
+      <td>
+        <img width="35" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"> 
+        <img width="35" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg"> 
+        <img width="35" src="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg">
+        <img width="35" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg">
+      </td>
+      <td>21.9.0, 59.0.0, 0.17.0, 0.30.0-beta</td>
+    </tr>
+    <tr><td>1.21.8</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.21.7</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.21.6</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.21.5</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.21.4</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.21.3</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.21.2</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.21.1</td> <td>🔍</td><td></td><td></td></tr>
+    <tr><td>1.21</td>   <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.20.2</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.20.1</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.20</td>   <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.19.4</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.19.3</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.19.2</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.19.1</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.19</td>   <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.18.2</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.18.1</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.18</td>   <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.17.1</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.17</td>   <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.16.5</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.16.4</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.16.3</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.16.2</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.16.1</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.16</td>   <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.15.2</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.15.1</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.15</td>   <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.14.4</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.14.3</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.14.2</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.14.1</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.14</td>   <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.13.2</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.13.1</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.13</td>   <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.12.2</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.12</td>   <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.11.2</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.11</td>   <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.10.2</td> <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.10</td>   <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.9.4</td>  <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.9</td>    <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.8.9</td>  <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.8</td>    <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.7.10</td> <td>❌</td><td></td><td></td></tr>
+  </table>
 
-All mod loaders are planned to be supported
+### Dependencies
+
+<details>
+  <summary>
+    <img width="15" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true">
+    <h4>NeoForge</h4>
+  </summary>
+   None
+</details>
+
+<details>
+  <summary>
+    <img width="15" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg">
+    <h4>Forge</h4>
+  </summary>
+   None
+</details>
+
+<details>
+  <summary>
+    <img width="15" src="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg">
+    <h4>Fabric</h4>
+  </summary>
+
+  <table>
+    <th>Minecraft version</th>
+    <th>Minimum FabricAPI version</th>
+    <tr><td>1.21.9</td><td>0.133.14+1.21.9</td></tr>
+  </table>
+  
+</details>
+
+<details>
+  <summary>
+    <img width="15" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg">
+    <h4>Quilt</h4>
+  </summary>
+
+  <table>
+    <th>Minecraft version</th>
+    <th>Minimum FabricAPI version</th>
+    <tr><td>1.21.9</td><td>0.133.14+1.21.9</td></tr>
+    
+  </table>
+  
+</details>
+
+All 4 main mod loaders are planned to be supported
 
 ## How to customize/configure
 
