@@ -38,6 +38,7 @@ neoForge {
             sourceSet sourceSets.main
         }
     }
+    accessTransformers.from file('src/main/resources/META-INF/accesstransformer.cfg')
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
