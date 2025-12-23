@@ -5,6 +5,14 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import java.lang.reflect.Field;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket;
+import java.lang.reflect.Field;
+
+import com.tomkovic.slice.platform.Services;
+
 
 
 public class CommonRenderFunctions {
@@ -86,26 +94,7 @@ public class CommonRenderFunctions {
         return bestSlot;
     }
 
-    @SuppressWarnings("null")
     public static void selectSlot(int index) {
-        Minecraft mc = Minecraft.getInstance();
-        LocalPlayer player = mc.player;
-
-        if (player == null) return;
-
-        Field selectedField;
-
-        try {
-            selectedField = Inventory.class.getDeclaredField("selected");
-            selectedField.setAccessible(true);
-
-            selectedField.setInt(player.getInventory(), index);
-        }catch(Exception ex) {
-            Constants.LOG.error("Failed to access Inventory.selected field", ex);
-            return;
-        }
-
-        if (mc.getConnection() != null) mc.getConnection().send( new net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket(index) );
-
+        Services.PLATFORM.setSelectedSlot(index);
     }
 }
