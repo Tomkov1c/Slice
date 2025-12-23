@@ -31,6 +31,7 @@
   "slot_number_y_offset_active": 12,
 
 
+  // R G B A
   "slot_number_color": "#FFFFFF",
   "slot_number_color_hovered": "#FFFF00",
   "slot_number_color_active": "#FFFFFF",
