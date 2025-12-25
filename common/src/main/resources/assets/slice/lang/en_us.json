@@ -15,7 +15,7 @@
       "slice.configuration.category.display.size.tooltip": "Options for adjusting the size of UI elements",
 
       "slice.configuration.display.size.radialMenuRadius": "Radius Size",
-      "slice.configuration.display.size.radialMenuRadius.tooltip": "Radius of the radial menu in pixels aka. the distance from the center of the screen",
+      "slice.configuration.display.size.radialMenuRadius.tooltip": "Radius of the radial menu in pixels, i.e., the distance from the center of the screen",
       
       "slice.configuration.display.size.itemSize": "Item Size",
       "slice.configuration.display.size.itemSize.tooltip": "Size of each item slot in the radial menu.",
@@ -24,7 +24,7 @@
       "slice.configuration.display.size.slotSize.tooltip": "Size of the slot background texture.",
 
       //
-      // Visability
+      // Visibility
       "slice.configuration.category.display.visibility": "Visibility Options",
       "slice.configuration.category.display.visibility.tooltip": "Options for hiding UI elements",
 
@@ -35,7 +35,7 @@
       "slice.configuration.display.visibility.hideUnusedSlots.tooltip": "When enabled, empty slots in the radial menu will be hidden",
     
       "slice.configuration.display.visibility.hideSlotNumber": "Hide Slots Numbers",
-      "slice.configuration.display.visibility.hideSlotNumber.tooltip": "When enabled, remove the slot number from the radial menu",
+      "slice.configuration.display.visibility.hideSlotNumber.tooltip": "When enabled, removes the slot number from the radial menu",
     
       "slice.configuration.display.visibility.hideSlotSprite": "Hide Slots Sprite",
       "slice.configuration.display.visibility.hideSlotSprite.tooltip": "When enabled, no slot sprite will be displayed",
@@ -43,49 +43,49 @@
         //
         // Disable Slots
         "slice.configuration.category.display.visibility.disabledSlots": "Disabled Slots",
-        "slice.configuration.category.display.visibility.disabledSlots.tooltip": "Options do disable specific slots from displaying int he menu.",
+        "slice.configuration.category.display.visibility.disabledSlots.tooltip": "Options to disable specific slots from displaying in the menu.",
 
         "slice.configuration.display.visibility.disabledSlots.disableSlot1": "Disable Slot 1",
-        "slice.configuration.display.visibility.disabledSlots.disableSlot1.tooltip": "When enabled, slot number 1 wont be displayed in the menu.",
+        "slice.configuration.display.visibility.disabledSlots.disableSlot1.tooltip": "When enabled, slot number 1 won't be displayed in the menu.",
 
         "slice.configuration.display.visibility.disabledSlots.disableSlot2": "Disable Slot 2",
-        "slice.configuration.display.visibility.disabledSlots.disableSlot2.tooltip": "When enabled, slot number 2 wont be displayed in the menu.",
+        "slice.configuration.display.visibility.disabledSlots.disableSlot2.tooltip": "When enabled, slot number 2 won't be displayed in the menu.",
 
         "slice.configuration.display.visibility.disabledSlots.disableSlot3": "Disable Slot 3",
-        "slice.configuration.display.visibility.disabledSlots.disableSlot3.tooltip": "When enabled, slot number 3 wont be displayed in the menu.",
+        "slice.configuration.display.visibility.disabledSlots.disableSlot3.tooltip": "When enabled, slot number 3 won't be displayed in the menu.",
 
         "slice.configuration.display.visibility.disabledSlots.disableSlot4": "Disable Slot 4",
-        "slice.configuration.display.visibility.disabledSlots.disableSlot4.tooltip": "When enabled, slot number 4 wont be displayed in the menu.",
+        "slice.configuration.display.visibility.disabledSlots.disableSlot4.tooltip": "When enabled, slot number 4 won't be displayed in the menu.",
 
         "slice.configuration.display.visibility.disabledSlots.disableSlot5": "Disable Slot 5",
-        "slice.configuration.display.visibility.disabledSlots.disableSlot5.tooltip": "When enabled, slot number 5 wont be displayed in the menu.",
+        "slice.configuration.display.visibility.disabledSlots.disableSlot5.tooltip": "When enabled, slot number 5 won't be displayed in the menu.",
 
         "slice.configuration.display.visibility.disabledSlots.disableSlot6": "Disable Slot 6",
-        "slice.configuration.display.visibility.disabledSlots.disableSlot6.tooltip": "When enabled, slot number 6 wont be displayed in the menu.",
+        "slice.configuration.display.visibility.disabledSlots.disableSlot6.tooltip": "When enabled, slot number 6 won't be displayed in the menu.",
 
         "slice.configuration.display.visibility.disabledSlots.disableSlot7": "Disable Slot 7",
-        "slice.configuration.display.visibility.disabledSlots.disableSlot7.tooltip": "When enabled, slot number 7 wont be displayed in the menu.",
+        "slice.configuration.display.visibility.disabledSlots.disableSlot7.tooltip": "When enabled, slot number 7 won't be displayed in the menu.",
 
         "slice.configuration.display.visibility.disabledSlots.disableSlot8": "Disable Slot 8",
-        "slice.configuration.display.visibility.disabledSlots.disableSlot8.tooltip": "When enabled, slot number 8 wont be displayed in the menu.",
+        "slice.configuration.display.visibility.disabledSlots.disableSlot8.tooltip": "When enabled, slot number 8 won't be displayed in the menu.",
 
         "slice.configuration.display.visibility.disabledSlots.disableSlot9": "Disable Slot 9",
-        "slice.configuration.display.visibility.disabledSlots.disableSlot9.tooltip": "When enabled, slot number 9 wont be displayed in the menu.",
+        "slice.configuration.display.visibility.disabledSlots.disableSlot9.tooltip": "When enabled, slot number 9 won't be displayed in the menu.",
       
 
     "slice.configuration.display.maxAngle": "Start Angle",
-    "slice.configuration.display.maxAngle.tooltip": "The start angle from which the menu starts drawing. If the same as End Angle, the menu will go full 360.",
+    "slice.configuration.display.maxAngle.tooltip": "The start angle from which the menu starts drawing. If the same as End Angle, the menu will go a full 360 degrees.",
 
     "slice.configuration.display.endAngle": "End Angle",
-    "slice.configuration.display.endAngle.tooltip": "The end angle at which the menu stops drawing. If the same as Start Angle, the menu will go full 360.",
+    "slice.configuration.display.endAngle.tooltip": "The end angle at which the menu stops drawing. If the same as Start Angle, the menu will go a full 360 degrees.",
 
     "slice.configuration.display.counterclockwiseRotation": "Reverse Rotation",
-    "slice.configuration.display.counterclockwiseRotation.tooltip": "When enabled, the radial menu reverses it's order. (9th slot -> 1st slot)",
+    "slice.configuration.display.counterclockwiseRotation.tooltip": "When enabled, the radial menu reverses its order. (9th slot -> 1st slot)",
   
     //
     //Behaviour
     "slice.configuration.category.behaviour": "Behaviour Options",
-    "slice.configuration.category.behaviour.tooltip": "Options for changing how the mod behaves gameplay wise",
+    "slice.configuration.category.behaviour.tooltip": "Options for changing how the mod behaves gameplay-wise",
 
       "slice.configuration.behaviour.toggleKeybind": "Toggle Keybind",
       "slice.configuration.behaviour.toggleKeybind.tooltip": "When enabled, pressing the \"Open menu\" key will toggle the menu. (No need to keep holding the key)",
@@ -99,7 +99,7 @@
       "slice.configuration.behaviour.section.Deadzones": "Deadzones",
 
       "slice.configuration.behaviour.innerDeadzone": "Inner Deadzone",
-      "slice.configuration.behaviour.innerDeadzone.tooltip": "Extends the selectable area inward from the menu radius. Increase to require moving the mouse further from center before slots can be selected.",
+      "slice.configuration.behaviour.innerDeadzone.tooltip": "Extends the selectable area inward from the menu radius. Increase to require moving the mouse further from the center before slots can be selected.",
 
       "slice.configuration.behaviour.outerDeadzone": "Outer Deadzone",
       "slice.configuration.behaviour.outerDeadzone.tooltip": "Extends the selectable area outward from the menu radius. Increase to require keeping the mouse closer to the menu for slot selection.",
@@ -112,7 +112,7 @@
 
         //
         "slice.configuration.misc.disableScrollingOnHotbar": "Disable scrolling",
-        "slice.configuration.misc.disableScrollingOnHotbar.tooltip": "Disable scrolling for hotbar.",
+        "slice.configuration.misc.disableScrollingOnHotbar.tooltip": "Disable scrolling for the hotbar.",
 
     "slice.configuration.category.other": "Other",
     
