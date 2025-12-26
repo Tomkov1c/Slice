@@ -1,0 +1,12 @@
+[{
+  "modid": "slice",
+  "name": "Slice",
+  "description": "Your mod description",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "authorList": ["Tomkovic"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}]
