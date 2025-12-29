@@ -1,0 +1,116 @@
+slice.configuration.title=Slice
+
+key.slice.open_radial_menu=Open Radial Menu
+key.category.slice.radial_menu=Slice - Radial Menu
+
+  #
+  #Display
+  slice.configuration.category.display=Display Options
+  slice.configuration.category.display.tooltip=Options for the visual aspect of the menu.
+
+    #
+    #Size
+    slice.configuration.category.display.size=Size Options
+    slice.configuration.category.display.size.tooltip=Options for adjusting the size of UI elements
+
+    slice.configuration.display.size.radialMenuRadius=Radius Size
+    slice.configuration.display.size.radialMenuRadius.tooltip=Radius of the radial menu in pixels, i.e., the distance from the center of the screen
+
+    slice.configuration.display.size.itemSize=Item Size
+    slice.configuration.display.size.itemSize.tooltip=Size of each item slot in the radial menu.
+
+    slice.configuration.display.size.slotSize=Slot Size
+    slice.configuration.display.size.slotSize.tooltip=Size of the slot background texture.
+
+    #
+    # Visibility
+    slice.configuration.category.display.visibility=Visibility Options
+    slice.configuration.category.display.visibility.tooltip=Options for hiding UI elements
+
+    slice.configuration.display.visibility.backgroundDarkenOpacity=Background alpha
+    slice.configuration.display.visibility.backgroundDarkenOpacity.tooltip=How much of the background color is visible when the menu is open.
+
+    slice.configuration.display.visibility.hideUnusedSlots=Hide Unused Slots
+    slice.configuration.display.visibility.hideUnusedSlots.tooltip=When enabled, empty slots in the radial menu will be hidden
+
+    slice.configuration.display.visibility.hideSlotNumber=Hide Slots Numbers
+    slice.configuration.display.visibility.hideSlotNumber.tooltip=When enabled, removes the slot number from the radial menu
+
+    slice.configuration.display.visibility.hideSlotSprite=Hide Slots Sprite
+    slice.configuration.display.visibility.hideSlotSprite.tooltip=When enabled, no slot sprite will be displayed
+
+      #
+      # Disable Slots
+      slice.configuration.category.display.visibility.disabledSlots=Disabled Slots
+      slice.configuration.category.display.visibility.disabledSlots.tooltip=Options to disable specific slots from displaying in the menu.
+
+      slice.configuration.display.visibility.disabledSlots.disableSlot1=Disable Slot 1
+      slice.configuration.display.visibility.disabledSlots.disableSlot1.tooltip=When enabled, slot number 1 won't be displayed in the menu.
+
+      slice.configuration.display.visibility.disabledSlots.disableSlot2=Disable Slot 2
+      slice.configuration.display.visibility.disabledSlots.disableSlot2.tooltip=When enabled, slot number 2 won't be displayed in the menu.
+
+      slice.configuration.display.visibility.disabledSlots.disableSlot3=Disable Slot 3
+      slice.configuration.display.visibility.disabledSlots.disableSlot3.tooltip=When enabled, slot number 3 won't be displayed in the menu.
+
+      slice.configuration.display.visibility.disabledSlots.disableSlot4=Disable Slot 4
+      slice.configuration.display.visibility.disabledSlots.disableSlot4.tooltip=When enabled, slot number 4 won't be displayed in the menu.
+
+      slice.configuration.display.visibility.disabledSlots.disableSlot5=Disable Slot 5
+      slice.configuration.display.visibility.disabledSlots.disableSlot5.tooltip=When enabled, slot number 5 won't be displayed in the menu.
+
+      slice.configuration.display.visibility.disabledSlots.disableSlot6=Disable Slot 6
+      slice.configuration.display.visibility.disabledSlots.disableSlot6.tooltip=When enabled, slot number 6 won't be displayed in the menu.
+
+      slice.configuration.display.visibility.disabledSlots.disableSlot7=Disable Slot 7
+      slice.configuration.display.visibility.disabledSlots.disableSlot7.tooltip=When enabled, slot number 7 won't be displayed in the menu.
+
+      slice.configuration.display.visibility.disabledSlots.disableSlot8=Disable Slot 8
+      slice.configuration.display.visibility.disabledSlots.disableSlot8.tooltip=When enabled, slot number 8 won't be displayed in the menu.
+
+      slice.configuration.display.visibility.disabledSlots.disableSlot9=Disable Slot 9
+      slice.configuration.display.visibility.disabledSlots.disableSlot9.tooltip=When enabled, slot number 9 won't be displayed in the menu.
+
+
+    slice.configuration.display.maxAngle=Start Angle
+    slice.configuration.display.maxAngle.tooltip=The start angle from which the menu starts drawing. If the same as End Angle, the menu will go a full 360 degrees.
+
+    slice.configuration.display.endAngle=End Angle
+    slice.configuration.display.endAngle.tooltip=The end angle at which the menu stops drawing. If the same as Start Angle, the menu will go a full 360 degrees.
+
+    slice.configuration.display.counterclockwiseRotation=Reverse Rotation
+    slice.configuration.display.counterclockwiseRotation.tooltip=When enabled, the radial menu reverses its order. (9th slot -> 1st slot)
+
+  #
+  #Behaviour
+  slice.configuration.category.behaviour=Behaviour Options
+  slice.configuration.category.behaviour.tooltip=Options for changing how the mod behaves gameplay-wise
+
+  slice.configuration.behaviour.toggleKeybind=Toggle Keybind
+  slice.configuration.behaviour.toggleKeybind.tooltip=When enabled, pressing the "Open menu" key will toggle the menu. (No need to keep holding the key)
+
+  slice.configuration.behaviour.clickToSelect=Click to Select
+  slice.configuration.behaviour.clickToSelect.tooltip=When enabled, to switch to a desired slot, you'll need to click on the slot, not just release the button.
+
+  slice.configuration.behaviour.closeOnSelect=Close on Select (CtS only)
+  slice.configuration.behaviour.closeOnSelect.tooltip=When enabled, selecting a slot will close the menu if you have "Click to Select" enabled.
+
+  slice.configuration.behaviour.section.Deadzones=Deadzones
+
+  slice.configuration.behaviour.innerDeadzone=Inner Deadzone
+  slice.configuration.behaviour.innerDeadzone.tooltip=Extends the selectable area inward from the menu radius. Increase to require moving the mouse further from the center before slots can be selected.
+
+  slice.configuration.behaviour.outerDeadzone=Outer Deadzone
+  slice.configuration.behaviour.outerDeadzone.tooltip=Extends the selectable area outward from the menu radius. Increase to require keeping the mouse closer to the menu for slot selection.
+
+
+  #
+  # Misc
+  slice.configuration.category.misc=Miscellaneous
+  slice.configuration.category.misc.tooltip=Miscellaneous Options
+
+      #
+      slice.configuration.misc.disableScrollingOnHotbar=Disable scrolling
+      slice.configuration.misc.disableScrollingOnHotbar.tooltip=Disable scrolling for the hotbar.
+
+slice.configuration.category.other=Other

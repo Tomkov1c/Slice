@@ -1,22 +1,23 @@
-package com.yourname.slice;
+package com.tomkovic.slice;
 
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = Slice.MODID, version = Slice.VERSION, name = Slice.NAME)
+@Mod(modid = Constants.MOD_ID, name = Constants.MOD_NAME, version = "1.0")
 public class Slice {
-    public static final String MODID = "slice";
-    public static final String NAME = "Slice";
-    public static final String VERSION = "1.0.0";
-
+    
+    @SidedProxy(clientSide = "com.tomkovic.slice.ClientProxy", serverSide = "com.tomkovic.slice.CommonProxy")
+    public static CommonProxy proxy;
+    
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        System.out.println("Slice is loading!");
+        Config.init(event.getSuggestedConfigurationFile());
     }
-
+    
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        System.out.println("Slice has loaded!");
+        proxy.init(event);
     }
 }
