@@ -21,7 +21,7 @@ plugins {
 }
 */
 version = "0.2.0"
-group= "com.tmkovic.modid" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group= "com.tmkovic.slice" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "slice"
 
 minecraft {

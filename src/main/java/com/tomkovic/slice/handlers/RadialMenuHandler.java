@@ -1,90 +1,88 @@
 package com.tomkovic.slice.handlers;
 
-import com.mojang.blaze3d.platform.InputConstants;
 import com.tomkovic.slice.Config;
 import com.tomkovic.slice.Constants;
 import com.tomkovic.slice.KeyBindings;
-import com.tomkovic.slice.RadialMenuRenderer;
-import com.tomkovic.slice.RadialMenuState;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.event.AddGuiOverlayLayersEvent;
-import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.InputEvent.MouseScrollingEvent;
-import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.client.event.MouseEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID,  bus = EventBusSubscriber.Bus.FORGE, value = net.minecraftforge.api.distmarker.Dist.CLIENT)
 public class RadialMenuHandler {
-
-    public static final RadialMenuRenderer renderer = new RadialMenuRenderer();
-
-    private static boolean isToggleEnabled = Config.CONFIG.toggleKeybind.getDefault();
-    private static boolean clickToSelect = Config.CONFIG.clickToSelect.getDefault();
-    private static boolean closeOnSelect = Config.CONFIG.closeOnSelect.getDefault();
-    private static boolean disableScrollingOnHotbar = Config.CONFIG.disableScrollingOnHotbar.getDefault();
+    private static boolean isToggleEnabled = Config.toggleKeybind;
+    private static boolean clickToSelect = Config.clickToSelect;
+    private static boolean closeOnSelect = Config.closeOnSelect;
+    private static boolean disableScrollingOnHotbar = Config.disableScrollingOnHotbar;
+    
+    private static boolean wasKeyDown = false;
 
     public static void updateFromConfig() { 
-        isToggleEnabled = Config.CONFIG.toggleKeybind.get();
-        clickToSelect = Config.CONFIG.clickToSelect.get();
-        closeOnSelect = Config.CONFIG.closeOnSelect.get();
-        disableScrollingOnHotbar = Config.CONFIG.disableScrollingOnHotbar.get();
+        isToggleEnabled = Config.toggleKeybind;
+        clickToSelect = Config.clickToSelect;
+        closeOnSelect = Config.closeOnSelect;
+        disableScrollingOnHotbar = Config.disableScrollingOnHotbar;
     }
-
+    
     @SubscribeEvent
-    public static void onKeyInput(InputEvent.Key event) {
-        Minecraft mc = Minecraft.getInstance();
-        if (mc.player == null || mc.screen != null) return;
+    public void onKeyInput(InputEvent.KeyInputEvent event) {
+        Minecraft mc = Minecraft.getMinecraft();
+        if (mc.thePlayer == null || mc.currentScreen != null) return;
         
         if (KeyBindings.isMouseButton()) return;
         
-        RadialMenuState.handleMenuToggle(KeyBindings.isOpenRadialMenuPressed(), false, isToggleEnabled, () -> renderer.onMenuOpen(), () -> renderer.onMenuClose());
-    }
-
-    @SubscribeEvent
-    public static boolean onMouseInput(InputEvent.MouseButton.Pre event) { 
-        Minecraft mc = Minecraft.getInstance();
-        if (mc.player == null || mc.screen != null) return false;
+        boolean isKeyDown = KeyBindings.OPEN_RADIAL_MENU.isKeyDown();
+        boolean isPress = isKeyDown && !wasKeyDown;
+        boolean isRelease = !isKeyDown && wasKeyDown;
         
-        if (KeyBindings.isMouseButton() && event.getButton() == KeyBindings.getMouseButton()) {
-            
-            boolean isPress = event.getAction() == InputConstants.PRESS;
-            boolean isRelease = event.getAction() == InputConstants.RELEASE;
-            
-            RadialMenuState.handleMenuToggle(isPress, isRelease, isToggleEnabled, () -> renderer.onMenuOpen(), () -> renderer.onMenuClose());
-            return true;
+        if (isPress) {
+            sendChatMessage("Radial Menu Key Pressed!");
         }
         
-        if (RadialMenuState.isMenuOpen) handleMenuClick(event);
-
-        return false;
+        wasKeyDown = isKeyDown;
     }
-
+    
     @SubscribeEvent
-    public static boolean onMouseScroll(MouseScrollingEvent event) { return RadialMenuState.isMenuOpen || disableScrollingOnHotbar; }
-
-    @SubscribeEvent
-    public static void registerGuiOverlays(AddGuiOverlayLayersEvent event) {
-        event.getLayeredDraw().add(
-            ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "radial_menu"),
-            (guiGraphics, partialTick) -> {
-                if (RadialMenuState.isMenuOpen) RadialMenuHandler.renderer.render(guiGraphics, partialTick.getGameTimeDeltaPartialTick(false));
+    public void onMouseInput(InputEvent.MouseInputEvent event) { 
+        Minecraft mc = Minecraft.getMinecraft();
+        if (mc.thePlayer == null || mc.currentScreen != null) return;
+        
+        int button = Mouse.getEventButton();
+        boolean buttonState = Mouse.getEventButtonState();
+        
+        if (button == -1) return;
+        
+        if (KeyBindings.isMouseButton() && button == KeyBindings.getMouseButton()) {
+            if (buttonState) {
+                sendChatMessage("Radial Menu Mouse Button Pressed!");
             }
-        );
-    }
-
-    @SubscribeEvent
-    public static boolean handleMenuClick(InputEvent.MouseButton.Pre event) {
-        if (!RadialMenuState.isMenuOpen) return false;
-
-        if (clickToSelect && event.getButton() == 0 && event.getAction() == InputConstants.PRESS) {
-            renderer.selectHoveredSlot();
-
-            if (closeOnSelect) RadialMenuState.closeMenu(() -> renderer.onMenuClose());
         }
-
-        return true;
+    }
+    
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void onMouseEvent(MouseEvent event) {
+    }
+    
+    @SubscribeEvent
+    public void onClientTick(TickEvent.ClientTickEvent event) {
+    }
+    
+    @SubscribeEvent(priority = EventPriority.NORMAL)
+    public void onRenderGameOverlay(RenderGameOverlayEvent.Post event) {
+    }
+    
+    private void handleMenuClick(int button, boolean pressed) {
+    }
+    
+    private void sendChatMessage(String message) {
+        Minecraft mc = Minecraft.getMinecraft();
+        if (mc.thePlayer != null) {
+            mc.thePlayer.addChatMessage(new ChatComponentText(message));
+        }
     }
 }
