@@ -1,5 +1,5 @@
-# Slice 0.2.0
-
-## <img width="20" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/available/github_vector.svg">  Common
-
 ## <img width="20" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg">  Forge
+* Fix mouse-grabbing bug
+* Add mod description and logo to `.info` file
+* Add `/slice reloadClient` command that refreshes the config from the file
+* Fix `disableScrollingOnHotbar` feature not working

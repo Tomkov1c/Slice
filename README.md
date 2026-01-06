@@ -104,8 +104,12 @@
     <tr><td>1.10</td>   <td>❌</td><td></td><td></td></tr>
     <tr><td>1.9.4</td>  <td>❌</td><td></td><td></td></tr>
     <tr><td>1.9</td>    <td>❌</td><td></td><td></td></tr>
-    <tr><td>1.8.9</td>  <td>❌</td><td></td><td></td></tr>
-    <tr><td>1.8</td>    <td>❌</td><td></td><td></td></tr>
+    <tr><td>1.8.9</td>    
+        <td>✅</td>
+        <td><img width="35" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg"> </td>
+        <td>11.15.1.2318</td>
+    </tr>
+    <tr><td>1.8</td>  <td>❌</td><td></td><td></td></tr>
     <tr><td>1.7.10</td> <td>❌</td><td></td><td></td></tr>
   </table>
 
