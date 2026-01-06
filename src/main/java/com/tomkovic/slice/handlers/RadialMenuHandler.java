@@ -67,6 +67,10 @@ public class RadialMenuHandler {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onMouseEvent(MouseEvent event) {
+        if (disableScrollingOnHotbar && event.dwheel != 0) {
+            event.setCanceled(true);
+        }
+
         if (!isMenuOpen) return;
 
         if (event.button != -1) {
@@ -79,10 +83,6 @@ public class RadialMenuHandler {
             } else {
                 event.setCanceled(true);
             }
-        }
-
-        if (disableScrollingOnHotbar && event.dwheel != 0) {
-            event.setCanceled(true);
         }
     }
 
