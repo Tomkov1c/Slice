@@ -3,6 +3,7 @@ package com.tomkovic.slice.handlers;
 import com.tomkovic.slice.Config;
 import com.tomkovic.slice.Constants;
 import com.tomkovic.slice.KeyBindings;
+import com.tomkovic.slice.RadialMenuRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.MouseEvent;
@@ -19,8 +20,15 @@ public class RadialMenuHandler {
     private static boolean clickToSelect = Config.clickToSelect;
     private static boolean closeOnSelect = Config.closeOnSelect;
     private static boolean disableScrollingOnHotbar = Config.disableScrollingOnHotbar;
-    
     private static boolean wasKeyDown = false;
+    
+    private RadialMenuRenderer renderer;
+    private boolean isMenuOpen = false;
+    private boolean isToggled = false;
+
+    public RadialMenuHandler() {
+        this.renderer = new RadialMenuRenderer();
+    }
 
     public static void updateFromConfig() { 
         isToggleEnabled = Config.toggleKeybind;
@@ -28,57 +36,129 @@ public class RadialMenuHandler {
         closeOnSelect = Config.closeOnSelect;
         disableScrollingOnHotbar = Config.disableScrollingOnHotbar;
     }
-    
+
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.thePlayer == null || mc.currentScreen != null) return;
-        
         if (KeyBindings.isMouseButton()) return;
-        
+
         boolean isKeyDown = KeyBindings.OPEN_RADIAL_MENU.isKeyDown();
         boolean isPress = isKeyDown && !wasKeyDown;
         boolean isRelease = !isKeyDown && wasKeyDown;
-        
+
         if (isPress) {
-            sendChatMessage("Radial Menu Key Pressed!");
+            if (isToggleEnabled) {
+                isToggled = !isToggled;
+                if (isToggled) {
+                    openMenu();
+                } else {
+                    closeMenu();
+                }
+            } else {
+                openMenu();
+            }
+        } else if (isRelease && !isToggleEnabled) {
+            closeMenu();
         }
-        
+
         wasKeyDown = isKeyDown;
     }
-    
+
     @SubscribeEvent
     public void onMouseInput(InputEvent.MouseInputEvent event) { 
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.thePlayer == null || mc.currentScreen != null) return;
-        
+
         int button = Mouse.getEventButton();
         boolean buttonState = Mouse.getEventButtonState();
-        
+
         if (button == -1) return;
-        
+
         if (KeyBindings.isMouseButton() && button == KeyBindings.getMouseButton()) {
             if (buttonState) {
-                sendChatMessage("Radial Menu Mouse Button Pressed!");
+                if (isToggleEnabled) {
+                    isToggled = !isToggled;
+                    if (isToggled) {
+                        openMenu();
+                    } else {
+                        closeMenu();
+                    }
+                } else {
+                    openMenu();
+                }
+            } else if (!isToggleEnabled) {
+                closeMenu();
+            }
+        }
+
+        if (isMenuOpen && clickToSelect) {
+            handleMenuClick(button, buttonState);
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void onMouseEvent(MouseEvent event) {
+        if (!isMenuOpen) return;
+
+        if (disableScrollingOnHotbar && event.dwheel != 0) {
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public void onClientTick(TickEvent.ClientTickEvent event) {
+        if (event.phase != TickEvent.Phase.START) return;
+
+        Minecraft mc = Minecraft.getMinecraft();
+        if (mc.thePlayer == null || mc.currentScreen != null) {
+            if (isMenuOpen) {
+                closeMenu();
             }
         }
     }
-    
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void onMouseEvent(MouseEvent event) {
-    }
-    
-    @SubscribeEvent
-    public void onClientTick(TickEvent.ClientTickEvent event) {
-    }
-    
+
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void onRenderGameOverlay(RenderGameOverlayEvent.Post event) {
+        if (event.type != RenderGameOverlayEvent.ElementType.HOTBAR) return;
+        
+        if (isMenuOpen) {
+            renderer.render(event.partialTicks);
+        }
     }
-    
+
+    private void openMenu() {
+        if (isMenuOpen) return;
+        isMenuOpen = true;
+        renderer.onMenuOpen();
+    }
+
+    private void closeMenu() {
+        if (!isMenuOpen) return;
+        isMenuOpen = false;
+        renderer.onMenuClose();
+        if (isToggleEnabled) {
+            isToggled = false;
+        }
+    }
+
     private void handleMenuClick(int button, boolean pressed) {
+        if (!pressed) return;
+        if (button != 0 && button != 1) return; // Only left/right click
+
+        int hoveredSlot = renderer.getHoveredSlot();
+        if (hoveredSlot >= 0 && hoveredSlot < Constants.SLOT_COUNT) {
+            renderer.selectHoveredSlot();
+            
+            if (closeOnSelect) {
+                closeMenu();
+                if (isToggleEnabled) {
+                    isToggled = false;
+                }
+            }
+        }
     }
-    
+
     private void sendChatMessage(String message) {
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.thePlayer != null) {
