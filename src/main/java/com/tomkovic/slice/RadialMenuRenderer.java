@@ -42,6 +42,8 @@ public class RadialMenuRenderer {
         } catch (Exception e) {
             Constants.LOG.error("Failed to access InventoryPlayer.currentItem field", e);
         }
+
+        updateFromConfig();
     }
     
     public static void updateFromConfig() {

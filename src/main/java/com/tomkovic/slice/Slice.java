@@ -5,6 +5,8 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+import net.minecraftforge.client.ClientCommandHandler;
+
 @Mod(modid = Constants.MOD_ID, name = Constants.MOD_NAME, version = "1.0")
 public class Slice {
     
@@ -19,5 +21,8 @@ public class Slice {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         proxy.init(event);
+
+        ClientCommandHandler.instance.registerCommand(new SliceCommand());
+
     }
 }
