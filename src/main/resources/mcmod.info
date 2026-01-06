@@ -1,12 +1,12 @@
 [{
   "modid": "slice",
   "name": "Slice",
-  "description": "Your mod description",
+  "description": "Turn your hotbar into a radial menu.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "authorList": ["Tomkovic"],
   "credits": "",
-  "logoFile": "",
+  "logoFile": "icon.png",
   "screenshots": [],
   "dependencies": []
 }]
