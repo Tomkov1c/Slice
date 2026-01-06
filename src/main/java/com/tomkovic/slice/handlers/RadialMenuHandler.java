@@ -65,10 +65,33 @@ public class RadialMenuHandler {
         wasKeyDown = isKeyDown;
     }
 
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void onMouseEvent(MouseEvent event) {
+        if (!isMenuOpen) return;
+
+        if (event.button != -1) {
+            if (clickToSelect) {
+                event.setCanceled(true);
+                
+                if (event.buttonstate) {
+                    handleMenuClick(event.button, true);
+                }
+            } else {
+                event.setCanceled(true);
+            }
+        }
+
+        if (disableScrollingOnHotbar && event.dwheel != 0) {
+            event.setCanceled(true);
+        }
+    }
+
     @SubscribeEvent
     public void onMouseInput(InputEvent.MouseInputEvent event) { 
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.thePlayer == null || mc.currentScreen != null) return;
+
+        if (isMenuOpen) return;
 
         int button = Mouse.getEventButton();
         boolean buttonState = Mouse.getEventButtonState();
@@ -90,19 +113,6 @@ public class RadialMenuHandler {
             } else if (!isToggleEnabled) {
                 closeMenu();
             }
-        }
-
-        if (isMenuOpen && clickToSelect) {
-            handleMenuClick(button, buttonState);
-        }
-    }
-
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void onMouseEvent(MouseEvent event) {
-        if (!isMenuOpen) return;
-
-        if (disableScrollingOnHotbar && event.dwheel != 0) {
-            event.setCanceled(true);
         }
     }
 
@@ -144,7 +154,7 @@ public class RadialMenuHandler {
 
     private void handleMenuClick(int button, boolean pressed) {
         if (!pressed) return;
-        if (button != 0 && button != 1) return; // Only left/right click
+        if (button != 0 && button != 1) return;
 
         int hoveredSlot = renderer.getHoveredSlot();
         if (hoveredSlot >= 0 && hoveredSlot < Constants.SLOT_COUNT) {
