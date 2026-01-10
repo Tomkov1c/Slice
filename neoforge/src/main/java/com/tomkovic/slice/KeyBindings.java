@@ -3,13 +3,15 @@ package com.tomkovic.slice;
 import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 
+import net.minecraft.resources.Identifier;
+
 public class KeyBindings {
+
     @SuppressWarnings("null")
     public static final KeyMapping.Category CATEGORY_OBJECT = new KeyMapping.Category(
-        ResourceLocation.fromNamespaceAndPath("slice", "radial_menu")
+        Identifier.fromNamespaceAndPath("slice", "radial_menu")
     );
     
     @SuppressWarnings("null")
