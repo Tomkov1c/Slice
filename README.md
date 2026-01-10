@@ -41,7 +41,15 @@
     <th></th>
     <th>Loaders</th>
     <th>Minimum required version</th>
-    <tr><td>1.21.11</td>  <td>🔍</td><td></td><td></td></tr>
+    <tr><td>1.21.11</td>  <td>🔍</td>
+        <td>
+          <img width="35" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"> 
+          <img width="35" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg"> 
+          <img width="35" src="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg">
+          <img width="35" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg">
+        </td>
+        <td>21.11.0, 61.0.0, 0.18.0, </td>
+    </tr>
     <tr><td>1.21.10</td>  <td>🔍</td>
         <td>
           <img width="35" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"> 
@@ -143,6 +151,7 @@
   <table>
     <th>Minecraft version</th>
     <th>Minimum FabricAPI version</th>
+    <tr><td>1.21.11</td><td>0.139.4+1.21.11</td></tr>
     <tr><td>1.21.10</td><td>0.134.1+1.21.10</td></tr>
     <tr><td>1.21.9</td><td>0.133.14+1.21.9</td></tr>
   </table>
@@ -158,6 +167,7 @@
   <table>
     <th>Minecraft version</th>
     <th>Minimum FabricAPI version</th>
+    <tr><td>1.21.11</td><td>0.139.4+1.21.11</td></tr>
     <tr><td>1.21.10</td><td>0.134.1+1.21.10</td></tr>
     <tr><td>1.21.9</td><td>0.133.14+1.21.9</td></tr>
     
