@@ -183,11 +183,14 @@ I cannot be bothered to implement a config screen for forge. Please just edit th
 ```
 Profile > (⋮) button > Open folder > (Explorer) config > (Explorer) slice-common.toml
 ```
+Use `/slice reloadClient` command to reload config.
 
 #### <img width="15" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/social/github-plural_vector.svg"> Stock launcher
 ```
 (File Explorer) %appdata% > .minecraft > config > slice-common.toml
 ```
+Use `/slice reloadClient` command to reload config
+
 ### <img width="20" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/fabric_vector.svg"> Fabric
 Download [Mod Menu](https://modrinth.com/mod/modmenu) and use their config menu instead.
 ```
