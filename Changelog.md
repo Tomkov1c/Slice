@@ -6,3 +6,5 @@
 - Add `/slice reloadClient` command that refreshes the config from the file
 
 ## <img width="20" src="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg">  Fabric / <img width="20" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg"> Quilt
+
+- Fix major selecting error
