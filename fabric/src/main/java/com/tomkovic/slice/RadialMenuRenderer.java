@@ -28,7 +28,8 @@ public class RadialMenuRenderer {
     private static int outerDeadzoneRadius;
     public static boolean clickToSelect;
 
-    private int hoveredSlot = -1;
+    public int hoveredSlot = -1;
+    private int lastValidHoveredSlot = -1;
     private int activeSlot = -1;
     private double mouseStartX = 0;
     private double mouseStartY = 0;
@@ -74,6 +75,7 @@ public class RadialMenuRenderer {
         outerDeadzoneRadius = config.behaviour.outerDeadzone;
         clickToSelect = config.behaviour.clickToSelect;
     }
+    
     public void onMenuOpen() {
         Minecraft mc = Minecraft.getInstance();
         if (mc.mouseHandler != null) {
@@ -81,11 +83,13 @@ public class RadialMenuRenderer {
             mouseStartY = mc.mouseHandler.ypos();
         }
         hoveredSlot = -1;
+        lastValidHoveredSlot = -1;
     }
 
     public void onMenuClose() {
         if (!clickToSelect) selectHoveredSlot();
         hoveredSlot = -1;
+        lastValidHoveredSlot = -1;
     }
 
     public void render(GuiGraphics graphics, float partialTick) {
@@ -121,6 +125,10 @@ public class RadialMenuRenderer {
                 double mouseY = mc.mouseHandler.ypos() * screenHeight / mc.getWindow().getScreenHeight() - centerY;
 
                 hoveredSlot = CommonRenderFunctions.getHoveredSlot(mouseX, mouseY, slotPositions, slotRadius, innerDeadzoneRadius, outerDeadzoneRadius);
+
+                if (hoveredSlot >= 0) {
+                    lastValidHoveredSlot = hoveredSlot;
+                }
 
                 activeSlot = inventory.getSelectedSlot();
 
@@ -192,10 +200,10 @@ public class RadialMenuRenderer {
     }
 
     public void selectHoveredSlot() {
-        if (hoveredSlot < 0 || hoveredSlot >= Constants.SLOT_COUNT || activeSlot == hoveredSlot) return;
+        int slotToSelect = hoveredSlot >= 0 ? hoveredSlot : lastValidHoveredSlot;
+        if (slotToSelect < 0 || slotToSelect >= Constants.SLOT_COUNT || activeSlot == slotToSelect) return;
 
-        CommonRenderFunctions.selectSlot(hoveredSlot);
+        CommonRenderFunctions.selectSlot(slotToSelect);
+        lastValidHoveredSlot = -1;
     }
-
-
 }
