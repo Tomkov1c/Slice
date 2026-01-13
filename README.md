@@ -199,12 +199,13 @@ Use `/slice reloadClient` command to reload config
 ```
 (File Explorer) %appdata% > .minecraft > config > slice-common.toml
 ```
+Use `/slice reloadClient` command to reload config
+
 ### <img width="20" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/fabric_vector.svg"> Fabric
 Download [Mod Menu](https://modrinth.com/mod/modmenu) and use their config menu instead.
 ```
 Main Menu > Mods > *Select Slice* > -Config button next to the name-
 ```
-Use `/slice reloadClient` command to reload config
 
 ### <img width="20" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/quilt_vector.svg"> Quilt
 Download [Mod Menu](https://modrinth.com/mod/modmenu) and use their config menu instead.
