@@ -3,7 +3,7 @@ package com.tomkovic.slice;
 import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
@@ -13,14 +13,15 @@ import net.minecraftforge.fml.common.Mod;
 public class KeyBindings {
     
     public static final KeyMapping.Category CATEGORY = new KeyMapping.Category(
-        ResourceLocation.fromNamespaceAndPath("slice", "radial_menu")
+        Identifier.fromNamespaceAndPath("slice", "radial_menu")
     );
     
     public static final KeyMapping OPEN_RADIAL_MENU = new KeyMapping(
         "key.slice.open_radial_menu",
         KeyConflictContext.IN_GAME,
         InputConstants.Type.KEYSYM.getOrCreate(GLFW.GLFW_KEY_R),
-        CATEGORY
+        CATEGORY,
+        0
     );
     
     public static boolean isOpenRadialMenuPressed() {

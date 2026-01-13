@@ -3,7 +3,7 @@ package com.tomkovic.slice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class Constants {
 
@@ -20,9 +20,10 @@ public class Constants {
     public static final int DEFAULT_SLOT_NUMBER_COLOR_ACTIVE = 0xFF00FF00;
     
     // Texture locations
-    public static final ResourceLocation SLOT_TEXTURE = ResourceHelper.guiTexture("radial_slot");
-    public static final ResourceLocation SLOT_HOVERED_TEXTURE = ResourceHelper.guiTexture("radial_slot_hovered");
-    public static final ResourceLocation SLOT_ACTIVE_TEXTURE = ResourceHelper.guiTexture("radial_slot_active");
+
+    public static final Identifier SLOT_TEXTURE = ResourceHelper.guiTexture("radial_slot");
+    public static final Identifier SLOT_HOVERED_TEXTURE = ResourceHelper.guiTexture("radial_slot_hovered");
+    public static final Identifier SLOT_ACTIVE_TEXTURE = ResourceHelper.guiTexture("radial_slot_active");
     
     // JSON config keys
     public static final String JSON_OFFSET_FROM_CENTER = "offset_from_center";

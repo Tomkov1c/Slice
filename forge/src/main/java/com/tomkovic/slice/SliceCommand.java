@@ -27,7 +27,6 @@ public class SliceCommand {
         
         dispatcher.register(
             Commands.literal("slice")
-                .requires(source -> source.hasPermission(2))
                 .then(Commands.literal("reloadConfig")
                     .executes(SliceCommand::reloadConfig)
                 )
