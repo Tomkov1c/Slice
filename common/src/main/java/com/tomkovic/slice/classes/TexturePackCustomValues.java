@@ -1,217 +1,116 @@
 package com.tomkovic.slice.classes;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
+import net.minecraft.client.Minecraft;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.resources.ResourceLocation;
+
 public class TexturePackCustomValues {
-    private boolean offsetFromCenter;
-    private int xOffset;
-    private int yOffset;
-    private int xOffsetHovered;
-    private int yOffsetHovered;
-    private int xOffsetActive;
-    private int yOffsetActive;
+    @SerializedName("offset_from_center")
+    public static boolean offsetFromCenter;
     
-    private int itemXOffset;
-    private int itemYOffset;
-    private int itemXOffsetHovered;
-    private int itemYOffsetHovered;
-    private int itemXOffsetActive;
-    private int itemYOffsetActive;
+    @SerializedName("x_offset")
+    public static int xOffset;
     
-    private int slotNumberXOffset;
-    private int slotNumberYOffset;
-    private int slotNumberXOffsetHovered;
-    private int slotNumberYOffsetHovered;
-    private int slotNumberXOffsetActive;
-    private int slotNumberYOffsetActive;
+    @SerializedName("y_offset")
+    public static int yOffset;
     
-    private String slotNumberColor;
-    private String slotNumberColorHovered;
-    private String slotNumberColorActive;
-    private String backgroundOverlayColor;
+    @SerializedName("x_offset_hovered")
+    public static int xOffsetHovered;
     
-    public TexturePackCustomValues() {
-    }
+    @SerializedName("y_offset_hovered")
+    public static int yOffsetHovered;
     
-    public boolean isOffsetFromCenter() {
-        return offsetFromCenter;
-    }
+    @SerializedName("x_offset_active")
+    public static int xOffsetActive;
     
-    public void setOffsetFromCenter(boolean offsetFromCenter) {
-        this.offsetFromCenter = offsetFromCenter;
-    }
+    @SerializedName("y_offset_active")
+    public static int yOffsetActive;
     
-    public int getXOffset() {
-        return xOffset;
-    }
+    @SerializedName("item_x_offset")
+    public static int itemXOffset;
     
-    public void setXOffset(int xOffset) {
-        this.xOffset = xOffset;
-    }
+    @SerializedName("item_y_offset")
+    public static int itemYOffset;
     
-    public int getYOffset() {
-        return yOffset;
-    }
+    @SerializedName("item_x_offset_hovered")
+    public static int itemXOffsetHovered;
     
-    public void setYOffset(int yOffset) {
-        this.yOffset = yOffset;
-    }
+    @SerializedName("item_y_offset_hovered")
+    public static int itemYOffsetHovered;
     
-    public int getXOffsetHovered() {
-        return xOffsetHovered;
-    }
+    @SerializedName("item_x_offset_active")
+    public static int itemXOffsetActive;
     
-    public void setXOffsetHovered(int xOffsetHovered) {
-        this.xOffsetHovered = xOffsetHovered;
-    }
+    @SerializedName("item_y_offset_active")
+    public static int itemYOffsetActive;
     
-    public int getYOffsetHovered() {
-        return yOffsetHovered;
-    }
+    @SerializedName("slot_number_x_offset")
+    public static int slotNumberXOffset;
     
-    public void setYOffsetHovered(int yOffsetHovered) {
-        this.yOffsetHovered = yOffsetHovered;
-    }
+    @SerializedName("slot_number_y_offset")
+    public static int slotNumberYOffset;
     
-    public int getXOffsetActive() {
-        return xOffsetActive;
-    }
+    @SerializedName("slot_number_x_offset_hovered")
+    public static int slotNumberXOffsetHovered;
     
-    public void setXOffsetActive(int xOffsetActive) {
-        this.xOffsetActive = xOffsetActive;
-    }
+    @SerializedName("slot_number_y_offset_hovered")
+    public static int slotNumberYOffsetHovered;
     
-    public int getYOffsetActive() {
-        return yOffsetActive;
-    }
+    @SerializedName("slot_number_x_offset_active")
+    public static int slotNumberXOffsetActive;
     
-    public void setYOffsetActive(int yOffsetActive) {
-        this.yOffsetActive = yOffsetActive;
-    }
+    @SerializedName("slot_number_y_offset_active")
+    public static int slotNumberYOffsetActive;
     
-    public int getItemXOffset() {
-        return itemXOffset;
-    }
+    @SerializedName("slot_number_color")
+    public static String slotNumberColor;
     
-    public void setItemXOffset(int itemXOffset) {
-        this.itemXOffset = itemXOffset;
-    }
+    @SerializedName("slot_number_color_hovered")
+    public static String slotNumberColorHovered;
     
-    public int getItemYOffset() {
-        return itemYOffset;
-    }
+    @SerializedName("slot_number_color_active")
+    public static String slotNumberColorActive;
     
-    public void setItemYOffset(int itemYOffset) {
-        this.itemYOffset = itemYOffset;
-    }
+    @SerializedName("background_darkening_color")
+    public static String backgroundOverlayColor;
     
-    public int getItemXOffsetHovered() {
-        return itemXOffsetHovered;
-    }
-    
-    public void setItemXOffsetHovered(int itemXOffsetHovered) {
-        this.itemXOffsetHovered = itemXOffsetHovered;
-    }
-    
-    public int getItemYOffsetHovered() {
-        return itemYOffsetHovered;
-    }
-    
-    public void setItemYOffsetHovered(int itemYOffsetHovered) {
-        this.itemYOffsetHovered = itemYOffsetHovered;
-    }
-    
-    public int getItemXOffsetActive() {
-        return itemXOffsetActive;
-    }
-    
-    public void setItemXOffsetActive(int itemXOffsetActive) {
-        this.itemXOffsetActive = itemXOffsetActive;
-    }
-    
-    public int getItemYOffsetActive() {
-        return itemYOffsetActive;
-    }
-    
-    public void setItemYOffsetActive(int itemYOffsetActive) {
-        this.itemYOffsetActive = itemYOffsetActive;
-    }
-    
-    public int getSlotNumberXOffset() {
-        return slotNumberXOffset;
-    }
-    
-    public void setSlotNumberXOffset(int slotNumberXOffset) {
-        this.slotNumberXOffset = slotNumberXOffset;
-    }
-    
-    public int getSlotNumberYOffset() {
-        return slotNumberYOffset;
-    }
-    
-    public void setSlotNumberYOffset(int slotNumberYOffset) {
-        this.slotNumberYOffset = slotNumberYOffset;
-    }
-    
-    public int getSlotNumberXOffsetHovered() {
-        return slotNumberXOffsetHovered;
-    }
-    
-    public void setSlotNumberXOffsetHovered(int slotNumberXOffsetHovered) {
-        this.slotNumberXOffsetHovered = slotNumberXOffsetHovered;
-    }
-    
-    public int getSlotNumberYOffsetHovered() {
-        return slotNumberYOffsetHovered;
-    }
-    
-    public void setSlotNumberYOffsetHovered(int slotNumberYOffsetHovered) {
-        this.slotNumberYOffsetHovered = slotNumberYOffsetHovered;
-    }
-    
-    public int getSlotNumberXOffsetActive() {
-        return slotNumberXOffsetActive;
-    }
-    
-    public void setSlotNumberXOffsetActive(int slotNumberXOffsetActive) {
-        this.slotNumberXOffsetActive = slotNumberXOffsetActive;
-    }
-    
-    public int getSlotNumberYOffsetActive() {
-        return slotNumberYOffsetActive;
-    }
-    
-    public void setSlotNumberYOffsetActive(int slotNumberYOffsetActive) {
-        this.slotNumberYOffsetActive = slotNumberYOffsetActive;
-    }
-    
-    public String getSlotNumberColor() {
-        return slotNumberColor;
-    }
-    
-    public void setSlotNumberColor(String slotNumberColor) {
-        this.slotNumberColor = slotNumberColor;
-    }
-    
-    public String getSlotNumberColorHovered() {
-        return slotNumberColorHovered;
-    }
-    
-    public void setSlotNumberColorHovered(String slotNumberColorHovered) {
-        this.slotNumberColorHovered = slotNumberColorHovered;
-    }
-    
-    public String getSlotNumberColorActive() {
-        return slotNumberColorActive;
-    }
-    
-    public void setSlotNumberColorActive(String slotNumberColorActive) {
-        this.slotNumberColorActive = slotNumberColorActive;
-    }
-    
-    public String getBackgroundOverlayColor() {
-        return backgroundOverlayColor;
-    }
-    
-    public void setBackgroundOverlayColor(String backgroundOverlayColor) {
-        this.backgroundOverlayColor = backgroundOverlayColor;
+    @SuppressWarnings({ "static-access", "null" })
+    public static void parseFromResource(ResourceLocation location) throws Exception {
+        Minecraft mc = Minecraft.getInstance();
+        Resource resource = mc.getResourceManager().getResource(location).orElseThrow();
+        
+        try (InputStream stream = resource.open();
+             InputStreamReader reader = new InputStreamReader(stream)) {
+            Gson gson = new Gson();
+            TexturePackCustomValues temp = gson.fromJson(reader, TexturePackCustomValues.class);
+            
+            offsetFromCenter = temp.offsetFromCenter;
+            xOffset = temp.xOffset;
+            yOffset = temp.yOffset;
+            xOffsetHovered = temp.xOffsetHovered;
+            yOffsetHovered = temp.yOffsetHovered;
+            xOffsetActive = temp.xOffsetActive;
+            yOffsetActive = temp.yOffsetActive;
+            itemXOffset = temp.itemXOffset;
+            itemYOffset = temp.itemYOffset;
+            itemXOffsetHovered = temp.itemXOffsetHovered;
+            itemYOffsetHovered = temp.itemYOffsetHovered;
+            itemXOffsetActive = temp.itemXOffsetActive;
+            itemYOffsetActive = temp.itemYOffsetActive;
+            slotNumberXOffset = temp.slotNumberXOffset;
+            slotNumberYOffset = temp.slotNumberYOffset;
+            slotNumberXOffsetHovered = temp.slotNumberXOffsetHovered;
+            slotNumberYOffsetHovered = temp.slotNumberYOffsetHovered;
+            slotNumberXOffsetActive = temp.slotNumberXOffsetActive;
+            slotNumberYOffsetActive = temp.slotNumberYOffsetActive;
+            slotNumberColor = temp.slotNumberColor;
+            slotNumberColorHovered = temp.slotNumberColorHovered;
+            slotNumberColorActive = temp.slotNumberColorActive;
+            backgroundOverlayColor = temp.backgroundOverlayColor;
+        }
     }
 }
