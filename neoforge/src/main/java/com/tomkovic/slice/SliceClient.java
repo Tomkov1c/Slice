@@ -34,7 +34,6 @@ public class SliceClient {
     @SubscribeEvent
     public static void onPlayerLogin(ClientPlayerNetworkEvent.LoggingIn event) {
         allowKeyBindHandling(true);
-
         ConfigHandler.updateConfigs();
 
         renderer = new RadialMenuRenderer();

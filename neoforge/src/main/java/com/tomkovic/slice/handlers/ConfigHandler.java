@@ -1,7 +1,6 @@
 package com.tomkovic.slice.handlers;
 
 import com.tomkovic.slice.Config;
-import com.tomkovic.slice.RadialMenuRenderer;
 
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.event.config.ModConfigEvent;
@@ -21,7 +20,6 @@ public class ConfigHandler {
     public static void updateConfigs() {
         Config.pushConfigToGlobal();
 
-        RadialMenuRenderer.refreshConfig();
         RadialMenuHandler.refreshConfig();
     }
 

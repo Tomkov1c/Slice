@@ -15,34 +15,18 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
 public class RadialMenuRenderer {
-
-    private static int itemSize;
-    private static int slotSize;
-    private static int slotRadius;
-    private static boolean counterclockwise;
-    private static boolean hideUnusedSlots;
-    private static boolean hideSlotNumber;
-    private static boolean hideSlotSprite;
-    private static boolean[] disabledSlots = new boolean[Constants.SLOT_COUNT];
-    private static int startAngle;
-    private static int endAngle;
-    private static int backgroundDarkenOpacity;
-    private static int innerDeadzoneRadius;
-    private static int outerDeadzoneRadius;
-    private static boolean clickToSelect;
+    private boolean isRendering = false;
+    private boolean hasRenderedOnce = false;
 
     private double mouseStartX = 0;
     private double mouseStartY = 0;
     private static Field selectedField = null;
 
-    private boolean isRendering = false;
-    private boolean hasRenderedOnce = false;
-    private boolean cursorEnteredSelectionArea = false;
-
-    private SlotPosition[] cachedSlotPositions = null;
-    private int[] cachedVisibleSlots = null;
+    // Cache
     private int cachedCenterX = 0;
     private int cachedCenterY = 0;
+    private int[] cachedVisibleSlots = null;
+    private SlotPosition[] cachedSlotPositions = null;
     private JsonObject cachedJson = null;
 
     private int cachedScreenWidth = -1;
@@ -54,6 +38,7 @@ public class RadialMenuRenderer {
     private int cachedSlotNumberColorNormal = -1;
     private int cachedSlotNumberColorHovered = -1;
     private int cachedSlotNumberColorActive = -1;
+    //
 
     public RadialMenuRenderer() {
         try {
@@ -62,44 +47,12 @@ public class RadialMenuRenderer {
         } catch (Exception e) {
             Constants.LOG.error("Failed to access Inventory.selected field", e);
         }
-        refreshConfig();
-    }
-    
-    public static void refreshConfig() {
-        itemSize = GlobalConfig.itemSize;
-        slotSize = GlobalConfig.slotSize;
-        slotRadius = GlobalConfig.radialMenuRadius;
-        counterclockwise = GlobalConfig.counterclockwiseRotation;
-        hideUnusedSlots = GlobalConfig.hideUnusedSlots;
-        hideSlotNumber = GlobalConfig.hideSlotNumber;
-        hideSlotSprite = GlobalConfig.hideSlotSprite;
-
-        startAngle = GlobalConfig.startAngle;
-        endAngle = GlobalConfig.endAngle;
-        
-        backgroundDarkenOpacity = GlobalConfig.backgroundDarkenOpacity;
-        
-        innerDeadzoneRadius = GlobalConfig.innerDeadzone;
-        outerDeadzoneRadius = GlobalConfig.outerDeadzone;
-
-        disabledSlots[0] = GlobalConfig.disableSlot1;
-        disabledSlots[1] = GlobalConfig.disableSlot2;
-        disabledSlots[2] = GlobalConfig.disableSlot3;
-        disabledSlots[3] = GlobalConfig.disableSlot4;
-        disabledSlots[4] = GlobalConfig.disableSlot5;
-        disabledSlots[5] = GlobalConfig.disableSlot6;
-        disabledSlots[6] = GlobalConfig.disableSlot7;
-        disabledSlots[7] = GlobalConfig.disableSlot8;
-        disabledSlots[8] = GlobalConfig.disableSlot9;
-
-        clickToSelect = GlobalConfig.clickToSelect;
     }
 
     public void renderMenu() {
         if (!isRendering) {
             isRendering = true;
             hasRenderedOnce = false;
-            cursorEnteredSelectionArea = false;
             onMenuOpen();
         }
     }
@@ -108,7 +61,6 @@ public class RadialMenuRenderer {
         if (isRendering) {
             isRendering = false;
             hasRenderedOnce = false;
-            cursorEnteredSelectionArea = false;
             onMenuClose();
             clearCache();
         }
@@ -148,10 +100,6 @@ public class RadialMenuRenderer {
     }
     
     private void initializeCache(Minecraft mc, LocalPlayer player) {
-        if (cachedJson == null) {
-            cachedJson = RadialMenuHelper.readJsonFromResources(mc.getResourceManager(), "textures/texture_config.json");
-        }
-
         if (cachedScreenWidth == -1 && cachedScreenHeight == -1) {
             cachedScreenWidth = mc.getWindow().getGuiScaledWidth();
             cachedScreenHeight = mc.getWindow().getGuiScaledHeight();
@@ -159,17 +107,16 @@ public class RadialMenuRenderer {
             cachedCenterY = cachedScreenHeight / 2;
         }
 
-        if (cachedInventory == null) {
-            cachedInventory = player.getInventory();
-        }
+        if (cachedInventory == null) cachedInventory = player.getInventory();
 
         if (cachedSlotPositions == null) {
-            cachedVisibleSlots = RadialMenuHelper.getVisibleSlots(cachedInventory, hideUnusedSlots, disabledSlots);
+            cachedVisibleSlots = RadialMenuHelper.getVisibleSlots(cachedInventory, GlobalConfig.HIDE_UNUSED_SLOTS);
+            
             if (cachedVisibleSlots.length == 0) return;
             
             cachedSlotPositions = RadialMenuHelper.calculateSlotPositions(
                 cachedVisibleSlots, cachedCenterX, cachedCenterY, 
-                startAngle, endAngle, counterclockwise, slotRadius
+                GlobalConfig.START_ANGLE, GlobalConfig.END_ANGLE, GlobalConfig.REVERSE_ROTATION, GlobalConfig.MENU_RADIUS
             );
         }
 
@@ -195,19 +142,19 @@ public class RadialMenuRenderer {
         double mouseX = mc.mouseHandler.xpos() * cachedScreenWidth / mc.getWindow().getScreenWidth() - cachedCenterX;
         double mouseY = mc.mouseHandler.ypos() * cachedScreenHeight / mc.getWindow().getScreenHeight() - cachedCenterY;
 
-        boolean cursorInSelectionArea = RadialMenuHelper.isCursorInSelectionArea(mouseX, mouseY, slotRadius, innerDeadzoneRadius, outerDeadzoneRadius);
+        boolean cursorInSelectionArea = RadialMenuHelper.isCursorInSelectionArea(mouseX, mouseY, GlobalConfig.MENU_RADIUS, GlobalConfig.INNER_DEADZONE, GlobalConfig.OUTER_DEADZONE);
 
         if (cursorInSelectionArea)
             RadialMenuHandler.hoveredSlot = RadialMenuHelper.getHoveredSlot(
-                mouseX, mouseY, cachedSlotPositions, slotRadius, 
-                innerDeadzoneRadius, outerDeadzoneRadius
+                mouseX, mouseY, cachedSlotPositions, GlobalConfig.MENU_RADIUS, 
+                GlobalConfig.INNER_DEADZONE, GlobalConfig.OUTER_DEADZONE
             );
         else
             RadialMenuHandler.hoveredSlot = -1;
 
         RadialMenuHandler.selectedSlot = cachedInventory.getSelectedSlot();
 
-        if (backgroundDarkenOpacity > 0) renderBackground(graphics, cachedJson, cachedScreenWidth, cachedScreenHeight);
+        if (GlobalConfig.BACKGROUND_OPACITY > 0) renderBackground(graphics, cachedJson, cachedScreenWidth, cachedScreenHeight);
 
         renderVisibleSlots(graphics, mc);
 
@@ -227,12 +174,12 @@ public class RadialMenuRenderer {
             int x = pos.baseX + xOffset;
             int y = pos.baseY + yOffset;
 
-            if (!hideSlotSprite) renderSlot(graphics, x, y, isActive, isHovered);
+            if (!GlobalConfig.HIDE_SLOT_SPRITE) renderSlot(graphics, x, y, isActive, isHovered);
             
             ItemStack stack = cachedInventory.getItem(pos.slotIndex);
             if (!stack.isEmpty()) renderItem(graphics, mc, stack, x, y, isActive, isHovered);
             
-            if (!hideSlotNumber) renderSlotNumber(graphics, mc, pos.slotIndex, x, y, isActive, isHovered);
+            if (!GlobalConfig.HIDE_SLOT_NUMBER) renderSlotNumber(graphics, mc, pos.slotIndex, x, y, isActive, isHovered);
         }
     }
 
@@ -243,8 +190,8 @@ public class RadialMenuRenderer {
             Constants.SLOT_TEXTURE;
 
         graphics.blit(RenderPipelines.GUI_TEXTURED, tex,
-            x - slotSize / 2, y - slotSize / 2,
-            0F, 0F, slotSize, slotSize, slotSize, slotSize);
+            x - GlobalConfig.SLOT_SIZE / 2, y - GlobalConfig.SLOT_SIZE / 2,
+            0F, 0F, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE);
     }
 
     @SuppressWarnings("null")
@@ -255,7 +202,7 @@ public class RadialMenuRenderer {
         
         graphics.pose().pushMatrix();
         graphics.pose().translate(ix + 8, iy + 8);
-        float scale = itemSize / 16f;
+        float scale = GlobalConfig.ITEM_SIZE / 16f;
         graphics.pose().scale(scale, scale);
         graphics.pose().translate(-(ix + 8), -(iy + 8));
         graphics.renderItem(stack, ix, iy);
@@ -270,7 +217,7 @@ public class RadialMenuRenderer {
         int xOffset = RadialMenuHelper.getIntOrDefault(cachedJson, Constants.JSON_SLOT_NUMBER_X_OFFSET + state, 0);
         int yOffset = RadialMenuHelper.getIntOrDefault(cachedJson, Constants.JSON_SLOT_NUMBER_Y_OFFSET + state, 0);
         int tx = x - mc.font.width(num) / 2 + xOffset;
-        int ty = y + itemSize / 2 + yOffset;
+        int ty = y + GlobalConfig.ITEM_SIZE / 2 + yOffset;
         
         int col = active ? cachedSlotNumberColorActive :
             hovered ? cachedSlotNumberColorHovered :
@@ -281,7 +228,7 @@ public class RadialMenuRenderer {
 
     private void renderBackground(GuiGraphics graphics, JsonObject json, int screenWidth, int screenHeight) {
         int baseColor = RadialMenuHelper.parseColor(json, Constants.JSON_BACKGROUND_OVERLAY_COLOR, 0x000000);
-        int colorWithAlpha = (backgroundDarkenOpacity << 24) | (baseColor & 0xFFFFFF);
+        int colorWithAlpha = (GlobalConfig.BACKGROUND_OPACITY << 24) | (baseColor & 0xFFFFFF);
         graphics.fill(0, 0, screenWidth, screenHeight, colorWithAlpha);
     }
     
