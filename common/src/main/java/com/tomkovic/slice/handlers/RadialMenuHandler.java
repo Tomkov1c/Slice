@@ -38,8 +38,6 @@ public class RadialMenuHandler {
         mc().mouseHandler.releaseMouse();
         
         Services.PLATFORM.renderMenu();
-
-        Constants.LOG.info("[RadialMenuHandler] openMenu");
     }
     
     public static void closeMenu() {
@@ -47,8 +45,6 @@ public class RadialMenuHandler {
         mc().mouseHandler.grabMouse();
 
         Services.PLATFORM.derenderMenu();
-
-        Constants.LOG.info("[RadialMenuHandler] closeMenu");
     }
 
     public static void centerCursor() {
@@ -66,13 +62,9 @@ public class RadialMenuHandler {
 
         if (isToggleEnabled) {
             handleToggleMode();
-
-            Constants.LOG.info("[RadialMenuHandler] handleOpenMenuKeyBehaviour: Toggle");
         }
         else {
             handleHoldMode();
-
-            Constants.LOG.info("[RadialMenuHandler] handleOpenMenuKeyBehaviour: Hold");
         }
     }
     
@@ -80,16 +72,11 @@ public class RadialMenuHandler {
         /*  On Open    */
         if (BindingHandler.openMenuKeyState.isPressed() && !isMenuOpen) {
             openMenu();
-
-            Constants.LOG.info("[RadialMenuHandler] handleToggleMode: Open");
         }
         
         /*  On Close    */
         else if (BindingHandler.openMenuKeyState.isPressed() && isMenuOpen) {
             closeMenu();
-
-            Constants.LOG.info("[RadialMenuHandler] handleToggleMode: Close");
-
         }
     }
     
@@ -97,8 +84,6 @@ public class RadialMenuHandler {
         /*  On Open    */
         if (BindingHandler.openMenuKeyState.isPressed() && !isMenuOpen) {
             openMenu();
-
-            Constants.LOG.info("[RadialMenuHandler] handleHoldMode: Open");
         }
 
         /*  On Close    */
@@ -106,8 +91,6 @@ public class RadialMenuHandler {
             closeMenu();
 
             if (selectedSlot != hoveredSlot) { handleSlotSelecting(hoveredSlot); }
-
-            Constants.LOG.info("[RadialMenuHandler] handleHoldMode: Close");
         }
     }
 

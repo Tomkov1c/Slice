@@ -40,8 +40,6 @@ public class KeyBindings {
                 BindingHandler.openMenuKeyState.setPressed();
 
                 RadialMenuHandler.handleOpenMenuKeyBehaviour();
-
-                Constants.LOG.info("[KeyBindings] onKeyInput: Pressed");
             } 
             
             /*  Key Released  */
@@ -49,8 +47,6 @@ public class KeyBindings {
                 BindingHandler.openMenuKeyState.setReleased();
 
                 RadialMenuHandler.handleOpenMenuKeyBehaviour();
-
-                Constants.LOG.info("[KeyBindings] onKeyInput: Released");
             }
         }
     }
@@ -66,7 +62,6 @@ public class KeyBindings {
 
                 RadialMenuHandler.handleOpenMenuKeyBehaviour();
 
-                Constants.LOG.info("[KeyBindings] onMouseInput: Pressed");
                 event.setCanceled(true);
             } 
             
@@ -76,7 +71,6 @@ public class KeyBindings {
                 
                 RadialMenuHandler.handleOpenMenuKeyBehaviour();
 
-                Constants.LOG.info("[KeyBindings] onMouseInput: Released");
                 event.setCanceled(true);
             }
         }
