@@ -5,39 +5,39 @@ public class GlobalConfig {
     // Display
     
         // Display / size
-        public static Integer radialMenuRadius;
-        public static Integer itemSize;
-        public static Integer slotSize;
+        public static Integer MENU_RADIUS;
+        public static Integer ITEM_SIZE;
+        public static Integer SLOT_SIZE;
 
         // Display / Visibility
-        public static Integer backgroundDarkenOpacity;
-        public static Boolean hideUnusedSlots;
-        public static Boolean hideSlotNumber;
-        public static Boolean hideSlotSprite;
+        public static Integer BACKGROUND_OPACITY;
+        public static Boolean HIDE_UNUSED_SLOTS;
+        public static Boolean HIDE_SLOT_NUMBER;
+        public static Boolean HIDE_SLOT_SPRITE;
 
                 // Display / Visibility / Disable Slots
-                public static Boolean disableSlot1;
-                public static Boolean disableSlot2;
-                public static Boolean disableSlot3;
-                public static Boolean disableSlot4;
-                public static Boolean disableSlot5;
-                public static Boolean disableSlot6;
-                public static Boolean disableSlot7;
-                public static Boolean disableSlot8;
-                public static Boolean disableSlot9;
+                public static Boolean DISABLE_SLOT_1;
+                public static Boolean DISABLE_SLOT_2;
+                public static Boolean DISABLE_SLOT_3;
+                public static Boolean DISABLE_SLOT_4;
+                public static Boolean DISABLE_SLOT_5;
+                public static Boolean DISABLE_SLOT_6;
+                public static Boolean DISABLE_SLOT_7;
+                public static Boolean DISABLE_SLOT_8;
+                public static Boolean DISABLE_SLOT_9;
 
 
-    public static Integer startAngle;
-    public static Integer endAngle;
-    public static Boolean counterclockwiseRotation;
+    public static Integer START_ANGLE;
+    public static Integer END_ANGLE;
+    public static Boolean REVERSE_ROTATION;
 
     // Behaviour
-    public static Boolean toggleKeybind;
-    public static Boolean clickToSelect;
-    public static Boolean closeOnSelect;
-    public static Integer innerDeadzone;
-    public static Integer outerDeadzone;
+    public static Boolean TOGGLE_KEYBIND;
+    public static Boolean CLICK_TO_SELECT;
+    public static Boolean CLOSE_ON_SELECT;
+    public static Integer INNER_DEADZONE;
+    public static Integer OUTER_DEADZONE;
 
     // Misc
-    public static Boolean disableScrollingOnHotbar;
+    public static Boolean DISABLE_HOTBAR_SCROLLING;
 }

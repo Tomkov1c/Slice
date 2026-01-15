@@ -1,7 +1,6 @@
 package com.tomkovic.slice.handlers;
 
 import com.tomkovic.slice.GlobalConfig;
-import com.tomkovic.slice.Constants;
 import com.tomkovic.slice.platform.Services;
 
 import net.minecraft.client.Minecraft;
@@ -27,9 +26,9 @@ public class RadialMenuHandler {
 
 
     public static void refreshConfig() {
-        isToggleEnabled = GlobalConfig.toggleKeybind;
-        isClickToSelectEnabled = GlobalConfig.clickToSelect;
-        isCloseOnSelectEnabled = GlobalConfig.closeOnSelect;
+        isToggleEnabled = GlobalConfig.TOGGLE_KEYBIND;
+        isClickToSelectEnabled = GlobalConfig.CLICK_TO_SELECT;
+        isCloseOnSelectEnabled = GlobalConfig.CLOSE_ON_SELECT;
         isRecenterCursorEnabled = false;
     }
 
