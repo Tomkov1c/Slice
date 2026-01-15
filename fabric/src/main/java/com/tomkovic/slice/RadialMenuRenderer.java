@@ -2,6 +2,8 @@ package com.tomkovic.slice;
 
 import java.lang.reflect.Field;
 import com.google.gson.JsonObject;
+import com.tomkovic.slice.classes.SlotPosition;
+import com.tomkovic.slice.helpers.ResourceHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;

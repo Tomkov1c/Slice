@@ -197,4 +197,43 @@ public class Config {
         CONFIG = pair.getLeft();
         CONFIG_SPEC = pair.getRight();
     }
+
+    public static void pushConfigToGlobal() {
+        // Display / Size
+        GlobalConfig.radialMenuRadius = CONFIG.radialMenuRadius.get();
+        GlobalConfig.itemSize = CONFIG.itemSize.get();
+        GlobalConfig.slotSize = CONFIG.slotSize.get();
+        
+        // Display / Visibility
+        GlobalConfig.backgroundDarkenOpacity = CONFIG.backgroundDarkenOpacity.get();
+        GlobalConfig.hideUnusedSlots = CONFIG.hideUnusedSlots.get();
+        GlobalConfig.hideSlotNumber = CONFIG.hideSlotNumber.get();
+        GlobalConfig.hideSlotSprite = CONFIG.hideSlotSprite.get();
+        
+        // Display / Visibility / Disable Slots
+        GlobalConfig.disableSlot1 = CONFIG.disableSlot1.get();
+        GlobalConfig.disableSlot2 = CONFIG.disableSlot2.get();
+        GlobalConfig.disableSlot3 = CONFIG.disableSlot3.get();
+        GlobalConfig.disableSlot4 = CONFIG.disableSlot4.get();
+        GlobalConfig.disableSlot5 = CONFIG.disableSlot5.get();
+        GlobalConfig.disableSlot6 = CONFIG.disableSlot6.get();
+        GlobalConfig.disableSlot7 = CONFIG.disableSlot7.get();
+        GlobalConfig.disableSlot8 = CONFIG.disableSlot8.get();
+        GlobalConfig.disableSlot9 = CONFIG.disableSlot9.get();
+        
+        // Display / Angles
+        GlobalConfig.startAngle = CONFIG.startAngle.get();
+        GlobalConfig.endAngle = CONFIG.endAngle.get();
+        GlobalConfig.counterclockwiseRotation = CONFIG.counterclockwiseRotation.get();
+        
+        // Behaviour
+        GlobalConfig.toggleKeybind = CONFIG.toggleKeybind.get();
+        GlobalConfig.clickToSelect = CONFIG.clickToSelect.get();
+        GlobalConfig.closeOnSelect = CONFIG.closeOnSelect.get();
+        GlobalConfig.innerDeadzone = CONFIG.innerDeadzone.get();
+        GlobalConfig.outerDeadzone = CONFIG.outerDeadzone.get();
+        
+        // Misc
+        GlobalConfig.disableScrollingOnHotbar = CONFIG.disableScrollingOnHotbar.get();
+    }
 }
