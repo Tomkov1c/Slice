@@ -3,6 +3,7 @@ package com.tomkovic.slice;
 import java.lang.reflect.Field;
 import com.google.gson.JsonObject;
 import com.tomkovic.slice.classes.SlotPosition;
+import com.tomkovic.slice.classes.TexturePackCustomValues;
 import com.tomkovic.slice.handlers.RadialMenuHandler;
 import com.tomkovic.slice.helpers.JsonHelper;
 import com.tomkovic.slice.helpers.RadialMenuHelper;
@@ -23,22 +24,19 @@ public class RadialMenuRenderer {
     private double mouseStartY = 0;
     private static Field selectedField = null;
 
+    TexturePackCustomValues jsonConfig = new TexturePackCustomValues();
+
     // Cache
     private int cachedCenterX = 0;
     private int cachedCenterY = 0;
     private int[] cachedVisibleSlots = null;
     private SlotPosition[] cachedSlotPositions = null;
-    private JsonObject cachedJson = null;
 
     private int cachedScreenWidth = -1;
     private int cachedScreenHeight = -1;
 
     private LocalPlayer cachedPlayer = null;
     private Inventory cachedInventory = null;
-
-    private int cachedSlotNumberColorNormal = -1;
-    private int cachedSlotNumberColorHovered = -1;
-    private int cachedSlotNumberColorActive = -1;
     //
 
     public RadialMenuRenderer() {
@@ -85,7 +83,6 @@ public class RadialMenuRenderer {
 
     private void clearCache() {
         cachedPlayer = null;
-        cachedJson = null;
 
         cachedScreenWidth = -1;
         cachedScreenHeight = -1;
@@ -94,15 +91,12 @@ public class RadialMenuRenderer {
 
         cachedInventory = null;
         cachedSlotPositions = null;
-        
-        cachedSlotNumberColorNormal = -1;
-        cachedSlotNumberColorHovered = -1;
-        cachedSlotNumberColorActive = -1;
+
     }
     
     private void initializeCache(Minecraft mc, LocalPlayer player) {
 
-        cachedJson = JsonHelper.readJsonFromResources(mc.getResourceManager(), "textures/texture_config.json");
+        jsonConfig.parseFromResource(Constants.TEXTTURE_CONFIG_JSON_NAMESPACE_PATH);
 
         if (cachedScreenWidth == -1 && cachedScreenHeight == -1) {
             cachedScreenWidth = mc.getWindow().getGuiScaledWidth();
@@ -122,12 +116,6 @@ public class RadialMenuRenderer {
                 cachedVisibleSlots, cachedCenterX, cachedCenterY, 
                 GlobalConfig.START_ANGLE, GlobalConfig.END_ANGLE, GlobalConfig.REVERSE_ROTATION, GlobalConfig.MENU_RADIUS
             );
-        }
-
-        if (cachedSlotNumberColorNormal == -1) {
-            cachedSlotNumberColorNormal = JsonHelper.parseColor(cachedJson, Constants.JSON_SLOT_NUMBER_COLOR, Constants.DEFAULT_SLOT_NUMBER_COLOR);
-            cachedSlotNumberColorHovered = JsonHelper.parseColor(cachedJson, Constants.JSON_SLOT_NUMBER_COLOR_HOVERED, Constants.DEFAULT_SLOT_NUMBER_COLOR_HOVERED);
-            cachedSlotNumberColorActive = JsonHelper.parseColor(cachedJson, Constants.JSON_SLOT_NUMBER_COLOR_ACTIVE, Constants.DEFAULT_SLOT_NUMBER_COLOR_ACTIVE);
         }
     }
 
@@ -158,7 +146,7 @@ public class RadialMenuRenderer {
 
         RadialMenuHandler.selectedSlot = cachedInventory.getSelectedSlot();
 
-        if (GlobalConfig.BACKGROUND_OPACITY > 0) renderBackground(graphics, cachedJson, cachedScreenWidth, cachedScreenHeight);
+        if (GlobalConfig.BACKGROUND_OPACITY > 0) renderBackground(graphics, cachedScreenWidth, cachedScreenHeight);
 
         renderVisibleSlots(graphics, mc);
 
@@ -172,9 +160,9 @@ public class RadialMenuRenderer {
             boolean isActive = (pos.slotIndex == RadialMenuHandler.selectedSlot);
             boolean isHovered = (pos.slotIndex == RadialMenuHandler.hoveredSlot);
             
-            String state = isActive ? "_active" : (isHovered ? "_hovered" : "");
-            int xOffset = JsonHelper.getIntOrDefault(cachedJson, Constants.JSON_X_OFFSET + state, 0);
-            int yOffset = JsonHelper.getIntOrDefault(cachedJson, Constants.JSON_Y_OFFSET + state, 0);
+            int xOffset = isActive ? jsonConfig.xOffsetActive : (isHovered ? jsonConfig.xOffsetHovered : jsonConfig.xOffset);
+            int yOffset = isActive ? jsonConfig.yOffsetActive : (isHovered ? jsonConfig.yOffsetHovered : jsonConfig.yOffset);
+
             int x = pos.baseX + xOffset;
             int y = pos.baseY + yOffset;
 
@@ -200,9 +188,12 @@ public class RadialMenuRenderer {
 
     @SuppressWarnings("null")
     private void renderItem(GuiGraphics graphics, Minecraft mc, ItemStack stack, int x, int y, boolean active, boolean hovered) {
-        String state = active ? "_active" : (hovered ? "_hovered" : "");
-        int ix = x + JsonHelper.getIntOrDefault(cachedJson, Constants.JSON_ITEM_X_OFFSET + state, 0);
-        int iy = y + JsonHelper.getIntOrDefault(cachedJson, Constants.JSON_ITEM_Y_OFFSET + state, 0);
+
+        int x_offset = active ? jsonConfig.itemXOffsetActive : (hovered ? jsonConfig.itemXOffsetHovered : jsonConfig.itemXOffset);
+        int y_offset = active ? jsonConfig.itemYOffsetActive : (hovered ? jsonConfig.itemXOffsetHovered : jsonConfig.itemXOffset);
+
+        int ix = x + x_offset;
+        int iy = y + y_offset;
         
         graphics.pose().pushMatrix();
         graphics.pose().translate(ix + 8, iy + 8);
@@ -216,22 +207,25 @@ public class RadialMenuRenderer {
 
     @SuppressWarnings("null")
     private void renderSlotNumber(GuiGraphics graphics, Minecraft mc, int index, int x, int y, boolean active, boolean hovered) {
+
         String num = String.valueOf(index + 1);
-        String state = active ? "_active" : (hovered ? "_hovered" : "");
-        int xOffset = JsonHelper.getIntOrDefault(cachedJson, Constants.JSON_SLOT_NUMBER_X_OFFSET + state, 0);
-        int yOffset = JsonHelper.getIntOrDefault(cachedJson, Constants.JSON_SLOT_NUMBER_Y_OFFSET + state, 0);
+
+        int xOffset = active ? jsonConfig.slotNumberXOffsetActive : (hovered ? jsonConfig.slotNumberXOffsetHovered : jsonConfig.slotNumberXOffset);
+        int yOffset = active ? jsonConfig.slotNumberYOffsetActive : (hovered ? jsonConfig.slotNumberYOffsetHovered : jsonConfig.slotNumberYOffset);
+
         int tx = x - mc.font.width(num) / 2 + xOffset;
         int ty = y + GlobalConfig.ITEM_SIZE / 2 + yOffset;
         
-        int col = active ? cachedSlotNumberColorActive :
-            hovered ? cachedSlotNumberColorHovered :
-            cachedSlotNumberColorNormal;
+        int col = active ? JsonHelper.parseColor(jsonConfig.slotNumberColorActive, 0) :
+            hovered ? JsonHelper.parseColor(jsonConfig.slotNumberColorHovered, 0) :
+            JsonHelper.parseColor(jsonConfig.slotNumberColor, 0);
         
         graphics.drawString(mc.font, num, tx, ty, col);
     }
 
-    private void renderBackground(GuiGraphics graphics, JsonObject json, int screenWidth, int screenHeight) {
-        int baseColor = JsonHelper.parseColor(json, Constants.JSON_BACKGROUND_OVERLAY_COLOR, 0x000000);
+    private void renderBackground(GuiGraphics graphics, int screenWidth, int screenHeight) {
+        int baseColor = JsonHelper.parseColor(jsonConfig.backgroundOverlayColor, 0);
+
         int colorWithAlpha = (GlobalConfig.BACKGROUND_OPACITY << 24) | (baseColor & 0xFFFFFF);
         graphics.fill(0, 0, screenWidth, screenHeight, colorWithAlpha);
     }

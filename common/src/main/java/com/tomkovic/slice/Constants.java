@@ -13,6 +13,8 @@ public class Constants {
 	public static final String MOD_NAME = "Slice";
 	public static final Logger LOG = LoggerFactory.getLogger(MOD_NAME);
 
+    public static final String TEXTTURE_CONFIG_JSON_NAMESPACE_PATH = "textures/texture_config.json";
+
 	public static final int SLOT_COUNT = 9;
     public static final int MIN_MOUSE_DISTANCE = 20;
     
