@@ -11,10 +11,10 @@
   </a>
 </p>
 <p align="center">
-  <img alt="neoforge" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy/supported/neoforge_vector.svg?raw=true">
-  <img alt="forge" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/forge_vector.svg">
-  <img alt="forge" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/fabric_vector.svg">
-  <img alt="forge" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/quilt_vector.svg">
+  <a href="https://modrinth.com/mod/slice/versions?l=neoforge"><img alt="neoforge" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy/supported/neoforge_vector.svg?raw=true"></a>
+  <a href="https://modrinth.com/mod/slice/versions?l=forge"><img alt="forge" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/forge_vector.svg"></a>
+  <a href="https://modrinth.com/mod/slice/versions?l=fabric"><img alt="forge" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/fabric_vector.svg"></a>
+  <a href="https://modrinth.com/mod/slice/versions?l=quilt"><img alt="forge" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/quilt_vector.svg"></a>
 </p>
 
 > **Note:** This project is in beta and may be buggy.
