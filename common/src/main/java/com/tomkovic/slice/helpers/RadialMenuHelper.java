@@ -6,11 +6,8 @@ import net.minecraft.resources.ResourceLocation;
 import com.tomkovic.slice.Constants;
 import com.tomkovic.slice.GlobalConfig;
 import com.tomkovic.slice.classes.SlotPosition;
-import com.tomkovic.slice.classes.TexturePackCustomValues;
 
 public class RadialMenuHelper {
-
-    public static TexturePackCustomValues textureConfig = new TexturePackCustomValues();
 
     public static boolean[] getDisabledSlots() {
         boolean[] disabledSlots = new boolean[Constants.SLOT_COUNT];

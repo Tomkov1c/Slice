@@ -78,7 +78,7 @@ public class RadialMenuRenderer {
     
     private void initializeCache(Minecraft mc, LocalPlayer player) {
 
-        jsonConfig.parseFromResource(Constants.TEXTTURE_CONFIG_JSON_NAMESPACE_PATH);
+        jsonConfig.parseFromResource(Constants.TEXTURE_CONFIG_JSON_NAMESPACE_PATH);
 
         if (cachedScreenWidth == -1 && cachedScreenHeight == -1) {
             cachedScreenWidth = mc.getWindow().getGuiScaledWidth();

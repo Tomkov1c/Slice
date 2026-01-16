@@ -58,7 +58,6 @@ public class SliceClient {
         if (renderer != null) allowKeyBindHandling(true);
     }
 
-
     @SubscribeEvent
     public static void onRenderGui(RenderGuiEvent.Post event) {
         if (RadialMenuHandler.isMenuOpen && renderer != null)
