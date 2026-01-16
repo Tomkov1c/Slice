@@ -16,8 +16,8 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
 public class RadialMenuRenderer {
-    private boolean isRendering = false;
-    private boolean hasRenderedOnce = false;
+    public boolean isRendering = false;
+    public boolean hasRenderedOnce = false;
 
     private double mouseStartX = 0;
     private double mouseStartY = 0;
@@ -47,23 +47,6 @@ public class RadialMenuRenderer {
         }
     }
 
-    public void renderMenu() {
-        if (!isRendering) {
-            isRendering = true;
-            hasRenderedOnce = false;
-            onMenuOpen();
-        }
-    }
-
-    public void derenderMenu() {
-        if (isRendering) {
-            isRendering = false;
-            hasRenderedOnce = false;
-            onMenuClose();
-            clearCache();
-        }
-    }
-
     public void onMenuOpen() {
         RadialMenuHandler.hoveredSlot = -1;
 
@@ -80,7 +63,7 @@ public class RadialMenuRenderer {
         mouseStartY = -1;
     }
 
-    private void clearCache() {
+    public void clearCache() {
         cachedPlayer = null;
 
         cachedScreenWidth = -1;
@@ -107,14 +90,11 @@ public class RadialMenuRenderer {
         if (cachedInventory == null) cachedInventory = player.getInventory();
 
         if (cachedSlotPositions == null) {
-            cachedVisibleSlots = RadialMenuHelper.getVisibleSlots(cachedInventory, GlobalConfig.HIDE_UNUSED_SLOTS);
+            cachedVisibleSlots = RadialMenuHelper.getVisibleSlots(cachedInventory);
             
             if (cachedVisibleSlots.length == 0) return;
             
-            cachedSlotPositions = RadialMenuHelper.calculateSlotPositions(
-                cachedVisibleSlots, cachedCenterX, cachedCenterY, 
-                GlobalConfig.START_ANGLE, GlobalConfig.END_ANGLE, GlobalConfig.REVERSE_ROTATION, GlobalConfig.MENU_RADIUS
-            );
+            cachedSlotPositions = RadialMenuHelper.calculateSlotPositions(cachedVisibleSlots, cachedCenterX, cachedCenterY);
         }
     }
 
@@ -133,13 +113,10 @@ public class RadialMenuRenderer {
         double mouseX = mc.mouseHandler.xpos() * cachedScreenWidth / mc.getWindow().getScreenWidth() - cachedCenterX;
         double mouseY = mc.mouseHandler.ypos() * cachedScreenHeight / mc.getWindow().getScreenHeight() - cachedCenterY;
 
-        boolean cursorInSelectionArea = RadialMenuHelper.isCursorInSelectionArea(mouseX, mouseY, GlobalConfig.MENU_RADIUS, GlobalConfig.INNER_DEADZONE, GlobalConfig.OUTER_DEADZONE);
+        boolean cursorInSelectionArea = RadialMenuHelper.isCursorInSelectionArea(mouseX, mouseY);
 
         if (cursorInSelectionArea)
-            RadialMenuHandler.hoveredSlot = RadialMenuHelper.getHoveredSlot(
-                mouseX, mouseY, cachedSlotPositions, GlobalConfig.MENU_RADIUS, 
-                GlobalConfig.INNER_DEADZONE, GlobalConfig.OUTER_DEADZONE
-            );
+            RadialMenuHandler.hoveredSlot = RadialMenuHelper.getHoveredSlot( mouseX, mouseY, cachedSlotPositions );
         else
             RadialMenuHandler.hoveredSlot = -1;
 
@@ -188,11 +165,11 @@ public class RadialMenuRenderer {
     @SuppressWarnings("null")
     private void renderItem(GuiGraphics graphics, Minecraft mc, ItemStack stack, int x, int y, boolean active, boolean hovered) {
 
-        int x_offset = active ? jsonConfig.itemXOffsetActive : (hovered ? jsonConfig.itemXOffsetHovered : jsonConfig.itemXOffset);
-        int y_offset = active ? jsonConfig.itemYOffsetActive : (hovered ? jsonConfig.itemXOffsetHovered : jsonConfig.itemXOffset);
+        int xOffset = active ? jsonConfig.itemXOffsetActive : (hovered ? jsonConfig.itemXOffsetHovered : jsonConfig.itemXOffset);
+        int yOffset = active ? jsonConfig.itemYOffsetActive : (hovered ? jsonConfig.itemXOffsetHovered : jsonConfig.itemXOffset);
 
-        int ix = x + x_offset;
-        int iy = y + y_offset;
+        int ix = x + xOffset;
+        int iy = y + yOffset;
         
         graphics.pose().pushMatrix();
         graphics.pose().translate(ix + 8, iy + 8);

@@ -28,14 +28,14 @@ public class RadialMenuHelper {
         return disabledSlots;
     }
     
-    public static int[] getVisibleSlots(Inventory inventory, boolean hideUnusedSlots) {
+    public static int[] getVisibleSlots(Inventory inventory) {
         int count = 0;
         int[] temp = new int[Constants.SLOT_COUNT];
 
         boolean[] disabledSlots = getDisabledSlots();
 
         for (int i = 0; i < Constants.SLOT_COUNT; i++) {
-            if (!disabledSlots[i] && (!hideUnusedSlots || !inventory.getItem(i).isEmpty())) temp[count++] = i;
+            if (!disabledSlots[i] && (!GlobalConfig.HIDE_UNUSED_SLOTS || !inventory.getItem(i).isEmpty())) temp[count++] = i;
         }
 
         int[] result = new int[count];
@@ -44,24 +44,27 @@ public class RadialMenuHelper {
         return result;
     }
 
-    public static SlotPosition[] calculateSlotPositions(int[] visibleSlots, int centerX, int centerY, int startAngle, int endAngle, boolean counterclockwise, int slotRadius) {
+    public static SlotPosition[] calculateSlotPositions(int[] visibleSlots, int centerX, int centerY) {
+
         SlotPosition[] positions = new SlotPosition[visibleSlots.length];
         
-        boolean fullCircle = (startAngle == endAngle) || ((startAngle == 0 && endAngle == 360) || ( startAngle == 360 && endAngle == 0));
+        boolean fullCircle = (GlobalConfig.START_ANGLE == GlobalConfig.END_ANGLE) || 
+                             ((GlobalConfig.START_ANGLE == 0 && GlobalConfig.END_ANGLE == 360) || 
+                             (GlobalConfig.START_ANGLE == 360 && GlobalConfig.END_ANGLE == 0));
 
-        double startRad = Math.toRadians(startAngle) - Math.PI / 2;
-        double endRad = Math.toRadians(endAngle) - Math.PI / 2;
+        double startRad = Math.toRadians(GlobalConfig.START_ANGLE) - Math.PI / 2;
+        double endRad = Math.toRadians(GlobalConfig.END_ANGLE) - Math.PI / 2;
         double angleRange = fullCircle ? Math.PI * 2 : (endRad - startRad + 2 * Math.PI) % (2 * Math.PI);
         double angleStep = fullCircle ? angleRange / visibleSlots.length : 
                               (visibleSlots.length > 1 ? angleRange / (visibleSlots.length - 1) : 0);
 
         for (int i = 0; i < visibleSlots.length; i++) {
             int slotIndex = visibleSlots[i];
-            int displayIndex = counterclockwise ? (visibleSlots.length - 1 - i) : i;
+            int displayIndex = GlobalConfig.REVERSE_ROTATION ? (visibleSlots.length - 1 - i) : i;
             double angle = (fullCircle || visibleSlots.length > 1) ? startRad + displayIndex * angleStep : startRad + angleRange / 2;
             
-            int baseX = centerX + (int)(Math.cos(angle) * slotRadius);
-            int baseY = centerY + (int)(Math.sin(angle) * slotRadius);
+            int baseX = centerX + (int)(Math.cos(angle) * GlobalConfig.MENU_RADIUS);
+            int baseY = centerY + (int)(Math.sin(angle) * GlobalConfig.MENU_RADIUS);
             
             positions[i] = new SlotPosition(slotIndex, angle, baseX, baseY);
         }
@@ -69,40 +72,32 @@ public class RadialMenuHelper {
         return positions;
     }
 
-    public static int getHoveredSlot(double mx, double my, SlotPosition[] slotPositions, int slotRadius, int innerDeadzoneRadius, int outerDeadzoneRadius) {
+    public static int getHoveredSlot(double mx, double my, SlotPosition[] slotPositions) {
         if (slotPositions == null || slotPositions.length == 0) return -1;
-
-        double dist = Math.sqrt(mx * mx + my * my);
-        double innerBoundary = slotRadius - innerDeadzoneRadius;
-        double outerBoundary = slotRadius + outerDeadzoneRadius;
-
-        if (dist < innerBoundary || dist > outerBoundary) return -1;
-
+        
         double mouseAngle = (Math.atan2(my, mx) + 2 * Math.PI) % (2 * Math.PI);
-
         int bestSlot = -1;
         double bestAngularDistance = Double.MAX_VALUE;
-
+        
         for (SlotPosition pos : slotPositions) {
             double slotAngle = (pos.angle + 2 * Math.PI) % (2 * Math.PI);
-
             double angularDistance = Math.abs(mouseAngle - slotAngle);
             if (angularDistance > Math.PI) angularDistance = 2 * Math.PI - angularDistance;
-
+            
             if (angularDistance < bestAngularDistance) {
                 bestAngularDistance = angularDistance;
                 bestSlot = pos.slotIndex;
             }
         }
-
+        
         double maxAcceptable = (Math.PI * 2 / slotPositions.length) / 2 + 0.2;
         if (bestAngularDistance > maxAcceptable) return -1;
-
+        
         return bestSlot;
     }
 
-    public static double calculateSlotAngle(int slotIndex, int totalSlots, boolean counterclockwise) {
-        double angleMultiplier = counterclockwise ? -1.0 : 1.0;
+    public static double calculateSlotAngle(int slotIndex, int totalSlots) {
+        double angleMultiplier = GlobalConfig.REVERSE_ROTATION ? -1.0 : 1.0;
         return (Math.PI * 2 * slotIndex / totalSlots) * angleMultiplier - Math.PI / 2;
     }
 
@@ -116,12 +111,13 @@ public class RadialMenuHelper {
         return ResourceLocation.fromNamespaceAndPath("slice", "textures/gui/" + name + ".png");
     }
 
-    public static boolean isCursorInSelectionArea(double cursorX, double cursorY, int radialMenuRadius, int innerDeadzoneRadius, int outerDeadzoneRadius) {
+    public static boolean isCursorInSelectionArea(double cursorX, double cursorY) {
         double distanceFromCenter = Math.sqrt(cursorX * cursorX + cursorY * cursorY);
         
-        double innerBoundary = radialMenuRadius - innerDeadzoneRadius;
-        double outerBoundary = radialMenuRadius + outerDeadzoneRadius;
+        double innerBoundary = GlobalConfig.MENU_RADIUS - GlobalConfig.INNER_DEADZONE;
+        double outerBoundary = GlobalConfig.MENU_RADIUS + GlobalConfig.OUTER_DEADZONE;
         
         return distanceFromCenter >= innerBoundary && distanceFromCenter <= outerBoundary;
     }
 }
+//131

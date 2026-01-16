@@ -25,11 +25,20 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
 
     @Override
     public void renderMenu() {
-        SliceClient.renderer.renderMenu();
+        if (!SliceClient.renderer.isRendering) {
+            SliceClient.renderer.isRendering = true;
+            SliceClient.renderer.hasRenderedOnce = false;
+            SliceClient.renderer.onMenuOpen();
+        }
     }
 
     @Override
     public void derenderMenu() {
-        SliceClient.renderer.derenderMenu();
+        if (SliceClient.renderer.isRendering) {
+            SliceClient.renderer.isRendering = false;
+            SliceClient.renderer.hasRenderedOnce = false;
+            SliceClient.renderer.onMenuClose();
+            SliceClient.renderer.clearCache();
+        }
     }
 }
