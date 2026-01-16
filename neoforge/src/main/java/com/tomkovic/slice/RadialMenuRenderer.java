@@ -1,7 +1,6 @@
 package com.tomkovic.slice;
 
 import java.lang.reflect.Field;
-import com.google.gson.JsonObject;
 import com.tomkovic.slice.classes.SlotPosition;
 import com.tomkovic.slice.classes.TexturePackCustomValues;
 import com.tomkovic.slice.handlers.RadialMenuHandler;

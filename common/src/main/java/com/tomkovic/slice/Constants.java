@@ -28,35 +28,5 @@ public class Constants {
     public static final ResourceLocation SLOT_HOVERED_TEXTURE = RadialMenuHelper.guiTexture("radial_slot_hovered");
     public static final ResourceLocation SLOT_ACTIVE_TEXTURE = RadialMenuHelper.guiTexture("radial_slot_active");
     
-    // JSON config keys
-    public static final String JSON_OFFSET_FROM_CENTER = "offset_from_center";
-
-    public static final String JSON_X_OFFSET = "x_offset";
-    public static final String JSON_Y_OFFSET = "y_offset";
-    public static final String JSON_X_OFFSET_HOVERED = "x_offset_hovered";
-    public static final String JSON_Y_OFFSET_HOVERED = "y_offset_hovered";
-    public static final String JSON_X_OFFSET_ACTIVE = "x_offset_active";
-    public static final String JSON_Y_OFFSET_ACTIVE = "y_offset_active";
-
-    public static final String JSON_ITEM_X_OFFSET = "item_x_offset";
-    public static final String JSON_ITEM_Y_OFFSET = "item_y_offset";
-    public static final String JSON_ITEM_X_OFFSET_HOVERED = "item_x_offset_hovered";
-    public static final String JSON_ITEM_Y_OFFSET_HOVERED = "item_y_offset_hovered";
-    public static final String JSON_ITEM_X_OFFSET_ACTIVE = "item_x_offset_active";
-    public static final String JSON_ITEM_Y_OFFSET_ACTIVE = "item_y_offset_active";
-
-    public static final String JSON_SLOT_NUMBER_X_OFFSET = "slot_number_x_offset";
-    public static final String JSON_SLOT_NUMBER_Y_OFFSET = "slot_number_y_offset";
-    public static final String JSON_SLOT_NUMBER_X_OFFSET_HOVERED = "slot_number_x_offset_hovered";
-    public static final String JSON_SLOT_NUMBER_Y_OFFSET_HOVERED = "slot_number_y_offset_hovered";
-    public static final String JSON_SLOT_NUMBER_X_OFFSET_ACTIVE = "slot_number_x_offset_active";
-    public static final String JSON_SLOT_NUMBER_Y_OFFSET_ACTIVE = "slot_number_y_offset_active";
-
-    public static final String JSON_SLOT_NUMBER_COLOR = "slot_number_color";
-    public static final String JSON_SLOT_NUMBER_COLOR_HOVERED = "slot_number_color_hovered";
-    public static final String JSON_SLOT_NUMBER_COLOR_ACTIVE = "slot_number_color_active";
-
-    public static final String JSON_BACKGROUND_OVERLAY_COLOR = "background_darkening_color";
-    
     private Constants() { }
 }
