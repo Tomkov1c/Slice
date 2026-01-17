@@ -34,14 +34,14 @@
 
 ## Supported Versions
 > **FYI**: <br> ✅ - Supported, ❌ - Unsupported, 🔍 - Planned / In development
-<br> Minimum loader versions are in the same order as loaders in Loaders column <br> Main development currently recides on version **`1.21.9`**. Why? idk
+<br> Minimum loader versions are in the same order as loaders in `Loaders` column <br> `Latest Slice version` doesn't mean it's actully published. Check the [Modrinth page](https://modrinth.com/mod/slice) for the latest available versions.<br> Main development currently recides on version **`1.21.9`**. Why? idk
 
 <table>
     <th>Version</th>
     <th></th>
     <th>Loaders</th>
     <th>Minimum required version</th>
-    <th>Latest Mod version</th>
+    <th>Latest Slice version</th>
     <tr><td>1.21.11</td>  <td>✅</td>
         <td>
           <img width="35" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"> 
@@ -156,9 +156,9 @@
   <table>
     <th>Minecraft version</th>
     <th>Minimum FabricAPI version</th>
-    <tr><td>1.21.11</td><td>0.139.4+1.21.11</td></tr>
-    <tr><td>1.21.10</td><td>0.134.1+1.21.10</td></tr>
-    <tr><td>1.21.9</td><td>0.133.14+1.21.9</td></tr>
+    <tr><td>1.21.11</td><td><code>0.139.4+1.21.11</code></td></tr>
+    <tr><td>1.21.10</td><td><code>0.134.1+1.21.10</code></td></tr>
+    <tr><td>1.21.9</td><td><code>0.133.14+1.21.9</code></td></tr>
   </table>
   
 </details>
@@ -172,9 +172,9 @@
   <table>
     <th>Minecraft version</th>
     <th>Minimum FabricAPI version</th>
-    <tr><td>1.21.11</td><td>0.139.4+1.21.11</td></tr>
-    <tr><td>1.21.10</td><td>0.134.1+1.21.10</td></tr>
-    <tr><td>1.21.9</td><td>0.133.14+1.21.9</td></tr>
+    <tr><td>1.21.11</td><td><code>0.139.4+1.21.11</code></td></tr>
+    <tr><td>1.21.10</td><td><code>0.134.1+1.21.10</code></td></tr>
+    <tr><td>1.21.9</td><td><code>0.133.14+1.21.9</code></td></tr>
   </table>
   
 </details>
