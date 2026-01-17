@@ -6,7 +6,6 @@ import javax.annotation.Nonnull;
 
 import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.platform.InputConstants;
-import com.tomkovic.slice.handlers.BindingHandler;
 import com.tomkovic.slice.handlers.RadialMenuHandler;
 
 import net.minecraft.client.KeyMapping;
@@ -50,13 +49,11 @@ public class KeyBindings {
         if (OPEN_RADIAL_MENU.getKey().getType() == InputConstants.Type.KEYSYM && event.getKey() == OPEN_RADIAL_MENU.getKey().getValue()) {
             
             if (event.getAction() == GLFW.GLFW_PRESS) {
-                BindingHandler.openMenuKeyState.setPressed();
-                RadialMenuHandler.handleOpenMenuKeyBehaviour();
+                RadialMenuHandler.handleOpenMenuKeyBehaviour(true);
             } 
             
             else if (event.getAction() == GLFW.GLFW_RELEASE) {
-                BindingHandler.openMenuKeyState.setReleased();
-                RadialMenuHandler.handleOpenMenuKeyBehaviour();
+                RadialMenuHandler.handleOpenMenuKeyBehaviour(false);
             }
         }
     }
@@ -68,30 +65,24 @@ public class KeyBindings {
         if (OPEN_RADIAL_MENU.getKey().getType() == InputConstants.Type.MOUSE && event.getButton() == OPEN_RADIAL_MENU.getKey().getValue()) {
             
             if (event.getAction() == GLFW.GLFW_PRESS) {
-                BindingHandler.openMenuKeyState.setPressed();
-                RadialMenuHandler.handleOpenMenuKeyBehaviour();
+                RadialMenuHandler.handleOpenMenuKeyBehaviour(true);
                 event.setCanceled(true);
             } 
             
             else if (event.getAction() == GLFW.GLFW_RELEASE) {
-                BindingHandler.openMenuKeyState.setReleased();
-                RadialMenuHandler.handleOpenMenuKeyBehaviour();
+                RadialMenuHandler.handleOpenMenuKeyBehaviour(false);
                 event.setCanceled(true);
             }
         }
 
         if (event.getButton() == CLICK_TO_SELECT.getKey().getValue() && RadialMenuHandler.isMenuOpen) {
             if (event.getAction() == GLFW.GLFW_PRESS) {
-                BindingHandler.clickToSelectKeyState.setPressed();
-                
                 if (GlobalConfig.CLICK_TO_SELECT) {RadialMenuHandler.handleClickToSelect();}
 
                 event.setCanceled(true);
             } 
             
             else if (event.getAction() == GLFW.GLFW_RELEASE) {
-                BindingHandler.clickToSelectKeyState.setReleased();
-
                 if (GlobalConfig.CLICK_TO_SELECT) {RadialMenuHandler.handleClickToSelect();}
                 
                 event.setCanceled(true);

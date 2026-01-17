@@ -35,39 +35,30 @@ public class RadialMenuHandler {
         Services.PLATFORM.centerCursor();
     }
 
-    public static void handleOpenMenuKeyBehaviour() {
+    public static void handleOpenMenuKeyBehaviour(boolean isPressed) {
         if(!canHandleKeyBind) return;
 
-        if (GlobalConfig.TOGGLE_KEYBIND)
-            handleToggleMode();
-        else
-            handleHoldMode();
-    }
-    
-    private static void handleToggleMode() {
-        if (BindingHandler.openMenuKeyState.isPressed() && !isMenuOpen) {
-            openMenu();
-        }
-        
-        else if (BindingHandler.openMenuKeyState.isPressed() && isMenuOpen) {
+        if (GlobalConfig.TOGGLE_KEYBIND) {
+            // Toggle
+            if (isPressed && !isMenuOpen) {
+                openMenu();
+            }else if (isPressed && isMenuOpen) {
 
-            if (!GlobalConfig.CLICK_TO_SELECT) {
-                handleSlotSelecting(hoveredSlot);
+                if (!GlobalConfig.CLICK_TO_SELECT) handleSlotSelecting(hoveredSlot);
+
+                closeMenu();
             }
 
-            closeMenu();
-        }
-    }
-    
-    private static void handleHoldMode() {
-        if (BindingHandler.openMenuKeyState.isPressed() && !isMenuOpen) {
-            openMenu();
-        }
 
-        else if (BindingHandler.openMenuKeyState.isReleased() && isMenuOpen) {
-            if (selectedSlot != hoveredSlot && !GlobalConfig.CLICK_TO_SELECT) { handleSlotSelecting(hoveredSlot); }
+        }else {
+            //Hold
+            if (isPressed && !isMenuOpen) {
+                openMenu();
+            }else if (!isPressed && isMenuOpen) {
+                if (selectedSlot != hoveredSlot && !GlobalConfig.CLICK_TO_SELECT) { handleSlotSelecting(hoveredSlot); }
 
-            closeMenu();
+                closeMenu();
+            }
         }
     }
 
