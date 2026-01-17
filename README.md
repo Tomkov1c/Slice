@@ -156,6 +156,8 @@
   <table>
     <th>Minecraft version</th>
     <th>Minimum FabricAPI version</th>
+    <tr><td>1.21.11</td><td>0.139.4+1.21.11</td></tr>
+    <tr><td>1.21.10</td><td>0.134.1+1.21.10</td></tr>
     <tr><td>1.21.9</td><td>0.133.14+1.21.9</td></tr>
   </table>
   
@@ -170,8 +172,9 @@
   <table>
     <th>Minecraft version</th>
     <th>Minimum FabricAPI version</th>
+    <tr><td>1.21.11</td><td>0.139.4+1.21.11</td></tr>
+    <tr><td>1.21.10</td><td>0.134.1+1.21.10</td></tr>
     <tr><td>1.21.9</td><td>0.133.14+1.21.9</td></tr>
-    
   </table>
   
 </details>
