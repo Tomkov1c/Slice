@@ -1,6 +1,5 @@
 package com.tomkovic.slice;
 
-import java.lang.reflect.Field;
 import java.util.Objects;
 
 import com.tomkovic.slice.classes.SlotPosition;
@@ -24,8 +23,8 @@ public class RadialMenuRenderer {
     public boolean isRendering = false;
     public boolean hasRenderedOnce = false;
 
-    private double cursorX = 0;
-    private double cursorY = 0;
+    private double cursorX = -1;
+    private double cursorY = -1;
 
     TexturePackCustomValues jsonConfig = new TexturePackCustomValues();
 
@@ -41,10 +40,6 @@ public class RadialMenuRenderer {
     private LocalPlayer cachedPlayer = null;
     private Inventory cachedInventory = null;
     //
-
-    public RadialMenuRenderer() {
-
-    }
 
     public void onMenuOpen() {
         RadialMenuHandler.hoveredSlot = -1;
@@ -63,13 +58,12 @@ public class RadialMenuRenderer {
     }
 
     public void clearCache() {
-        cachedPlayer = null;
-
         cachedScreenWidth = -1;
         cachedScreenHeight = -1;
         cachedCenterX = -1;
         cachedCenterY = -1;
-
+        
+        cachedPlayer = null;
         cachedInventory = null;
         cachedSlotPositions = null;
 
@@ -129,6 +123,8 @@ public class RadialMenuRenderer {
     }
 
     private void renderVisibleSlots(GuiGraphics graphics) {
+        if (GlobalConfig.HIDE_SLOT_SPRITE && GlobalConfig.HIDE_SLOT_NUMBER) return;
+
         for (SlotPosition pos : cachedSlotPositions) {
             boolean isActive = (pos.slotIndex == RadialMenuHandler.selectedSlot);
             boolean isHovered = (pos.slotIndex == RadialMenuHandler.hoveredSlot);
@@ -142,7 +138,7 @@ public class RadialMenuRenderer {
             if (!GlobalConfig.HIDE_SLOT_SPRITE) renderSlot(graphics, x, y, isActive, isHovered);
             
             ItemStack stack = cachedInventory.getItem(pos.slotIndex);
-            if (!stack.isEmpty()) renderItem(graphics, stack, x, y, isActive, isHovered);
+            if (!stack.isEmpty()) renderItem(graphics, cachedInventory.getItem(pos.slotIndex), x, y, isActive, isHovered);
             
             if (!GlobalConfig.HIDE_SLOT_NUMBER) renderSlotNumber(graphics, pos.slotIndex, x, y, isActive, isHovered);
         }

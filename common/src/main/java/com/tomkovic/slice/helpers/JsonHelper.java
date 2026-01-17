@@ -14,7 +14,6 @@ import net.minecraft.server.packs.resources.ResourceManager;
 public class JsonHelper {
 
     public static int parseColor(String string, int fallback) {
-
         String colorStr = string.replace("#", "");
 
         try {

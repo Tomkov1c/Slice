@@ -10,7 +10,7 @@ public class RadialMenuHandler {
 
     public static Minecraft mc() { return Minecraft.getInstance(); }
 
-    public static boolean isMenuOpen;
+    public static boolean isMenuOpen = false;
 
     public static int hoveredSlot = 0;
     public static int selectedSlot = 0;
@@ -36,7 +36,7 @@ public class RadialMenuHandler {
     }
 
     public static void handleOpenMenuKeyBehaviour() {
-        if(!canHandleKeyBind || mc().isPaused()) return;
+        if(!canHandleKeyBind) return;
 
         if (GlobalConfig.TOGGLE_KEYBIND)
             handleToggleMode();
@@ -76,11 +76,9 @@ public class RadialMenuHandler {
     }
 
     private static void handleSlotSelecting(int index) {
-
         selectSlot(index);
 
         if(GlobalConfig.CLOSE_ON_SELECT && isMenuOpen) { closeMenu(); }
-
         if(GlobalConfig.RECENTER_ON_SELECT && isMenuOpen) { centerCursor(); }
     }
 
@@ -88,7 +86,6 @@ public class RadialMenuHandler {
         if (index < 0 && index > Constants.SLOT_COUNT) return;
 
         Services.PLATFORM.setSelectedSlot(index);
-
         selectedSlot = index;
     }
     
