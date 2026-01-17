@@ -26,7 +26,6 @@ public class RadialMenuRenderer {
 
     private double cursorX = 0;
     private double cursorY = 0;
-    private static Field selectedField = null;
 
     TexturePackCustomValues jsonConfig = new TexturePackCustomValues();
 
@@ -44,12 +43,7 @@ public class RadialMenuRenderer {
     //
 
     public RadialMenuRenderer() {
-        try {
-            selectedField = Inventory.class.getDeclaredField("selected");
-            selectedField.setAccessible(true);
-        } catch (Exception e) {
-            Constants.LOG.error("[Slice] - RadialMenuRenderer: RadialMenuRenderer(): Failed to access selected field");
-        }
+
     }
 
     public void onMenuOpen() {
@@ -127,14 +121,14 @@ public class RadialMenuRenderer {
 
         if (GlobalConfig.BACKGROUND_OPACITY > 0) renderBackground(graphics, cachedScreenWidth, cachedScreenHeight);
 
-        renderVisibleSlots(graphics, mc);
+        renderVisibleSlots(graphics);
 
         mc.renderBuffers().bufferSource().endBatch();
         
         hasRenderedOnce = true;
     }
 
-    private void renderVisibleSlots(GuiGraphics graphics, Minecraft mc) {
+    private void renderVisibleSlots(GuiGraphics graphics) {
         for (SlotPosition pos : cachedSlotPositions) {
             boolean isActive = (pos.slotIndex == RadialMenuHandler.selectedSlot);
             boolean isHovered = (pos.slotIndex == RadialMenuHandler.hoveredSlot);
@@ -148,9 +142,9 @@ public class RadialMenuRenderer {
             if (!GlobalConfig.HIDE_SLOT_SPRITE) renderSlot(graphics, x, y, isActive, isHovered);
             
             ItemStack stack = cachedInventory.getItem(pos.slotIndex);
-            if (!stack.isEmpty()) renderItem(graphics, mc, stack, x, y, isActive, isHovered);
+            if (!stack.isEmpty()) renderItem(graphics, stack, x, y, isActive, isHovered);
             
-            if (!GlobalConfig.HIDE_SLOT_NUMBER) renderSlotNumber(graphics, mc, pos.slotIndex, x, y, isActive, isHovered);
+            if (!GlobalConfig.HIDE_SLOT_NUMBER) renderSlotNumber(graphics, pos.slotIndex, x, y, isActive, isHovered);
         }
     }
 
@@ -164,7 +158,7 @@ public class RadialMenuRenderer {
             0F, 0F, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE);
     }
 
-    private void renderItem(GuiGraphics graphics, Minecraft mc, ItemStack stack, int x, int y, boolean active, boolean hovered) {
+    private void renderItem(GuiGraphics graphics, ItemStack stack, int x, int y, boolean active, boolean hovered) {
 
         int xOffset = active ? jsonConfig.itemXOffsetActive : (hovered ? jsonConfig.itemXOffsetHovered : jsonConfig.itemXOffset);
         int yOffset = active ? jsonConfig.itemYOffsetActive : (hovered ? jsonConfig.itemXOffsetHovered : jsonConfig.itemXOffset);
@@ -188,7 +182,7 @@ public class RadialMenuRenderer {
         graphics.pose().popMatrix();
     }
 
-    private void renderSlotNumber(GuiGraphics graphics, Minecraft mc, int index, int x, int y, boolean active, boolean hovered) {
+    private void renderSlotNumber(GuiGraphics graphics, int index, int x, int y, boolean active, boolean hovered) {
 
         String num = String.valueOf(index + 1);
 
