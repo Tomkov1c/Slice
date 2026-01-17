@@ -34,7 +34,7 @@
 
 ## Supported Versions
 > **FYI**: <br> ✅ - Supported, ❌ - Unsupported, 🔍 - Planned / In development
-<br> Minimum loader versions are in the same order as loaders in Loaders column
+<br> Minimum loader versions are in the same order as loaders in Loaders column <br> Main development currently recides on version **`1.21.9`**. Why? idk
 
 <table>
     <th>Version</th>
@@ -49,8 +49,8 @@
           <img width="35" src="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg">
           <img width="35" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg">
         </td>
-        <td>21.11.0, 61.0.0, 0.18.0, 0.30.0-beta</td>
-        <td>0.2.1</td>
+        <td><code>21.11.0</code>, <code>61.0.0</code>, <code>0.18.0</code>, <code>0.30.0-beta</code></td>
+        <td><code>0.2.1</code></td>
     </tr>
     <tr><td>1.21.10</td>  <td>✅</td>
         <td>
@@ -59,8 +59,8 @@
           <img width="35" src="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg">
           <img width="35" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg">
         </td>
-        <td>21.10.0, 60.0.0, 0.18.0, 0.30.0-beta</td>
-        <td>0.2.1</td>
+        <td><code>21.10.0</code>, <code>60.0.0</code>, <code>0.18.0</code>, <code>0.30.0-beta</code></td>
+        <td><code>0.2.1</code></td>
     </tr>
     <tr><td>1.21.9</td> <td>✅</td>
       <td>
@@ -69,8 +69,8 @@
         <img width="35" src="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg">
         <img width="35" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg">
       </td>
-      <td>21.9.0, 59.0.0, 0.17.0, 0.30.0-beta</td>
-      <td>1.0.0</td>
+      <td><code>21.9.0</code>, <code>59.0.0</code>, <code>0.17.0</code>, <code>0.30.0-beta</code></td>
+      <td><code>1.0.0</code></td>
     </tr>
     <tr><td>1.21.8</td> <td>❌</td><td></td><td></td><td></td></tr>
     <tr><td>1.21.7</td> <td>❌</td><td></td><td></td><td></td></tr>
@@ -122,8 +122,8 @@
     <tr><td>1.8.9</td>    
         <td>✅</td>
         <td><img width="35" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg"> </td>
-        <td>11.15.1.2318</td>
-        <td></td>
+        <td><code>11.15.1.2318</code></td>
+        <td><code>0.2.0</code></td>
     </tr>
     <tr><td>1.8</td>  <td>❌</td><td></td><td></td><td></td></tr>
     <tr><td>1.7.10</td> <td>❌</td><td></td><td></td><td></td></tr>
