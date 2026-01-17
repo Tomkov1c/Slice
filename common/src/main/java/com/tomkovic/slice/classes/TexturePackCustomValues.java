@@ -83,7 +83,6 @@ public class TexturePackCustomValues {
     public String backgroundOverlayColor;
 
 
-    @SuppressWarnings("null")
     public void parseFromResource(String path) {
         try {
             Minecraft mc = Minecraft.getInstance();

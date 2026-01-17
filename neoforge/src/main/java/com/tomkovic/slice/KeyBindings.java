@@ -1,5 +1,9 @@
 package com.tomkovic.slice;
 
+import java.util.Objects;
+
+import javax.annotation.Nonnull;
+
 import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.tomkovic.slice.handlers.BindingHandler;
@@ -16,12 +20,12 @@ public class KeyBindings {
 
     public static boolean canHandleKeyBind = false;
 
-    @SuppressWarnings("null")
+    @Nonnull
     public static final KeyMapping.Category CATEGORY_OBJECT = new KeyMapping.Category(
-        ResourceLocation.fromNamespaceAndPath("slice", "radial_menu")
+        Objects.requireNonNull(ResourceLocation.fromNamespaceAndPath("slice", "radial_menu"))
     );
     
-    @SuppressWarnings("null")
+    @Nonnull
     public static final KeyMapping OPEN_RADIAL_MENU = new KeyMapping(
         "key.slice.open_radial_menu",
         KeyConflictContext.IN_GAME,
@@ -30,7 +34,7 @@ public class KeyBindings {
         CATEGORY_OBJECT
     );
 
-    @SuppressWarnings("null")
+    @Nonnull
     public static final KeyMapping CLICK_TO_SELECT = new KeyMapping(
         "key.slice.click_to_select",
         KeyConflictContext.GUI,
@@ -95,7 +99,6 @@ public class KeyBindings {
         }
     }
 
-    @SuppressWarnings("null")
     public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
         event.register(OPEN_RADIAL_MENU);
         event.register(CLICK_TO_SELECT);

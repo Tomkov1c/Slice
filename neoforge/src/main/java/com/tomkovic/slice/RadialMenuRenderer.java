@@ -1,6 +1,8 @@
 package com.tomkovic.slice;
 
 import java.lang.reflect.Field;
+import java.util.Objects;
+
 import com.tomkovic.slice.classes.SlotPosition;
 import com.tomkovic.slice.classes.TexturePackCustomValues;
 import com.tomkovic.slice.handlers.RadialMenuHandler;
@@ -16,11 +18,14 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
 public class RadialMenuRenderer {
+
+    Minecraft mc = RadialMenuHandler.mc();
+
     public boolean isRendering = false;
     public boolean hasRenderedOnce = false;
 
-    private double mouseStartX = 0;
-    private double mouseStartY = 0;
+    private double cursorX = 0;
+    private double cursorY = 0;
     private static Field selectedField = null;
 
     TexturePackCustomValues jsonConfig = new TexturePackCustomValues();
@@ -51,16 +56,16 @@ public class RadialMenuRenderer {
         RadialMenuHandler.hoveredSlot = -1;
 
         if (RadialMenuHandler.mc().mouseHandler != null) {
-            mouseStartX = RadialMenuHandler.mc().mouseHandler.xpos();
-            mouseStartY = RadialMenuHandler.mc().mouseHandler.ypos();
+            cursorX = RadialMenuHandler.mc().mouseHandler.xpos();
+            cursorY = RadialMenuHandler.mc().mouseHandler.ypos();
         }
     }
 
     public void onMenuClose() {
         clearCache();
 
-        mouseStartX = -1;
-        mouseStartY = -1;
+        cursorX = -1;
+        cursorY = -1;
     }
 
     public void clearCache() {
@@ -76,7 +81,7 @@ public class RadialMenuRenderer {
 
     }
     
-    private void initializeCache(Minecraft mc, LocalPlayer player) {
+    private void initializeCache() {
 
         jsonConfig.parseFromResource(Constants.TEXTURE_CONFIG_JSON_NAMESPACE_PATH);
 
@@ -87,7 +92,9 @@ public class RadialMenuRenderer {
             cachedCenterY = cachedScreenHeight / 2;
         }
 
-        if (cachedInventory == null) cachedInventory = player.getInventory();
+        if (mc.player != null) cachedPlayer = mc.player;
+
+        if (cachedInventory == null && cachedPlayer != null) cachedInventory = cachedPlayer.getInventory();
 
         if (cachedSlotPositions == null) {
             cachedVisibleSlots = RadialMenuHelper.getVisibleSlots(cachedInventory);
@@ -101,12 +108,8 @@ public class RadialMenuRenderer {
     public void render(GuiGraphics graphics, float partialTick) {
         if (!isRendering) return;
 
-        Minecraft mc = RadialMenuHandler.mc();
-        LocalPlayer player = mc.player;
-        if (player == null) return;
-
         if (!hasRenderedOnce) {
-            initializeCache(mc, player);
+            initializeCache();
             if (cachedVisibleSlots.length == 0) return;
         }
 
@@ -151,18 +154,16 @@ public class RadialMenuRenderer {
         }
     }
 
-    @SuppressWarnings("null")
     private void renderSlot(GuiGraphics graphics, int x, int y, boolean active, boolean hovered) {
         ResourceLocation tex = active ? Constants.SLOT_ACTIVE_TEXTURE :
             hovered ? Constants.SLOT_HOVERED_TEXTURE :
             Constants.SLOT_TEXTURE;
 
-        graphics.blit(RenderPipelines.GUI_TEXTURED, tex,
+        graphics.blit(Objects.requireNonNull(RenderPipelines.GUI_TEXTURED), Objects.requireNonNull(tex),
             x - GlobalConfig.SLOT_SIZE / 2, y - GlobalConfig.SLOT_SIZE / 2,
             0F, 0F, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE);
     }
 
-    @SuppressWarnings("null")
     private void renderItem(GuiGraphics graphics, Minecraft mc, ItemStack stack, int x, int y, boolean active, boolean hovered) {
 
         int xOffset = active ? jsonConfig.itemXOffsetActive : (hovered ? jsonConfig.itemXOffsetHovered : jsonConfig.itemXOffset);
@@ -176,18 +177,25 @@ public class RadialMenuRenderer {
         float scale = GlobalConfig.ITEM_SIZE / 16f;
         graphics.pose().scale(scale, scale);
         graphics.pose().translate(-(ix + 8), -(iy + 8));
+
+        if (stack == null) return;
+
         graphics.renderItem(stack, ix, iy);
+
+        if (mc.font == null) return;
+
         graphics.renderItemDecorations(mc.font, stack, ix, iy);
         graphics.pose().popMatrix();
     }
 
-    @SuppressWarnings("null")
     private void renderSlotNumber(GuiGraphics graphics, Minecraft mc, int index, int x, int y, boolean active, boolean hovered) {
 
         String num = String.valueOf(index + 1);
 
         int xOffset = active ? jsonConfig.slotNumberXOffsetActive : (hovered ? jsonConfig.slotNumberXOffsetHovered : jsonConfig.slotNumberXOffset);
         int yOffset = active ? jsonConfig.slotNumberYOffsetActive : (hovered ? jsonConfig.slotNumberYOffsetHovered : jsonConfig.slotNumberYOffset);
+
+        if (num == null) return;
 
         int tx = x - mc.font.width(num) / 2 + xOffset;
         int ty = y + GlobalConfig.ITEM_SIZE / 2 + yOffset;
@@ -196,6 +204,8 @@ public class RadialMenuRenderer {
             hovered ? JsonHelper.parseColor(jsonConfig.slotNumberColorHovered, 0) :
             JsonHelper.parseColor(jsonConfig.slotNumberColor, 0);
         
+        if (mc.font == null) return;
+
         graphics.drawString(mc.font, num, tx, ty, col);
     }
 

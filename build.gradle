@@ -10,7 +10,9 @@ subprojects {
         exclude '**/*.aseprite'
     }
 }
-
+tasks.withType(Javadoc) {
+    options.addStringOption('Xdoclint:none', '-quiet')
+}
 
 
 // For macos lwjgl fix
