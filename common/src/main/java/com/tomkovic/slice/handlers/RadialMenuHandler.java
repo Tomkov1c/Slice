@@ -1,5 +1,6 @@
 package com.tomkovic.slice.handlers;
 
+import com.tomkovic.slice.Constants;
 import com.tomkovic.slice.GlobalConfig;
 import com.tomkovic.slice.platform.Services;
 
@@ -11,26 +12,10 @@ public class RadialMenuHandler {
 
     public static boolean isMenuOpen;
 
-    /* Config */
-    private static boolean isToggleEnabled;
-    private static boolean isClickToSelectEnabled;
-    private static boolean isCloseOnSelectEnabled;
-
-    private static boolean isRecenterCursorEnabled;
-    /* */
-
     public static int hoveredSlot = 0;
     public static int selectedSlot = 0;
 
     public static boolean canHandleKeyBind = false;
-
-
-    public static void refreshConfig() {
-        isToggleEnabled = GlobalConfig.TOGGLE_KEYBIND;
-        isClickToSelectEnabled = GlobalConfig.CLICK_TO_SELECT;
-        isCloseOnSelectEnabled = GlobalConfig.CLOSE_ON_SELECT;
-        isRecenterCursorEnabled = false;
-    }
 
     public static void openMenu() {
         isMenuOpen = true;
@@ -50,21 +35,13 @@ public class RadialMenuHandler {
         
     }
 
-    public static void selectSlot(int index) {
-        Services.PLATFORM.setSelectedSlot(index);
-
-        selectedSlot = index;
-    }
-
     public static void handleOpenMenuKeyBehaviour() {
         if(!canHandleKeyBind || mc().isPaused()) return;
 
-        if (isToggleEnabled) {
+        if (GlobalConfig.TOGGLE_KEYBIND)
             handleToggleMode();
-        }
-        else {
+        else
             handleHoldMode();
-        }
     }
     
     private static void handleToggleMode() {
@@ -75,6 +52,11 @@ public class RadialMenuHandler {
         
         /*  On Close    */
         else if (BindingHandler.openMenuKeyState.isPressed() && isMenuOpen) {
+
+            if (!GlobalConfig.CLICK_TO_SELECT) {
+                handleSlotSelecting(hoveredSlot);
+            }
+
             closeMenu();
         }
     }
@@ -87,19 +69,33 @@ public class RadialMenuHandler {
 
         /*  On Close    */
         else if (BindingHandler.openMenuKeyState.isReleased() && isMenuOpen) {
-            closeMenu();
+            if (selectedSlot != hoveredSlot && !GlobalConfig.CLICK_TO_SELECT) { handleSlotSelecting(hoveredSlot); }
 
-            if (selectedSlot != hoveredSlot) { handleSlotSelecting(hoveredSlot); }
+            closeMenu();
         }
+    }
+
+    public static void handleClickToSelect() {
+        handleSlotSelecting(hoveredSlot);
+
+        Constants.LOG.warn("Click to select: pressed");
     }
 
     private static void handleSlotSelecting(int index) {
 
         selectSlot(index);
 
-        if(isCloseOnSelectEnabled && isMenuOpen) { closeMenu(); }
+        if(GlobalConfig.CLOSE_ON_SELECT && isMenuOpen) { closeMenu(); }
 
-        if(isRecenterCursorEnabled && isMenuOpen) { centerCursor(); }
+        if(GlobalConfig.RECENTER_ON_SELECT && isMenuOpen) { centerCursor(); }
+    }
+
+    private static void selectSlot(int index) {
+        if (index < 0 && index > Constants.SLOT_COUNT) return;
+
+        Services.PLATFORM.setSelectedSlot(index);
+
+        selectedSlot = index;
     }
     
 }

@@ -9,18 +9,12 @@ public class ConfigHandler {
 
     @SubscribeEvent
     public void onConfigReload(ModConfigEvent.Reloading event) {
-        if (event.getConfig().getSpec() == Config.CONFIG_SPEC) updateConfigs();
+        if (event.getConfig().getSpec() == Config.CONFIG_SPEC) Config.pushConfigToGlobal();
     }
 
     @SubscribeEvent
     public void onConfigLoad(ModConfigEvent.Loading event) {
-        if (event.getConfig().getSpec() == Config.CONFIG_SPEC) updateConfigs();
-    }
-
-    public static void updateConfigs() {
-        Config.pushConfigToGlobal();
-
-        RadialMenuHandler.refreshConfig();
+        if (event.getConfig().getSpec() == Config.CONFIG_SPEC) Config.pushConfigToGlobal();
     }
 
 }
