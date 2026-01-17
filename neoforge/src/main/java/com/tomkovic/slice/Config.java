@@ -41,6 +41,7 @@ public class Config {
     // Behaviour
     public final ModConfigSpec.BooleanValue toggleKeybind;
     public final ModConfigSpec.BooleanValue clickToSelect;
+    public final ModConfigSpec.BooleanValue recenterOnSelect;
     public final ModConfigSpec.BooleanValue closeOnSelect;
     public final ModConfigSpec.IntValue innerDeadzone;
     public final ModConfigSpec.IntValue outerDeadzone;
@@ -165,6 +166,10 @@ public class Config {
                         .translation("slice.configuration.behaviour.clickToSelect")
                         .define("clickToSelect", false);
 
+                this.recenterOnSelect = behaviour
+                        .translation("slice.configuration.behaviour.recenterOnSelect")
+                        .define("recenterOnSelect", false);
+
                 this.closeOnSelect = behaviour
                         .translation("slice.configuration.behaviour.closeOnSelect")
                         .define("closeOnSelect", true);
@@ -229,6 +234,7 @@ public class Config {
         // Behaviour
         GlobalConfig.TOGGLE_KEYBIND = CONFIG.toggleKeybind.get();
         GlobalConfig.CLICK_TO_SELECT = CONFIG.clickToSelect.get();
+        GlobalConfig.RECENTER_ON_SELECT = CONFIG.recenterOnSelect.get();
         GlobalConfig.CLOSE_ON_SELECT = CONFIG.closeOnSelect.get();
         GlobalConfig.INNER_DEADZONE = CONFIG.innerDeadzone.get();
         GlobalConfig.OUTER_DEADZONE = CONFIG.outerDeadzone.get();

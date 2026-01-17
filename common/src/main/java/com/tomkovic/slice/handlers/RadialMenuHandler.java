@@ -1,10 +1,14 @@
 package com.tomkovic.slice.handlers;
 
+import org.lwjgl.glfw.GLFW;
+
+import com.mojang.blaze3d.platform.Window;
 import com.tomkovic.slice.Constants;
 import com.tomkovic.slice.GlobalConfig;
 import com.tomkovic.slice.platform.Services;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 
 public class RadialMenuHandler {
 
@@ -32,7 +36,7 @@ public class RadialMenuHandler {
     }
 
     public static void centerCursor() {
-        
+        Services.PLATFORM.centerCursor();
     }
 
     public static void handleOpenMenuKeyBehaviour() {

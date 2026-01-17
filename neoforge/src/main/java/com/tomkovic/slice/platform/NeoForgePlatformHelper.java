@@ -2,6 +2,12 @@ package com.tomkovic.slice.platform;
 
 import java.util.Objects;
 
+import org.lwjgl.glfw.GLFW;
+import java.lang.reflect.Field;
+
+
+import com.mojang.blaze3d.platform.Window;
+import com.tomkovic.slice.Constants;
 import com.tomkovic.slice.SliceClient;
 import com.tomkovic.slice.platform.services.IPlatformHelper;
 import net.minecraft.client.Minecraft;
@@ -9,6 +15,8 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket;
 
 public class NeoForgePlatformHelper implements IPlatformHelper {
+
+    private static Field windowHandleField = null;
     
     @Override
     public void setSelectedSlot(int index) {
@@ -40,6 +48,29 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
             SliceClient.renderer.hasRenderedOnce = false;
             SliceClient.renderer.onMenuClose();
             SliceClient.renderer.clearCache();
+        }
+    }
+
+    
+    
+    @Override
+    public void centerCursor() {
+        Minecraft mc = Minecraft.getInstance();
+        Window window = mc.getWindow();
+        
+        double centerX = window.getScreenWidth() / 2.0;
+        double centerY = window.getScreenHeight() / 2.0;
+        
+        try {
+            if (windowHandleField == null) {
+                windowHandleField = Window.class.getDeclaredField("handle");
+                windowHandleField.setAccessible(true);
+            }
+            
+            long windowHandle = windowHandleField.getLong(window);
+            GLFW.glfwSetCursorPos(windowHandle, centerX, centerY);
+        } catch (Exception e) {
+            Constants.LOG.error("Failed to center cursor", e);
         }
     }
 }

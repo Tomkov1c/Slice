@@ -93,6 +93,9 @@
 
       "slice.configuration.behaviour.clickToSelect": "Click to Select",
       "slice.configuration.behaviour.clickToSelect.tooltip": "When enabled, to switch to a desired slot, you'll need to click on the slot, not just release the button.",
+      
+      "slice.configuration.behaviour.recenterOnSelect": "Recenter on Select",
+      "slice.configuration.behaviour.recenterOnSelect.tooltip": "When enabled, if 'Click to Select' is also enabled. Clicking a slot will recenter the cursor to the center of the menu.",
 
       "slice.configuration.behaviour.closeOnSelect": "Close on Select (CtS only)",
       "slice.configuration.behaviour.closeOnSelect.tooltip": "When enabled, selecting a slot will close the menu if you have \"Click to Select\" enabled.",

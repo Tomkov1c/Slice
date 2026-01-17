@@ -5,9 +5,11 @@
 - Config is unified across loaders.
 - Made code more scalable for future features (Suggest [here](https://github.com/Tomkov1c/Slice/issues)).
 - Removed hardcoded fallback values for custom values in texturepacks,
+- If `Click to Select` and `Close on Select` are enabled in `Hold mode`, the menu won't reapear untill `Open Menu` key gets released.
 - Removed junk.
 
 ## <img width="20" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true">  NeoForge
+- Added `Recenter on Select` feature, that recenters you cursor in the menu when you select a slot.
 - Renderer doesn't constantly reread json files inside texture packs when rendering.
 - Renderer caches values that can't be changed when the menu is open.
 - Keybinding state gets sent to `common`, where it gets processed correctly.

@@ -34,7 +34,7 @@ public class GlobalConfig {
     // Behaviour
     public static Boolean TOGGLE_KEYBIND;
     public static Boolean CLICK_TO_SELECT;
-    public static Boolean RECENTER_ON_SELECT = false;
+    public static Boolean RECENTER_ON_SELECT;
     public static Boolean CLOSE_ON_SELECT;
     public static Integer INNER_DEADZONE;
     public static Integer OUTER_DEADZONE;
