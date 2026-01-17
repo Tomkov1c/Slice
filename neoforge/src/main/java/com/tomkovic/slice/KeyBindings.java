@@ -90,6 +90,15 @@ public class KeyBindings {
         }
     }
 
+    @SubscribeEvent
+    public static void onMouseInput(InputEvent.MouseScrollingEvent event) {
+        if(!canHandleKeyBind) return;
+
+        if (GlobalConfig.DISABLE_HOTBAR_SCROLLING) {
+            event.setCanceled(true);
+        }
+    }
+
     public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
         event.register(OPEN_RADIAL_MENU);
         event.register(CLICK_TO_SELECT);
