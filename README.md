@@ -42,13 +42,25 @@
     <th>Loaders</th>
     <th>Minimum required version</th>
     <th>Latest Mod version</th>
-    <tr><td>1.21.11</td>  <td>❌</td><td></td><td></td><td></td></tr>
+    <tr><td>1.21.11</td>  <td>✅</td>
+        <td>
+          <img width="35" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"> 
+          <img width="35" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg"> 
+          <img width="35" src="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg">
+          <img width="35" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg">
+        </td>
+        <td>21.11.0, 61.0.0, 0.18.0, 0.30.0-beta</td>
+        <td>0.2.1</td>
+    </tr>
     <tr><td>1.21.10</td>  <td>✅</td>
         <td>
-            <img width="35" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"> 
+          <img width="35" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"> 
+          <img width="35" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg"> 
+          <img width="35" src="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg">
+          <img width="35" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg">
         </td>
-      <td>21.10.0</td>
-      <td></td>
+        <td>21.10.0, 60.0.0, 0.18.0, 0.30.0-beta</td>
+        <td>0.2.1</td>
     </tr>
     <tr><td>1.21.9</td> <td>✅</td>
       <td>
@@ -58,7 +70,7 @@
         <img width="35" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg">
       </td>
       <td>21.9.0, 59.0.0, 0.17.0, 0.30.0-beta</td>
-      <td></td>
+      <td>1.0.0</td>
     </tr>
     <tr><td>1.21.8</td> <td>❌</td><td></td><td></td><td></td></tr>
     <tr><td>1.21.7</td> <td>❌</td><td></td><td></td><td></td></tr>
@@ -187,6 +199,9 @@ Profile > (⋮) button > Open folder > (Explorer) config > (Explorer) slice-comm
 ```
 (File Explorer) %appdata% > .minecraft > config > slice-common.toml
 ```
+
+Save the file and use `/slice reloadClient` to reload the config file.
+
 ### <img width="20" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/fabric_vector.svg"> Fabric
 Download [Mod Menu](https://modrinth.com/mod/modmenu) and use their config menu instead.
 ```
