@@ -176,8 +176,6 @@
   
 </details>
 
-All 4 main mod loaders are planned to be supported
-
 ## How to customize/configure
 
 ### <img width="20" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/compact-minimal/supported/neoforge_vector.svg?raw=true"> Neoforge
