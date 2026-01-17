@@ -48,7 +48,7 @@ public class JsonHelper {
             }
             
         } catch (Exception e) {
-            e.printStackTrace();
+            Constants.LOG.error("[Slice] - JsonHelper: readJsonFromResources(): " + e);
             return null;
         }
     }

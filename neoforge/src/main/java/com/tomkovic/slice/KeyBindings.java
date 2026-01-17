@@ -45,13 +45,11 @@ public class KeyBindings {
 
         if (OPEN_RADIAL_MENU.getKey().getType() == InputConstants.Type.KEYSYM && event.getKey() == OPEN_RADIAL_MENU.getKey().getValue()) {
             
-            /*  Key Pressed  */
             if (event.getAction() == GLFW.GLFW_PRESS) {
                 BindingHandler.openMenuKeyState.setPressed();
                 RadialMenuHandler.handleOpenMenuKeyBehaviour();
             } 
             
-            /*  Key Released  */
             else if (event.getAction() == GLFW.GLFW_RELEASE) {
                 BindingHandler.openMenuKeyState.setReleased();
                 RadialMenuHandler.handleOpenMenuKeyBehaviour();
@@ -65,14 +63,12 @@ public class KeyBindings {
 
         if (OPEN_RADIAL_MENU.getKey().getType() == InputConstants.Type.MOUSE && event.getButton() == OPEN_RADIAL_MENU.getKey().getValue()) {
             
-            /*  Mouse Button Pressed  */
             if (event.getAction() == GLFW.GLFW_PRESS) {
                 BindingHandler.openMenuKeyState.setPressed();
                 RadialMenuHandler.handleOpenMenuKeyBehaviour();
                 event.setCanceled(true);
             } 
             
-            /*  Mouse Button Released  */
             else if (event.getAction() == GLFW.GLFW_RELEASE) {
                 BindingHandler.openMenuKeyState.setReleased();
                 RadialMenuHandler.handleOpenMenuKeyBehaviour();
@@ -81,7 +77,6 @@ public class KeyBindings {
         }
 
         if (event.getButton() == CLICK_TO_SELECT.getKey().getValue() && RadialMenuHandler.isMenuOpen) {
-            /*  Mouse Button Pressed  */
             if (event.getAction() == GLFW.GLFW_PRESS) {
                 BindingHandler.clickToSelectKeyState.setPressed();
                 
@@ -90,7 +85,6 @@ public class KeyBindings {
                 event.setCanceled(true);
             } 
             
-            /*  Mouse Button Released  */
             else if (event.getAction() == GLFW.GLFW_RELEASE) {
                 BindingHandler.clickToSelectKeyState.setReleased();
 

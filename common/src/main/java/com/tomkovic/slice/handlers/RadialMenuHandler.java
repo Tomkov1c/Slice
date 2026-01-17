@@ -45,12 +45,10 @@ public class RadialMenuHandler {
     }
     
     private static void handleToggleMode() {
-        /*  On Open    */
         if (BindingHandler.openMenuKeyState.isPressed() && !isMenuOpen) {
             openMenu();
         }
         
-        /*  On Close    */
         else if (BindingHandler.openMenuKeyState.isPressed() && isMenuOpen) {
 
             if (!GlobalConfig.CLICK_TO_SELECT) {
@@ -62,12 +60,10 @@ public class RadialMenuHandler {
     }
     
     private static void handleHoldMode() {
-        /*  On Open    */
         if (BindingHandler.openMenuKeyState.isPressed() && !isMenuOpen) {
             openMenu();
         }
 
-        /*  On Close    */
         else if (BindingHandler.openMenuKeyState.isReleased() && isMenuOpen) {
             if (selectedSlot != hoveredSlot && !GlobalConfig.CLICK_TO_SELECT) { handleSlotSelecting(hoveredSlot); }
 
@@ -77,8 +73,6 @@ public class RadialMenuHandler {
 
     public static void handleClickToSelect() {
         handleSlotSelecting(hoveredSlot);
-
-        Constants.LOG.warn("Click to select: pressed");
     }
 
     private static void handleSlotSelecting(int index) {

@@ -43,7 +43,7 @@ public class RadialMenuRenderer {
             selectedField = Inventory.class.getDeclaredField("selected");
             selectedField.setAccessible(true);
         } catch (Exception e) {
-            Constants.LOG.error("Failed to access Inventory.selected field", e);
+            Constants.LOG.error("[Slice] - RadialMenuRenderer: RadialMenuRenderer(): Failed to access selected field");
         }
     }
 
@@ -207,5 +207,3 @@ public class RadialMenuRenderer {
     }
     
 }
-
-// 237

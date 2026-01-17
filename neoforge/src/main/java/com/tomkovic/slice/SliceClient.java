@@ -1,6 +1,5 @@
 package com.tomkovic.slice;
 
-import com.tomkovic.slice.handlers.ConfigHandler;
 import com.tomkovic.slice.handlers.RadialMenuHandler;
 
 import net.neoforged.api.distmarker.Dist;

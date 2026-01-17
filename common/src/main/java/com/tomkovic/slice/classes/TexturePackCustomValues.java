@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 
 import com.tomkovic.slice.helpers.JsonHelper;
+import com.tomkovic.slice.Constants;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -93,7 +94,7 @@ public class TexturePackCustomValues {
 
             JsonObject json = JsonHelper.readJsonFromResources(resourceManager, path);
             if (json == null) {
-                System.out.println("Warning: JSON not found at " + path);
+                Constants.LOG.error("[Slice] - TexturePackCustomValues: parseFromResource(): Json not found at " + path);
                 return;
             }
 
@@ -129,7 +130,7 @@ public class TexturePackCustomValues {
             backgroundOverlayColor = temp.backgroundOverlayColor;
 
         } catch (Exception e) {
-            System.err.println("Error parsing texture pack values from: " + path);
+            Constants.LOG.error("[Slice] - TexturePackCustomValues: parseFromResource(): Error parsing JSON at " + path);
             e.printStackTrace();
         }
     }
