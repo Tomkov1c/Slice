@@ -8,8 +8,6 @@ import net.minecraftforge.fml.event.config.ModConfigEvent;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.tomkovic.slice.handlers.ConfigHandler;
-
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Config {
     public static final Config CONFIG;
@@ -47,6 +45,7 @@ public class Config {
     // Behaviour
     public final ForgeConfigSpec.BooleanValue toggleKeybind;
     public final ForgeConfigSpec.BooleanValue clickToSelect;
+    public final ForgeConfigSpec.BooleanValue recenterOnSelect;
     public final ForgeConfigSpec.BooleanValue closeOnSelect;
     public final ForgeConfigSpec.IntValue innerDeadzone;
     public final ForgeConfigSpec.IntValue outerDeadzone;
@@ -170,6 +169,10 @@ public class Config {
                 this.clickToSelect = behaviour
                         .translation("slice.configuration.behaviour.clickToSelect")
                         .define("clickToSelect", false);
+                
+                this.recenterOnSelect = behaviour
+                        .translation("slice.configuration.behaviour.recenterOnSelect")
+                        .define("recenterOnSelect", false);
 
                 this.closeOnSelect = behaviour
                         .translation("slice.configuration.behaviour.closeOnSelect")
@@ -206,6 +209,46 @@ public class Config {
 
     @SubscribeEvent
     public static void onLoad(final ModConfigEvent event) {
-        if (event.getConfig().getModId().equals(Constants.MOD_ID)) ConfigHandler.getCurrentConfig();
+        if (event.getConfig().getModId().equals(Constants.MOD_ID)) Config.pushConfigToGlobal();
+    }
+
+    public static void pushConfigToGlobal() {
+        // Display / Size
+        GlobalConfig.MENU_RADIUS = CONFIG.radialMenuRadius.get();
+        GlobalConfig.ITEM_SIZE = CONFIG.itemSize.get();
+        GlobalConfig.SLOT_SIZE = CONFIG.slotSize.get();
+        
+        // Display / Visibility
+        GlobalConfig.BACKGROUND_OPACITY = CONFIG.backgroundDarkenOpacity.get();
+        GlobalConfig.HIDE_UNUSED_SLOTS = CONFIG.hideUnusedSlots.get();
+        GlobalConfig.HIDE_SLOT_NUMBER = CONFIG.hideSlotNumber.get();
+        GlobalConfig.HIDE_SLOT_SPRITE = CONFIG.hideSlotSprite.get();
+        
+        // Display / Visibility / Disable Slots
+        GlobalConfig.DISABLE_SLOT_1 = CONFIG.disableSlot1.get();
+        GlobalConfig.DISABLE_SLOT_2 = CONFIG.disableSlot2.get();
+        GlobalConfig.DISABLE_SLOT_3 = CONFIG.disableSlot3.get();
+        GlobalConfig.DISABLE_SLOT_4 = CONFIG.disableSlot4.get();
+        GlobalConfig.DISABLE_SLOT_5 = CONFIG.disableSlot5.get();
+        GlobalConfig.DISABLE_SLOT_6 = CONFIG.disableSlot6.get();
+        GlobalConfig.DISABLE_SLOT_7 = CONFIG.disableSlot7.get();
+        GlobalConfig.DISABLE_SLOT_8 = CONFIG.disableSlot8.get();
+        GlobalConfig.DISABLE_SLOT_9 = CONFIG.disableSlot9.get();
+        
+        // Display / Angles
+        GlobalConfig.START_ANGLE = CONFIG.startAngle.get();
+        GlobalConfig.END_ANGLE = CONFIG.endAngle.get();
+        GlobalConfig.REVERSE_ROTATION = CONFIG.counterclockwiseRotation.get();
+        
+        // Behaviour
+        GlobalConfig.TOGGLE_KEYBIND = CONFIG.toggleKeybind.get();
+        GlobalConfig.CLICK_TO_SELECT = CONFIG.clickToSelect.get();
+        GlobalConfig.RECENTER_ON_SELECT = CONFIG.recenterOnSelect.get();
+        GlobalConfig.CLOSE_ON_SELECT = CONFIG.closeOnSelect.get();
+        GlobalConfig.INNER_DEADZONE = CONFIG.innerDeadzone.get();
+        GlobalConfig.OUTER_DEADZONE = CONFIG.outerDeadzone.get();
+        
+        // Misc
+        GlobalConfig.DISABLE_HOTBAR_SCROLLING = CONFIG.disableScrollingOnHotbar.get();
     }
 }

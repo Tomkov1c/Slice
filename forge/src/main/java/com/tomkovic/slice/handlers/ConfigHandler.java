@@ -2,7 +2,6 @@ package com.tomkovic.slice.handlers;
 
 import com.tomkovic.slice.Config;
 import com.tomkovic.slice.Constants;
-import com.tomkovic.slice.RadialMenuRenderer;
 
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
@@ -14,19 +13,12 @@ public class ConfigHandler {
         
     @SubscribeEvent
     public static void onConfigReload(ModConfigEvent.Reloading event) {
-        if (event.getConfig().getSpec() == Config.CONFIG_SPEC)getCurrentConfig();
+        if (event.getConfig().getSpec() == Config.CONFIG_SPEC) Config.pushConfigToGlobal();
     }
 
     @SubscribeEvent
     public static void onConfigLoad(ModConfigEvent.Loading event) {
-        if (event.getConfig().getSpec() == Config.CONFIG_SPEC) getCurrentConfig();
-    }
-
-
-
-    public static void getCurrentConfig() {
-        RadialMenuRenderer.updateFromConfig();
-        RadialMenuHandler.updateFromConfig();
+        if (event.getConfig().getSpec() == Config.CONFIG_SPEC) Config.pushConfigToGlobal();
     }
 
 }

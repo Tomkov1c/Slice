@@ -1,7 +1,12 @@
 package com.tomkovic.slice;
 
-import java.lang.reflect.Field;
-import com.google.gson.JsonObject;
+import java.util.Objects;
+
+import com.tomkovic.slice.classes.SlotPosition;
+import com.tomkovic.slice.classes.TexturePackCustomValues;
+import com.tomkovic.slice.handlers.RadialMenuHandler;
+import com.tomkovic.slice.helpers.JsonHelper;
+import com.tomkovic.slice.helpers.RadialMenuHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -12,185 +17,193 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
 public class RadialMenuRenderer {
-    private static int itemSize = Config.CONFIG.itemSize.getDefault();
-    private static int slotSize = Config.CONFIG.slotSize.getDefault();
-    private static int slotRadius = Config.CONFIG.radialMenuRadius.getDefault();
-    private static boolean counterclockwise = Config.CONFIG.counterclockwiseRotation.getDefault();
-    private static boolean hideUnusedSlots = Config.CONFIG.hideUnusedSlots.getDefault();
-    private static boolean hideSlotNumber = Config.CONFIG.hideSlotNumber.getDefault();
-    private static boolean hideSlotSprite = Config.CONFIG.hideSlotSprite.getDefault();
-    private static boolean[] disabledSlots = new boolean[Constants.SLOT_COUNT];
-    private static int startAngle = Config.CONFIG.startAngle.getDefault();
-    private static int endAngle = Config.CONFIG.endAngle.getDefault();
-    private static int backgroundDarkenOpacity = Config.CONFIG.backgroundDarkenOpacity.getDefault();
-    private static int innerDeadzoneRadius = Config.CONFIG.innerDeadzone.getDefault();
-    private static int outerDeadzoneRadius = Config.CONFIG.outerDeadzone.getDefault();
-    public static boolean clickToSelect = Config.CONFIG.clickToSelect.getDefault();
-    private int hoveredSlot = -1;
-    private int activeSlot = -1;
-    private double mouseStartX = 0;
-    private double mouseStartY = 0;
-    private static Field selectedField = null;
 
-    public RadialMenuRenderer() {
-        try {
-            selectedField = Inventory.class.getDeclaredField("selected");
-            selectedField.setAccessible(true);
-        } catch (Exception e) {
-            Constants.LOG.error("Failed to access Inventory.selected field", e);
-        }
-    }
-    
-    public static void updateFromConfig() {
-        itemSize = Config.CONFIG.itemSize.get();
-        slotSize = Config.CONFIG.slotSize.get();
-        slotRadius = Config.CONFIG.radialMenuRadius.get();
-        counterclockwise = Config.CONFIG.counterclockwiseRotation.get();
-        hideUnusedSlots = Config.CONFIG.hideUnusedSlots.get();
-        hideSlotNumber = Config.CONFIG.hideSlotNumber.get();
-        hideSlotSprite = Config.CONFIG.hideSlotSprite.get();
+    Minecraft mc = RadialMenuHandler.mc();
 
-        startAngle = Config.CONFIG.startAngle.get();
-        endAngle = Config.CONFIG.endAngle.get();
-        
-        backgroundDarkenOpacity = Config.CONFIG.backgroundDarkenOpacity.get();
-        
-        innerDeadzoneRadius = Config.CONFIG.innerDeadzone.get();
-        outerDeadzoneRadius = Config.CONFIG.outerDeadzone.get();
+    public boolean isRendering = false;
+    public boolean hasRenderedOnce = false;
 
-        disabledSlots[0] = Config.CONFIG.disableSlot1.get();
-        disabledSlots[1] = Config.CONFIG.disableSlot2.get();
-        disabledSlots[2] = Config.CONFIG.disableSlot3.get();
-        disabledSlots[3] = Config.CONFIG.disableSlot4.get();
-        disabledSlots[4] = Config.CONFIG.disableSlot5.get();
-        disabledSlots[5] = Config.CONFIG.disableSlot6.get();
-        disabledSlots[6] = Config.CONFIG.disableSlot7.get();
-        disabledSlots[7] = Config.CONFIG.disableSlot8.get();
-        disabledSlots[8] = Config.CONFIG.disableSlot9.get();
+    private double cursorX = -1;
+    private double cursorY = -1;
 
-        clickToSelect = Config.CONFIG.clickToSelect.get();
-    }
+    TexturePackCustomValues jsonConfig = new TexturePackCustomValues();
+
+    // Cache
+    private int cachedCenterX = 0;
+    private int cachedCenterY = 0;
+    private int[] cachedVisibleSlots = null;
+    private SlotPosition[] cachedSlotPositions = null;
+
+    private int cachedScreenWidth = -1;
+    private int cachedScreenHeight = -1;
+
+    private LocalPlayer cachedPlayer = null;
+    private Inventory cachedInventory = null;
+    //
 
     public void onMenuOpen() {
-        Minecraft mc = Minecraft.getInstance();
-        if (mc.mouseHandler != null) {
-            mouseStartX = mc.mouseHandler.xpos();
-            mouseStartY = mc.mouseHandler.ypos();
+        RadialMenuHandler.hoveredSlot = -1;
+
+        if (RadialMenuHandler.mc().mouseHandler != null) {
+            cursorX = RadialMenuHandler.mc().mouseHandler.xpos();
+            cursorY = RadialMenuHandler.mc().mouseHandler.ypos();
         }
-        hoveredSlot = -1;
     }
 
     public void onMenuClose() {
-        if (!clickToSelect) selectHoveredSlot();
-        hoveredSlot = -1;
+        clearCache();
+
+        cursorX = -1;
+        cursorY = -1;
+    }
+
+    public void clearCache() {
+        cachedScreenWidth = -1;
+        cachedScreenHeight = -1;
+        cachedCenterX = -1;
+        cachedCenterY = -1;
+        
+        cachedPlayer = null;
+        cachedInventory = null;
+        cachedSlotPositions = null;
+
+    }
+    
+    private void initializeCache() {
+
+        jsonConfig.parseFromResource(Constants.TEXTURE_CONFIG_JSON_NAMESPACE_PATH);
+
+        if (cachedScreenWidth == -1 && cachedScreenHeight == -1) {
+            cachedScreenWidth = mc.getWindow().getGuiScaledWidth();
+            cachedScreenHeight = mc.getWindow().getGuiScaledHeight();
+            cachedCenterX = cachedScreenWidth / 2;
+            cachedCenterY = cachedScreenHeight / 2;
+        }
+
+        if (mc.player != null) cachedPlayer = mc.player;
+
+        if (cachedInventory == null && cachedPlayer != null) cachedInventory = cachedPlayer.getInventory();
+
+        if (cachedSlotPositions == null) {
+            cachedVisibleSlots = RadialMenuHelper.getVisibleSlots(cachedInventory);
+            
+            if (cachedVisibleSlots.length == 0) return;
+            
+            cachedSlotPositions = RadialMenuHelper.calculateSlotPositions(cachedVisibleSlots, cachedCenterX, cachedCenterY);
+        }
     }
 
     public void render(GuiGraphics graphics, float partialTick) {
-        
-        class RenderHelper {
-            void renderAll() {
+        if (!isRendering) return;
 
-                Minecraft mc = Minecraft.getInstance();
-
-                if (mc.isPaused()) return;
-
-                mc.mouseHandler.releaseMouse();
-
-                LocalPlayer player = mc.player;
-                if (player == null) return;
-                
-                JsonObject json = ResourceHelper.readJsonFromResources(mc.getResourceManager(), "textures/texture_config.json");
-
-                int screenWidth = mc.getWindow().getGuiScaledWidth();
-                int screenHeight = mc.getWindow().getGuiScaledHeight();
-                int centerX = screenWidth / 2;
-                int centerY = screenHeight / 2;
-
-                if (backgroundDarkenOpacity > 0) renderBackground(json, screenWidth, screenHeight);
-
-                Inventory inventory = player.getInventory();
-                int[] visibleSlots = CommonRenderFunctions.getVisibleSlots(inventory, hideUnusedSlots, disabledSlots);
-                if (visibleSlots.length == 0) return;
-
-                SlotPosition[] slotPositions = CommonRenderFunctions.calculateSlotPositions(visibleSlots, centerX, centerY, startAngle, endAngle, counterclockwise, slotRadius);
-
-                double mouseX = mc.mouseHandler.xpos() * screenWidth / mc.getWindow().getScreenWidth() - centerX;
-                double mouseY = mc.mouseHandler.ypos() * screenHeight / mc.getWindow().getScreenHeight() - centerY;
-
-                hoveredSlot = CommonRenderFunctions.getHoveredSlot(mouseX, mouseY, slotPositions, slotRadius, innerDeadzoneRadius, outerDeadzoneRadius);
-
-                activeSlot = inventory.getSelectedSlot();
-
-                for (SlotPosition pos : slotPositions) {
-                    boolean isActive = (pos.slotIndex == activeSlot);
-                    boolean isHovered = (pos.slotIndex == hoveredSlot);
-
-                    String state = isActive ? "_active" : (isHovered ? "_hovered" : "");
-                    int xOffset = Utils.getIntOrDefault(json, Constants.JSON_X_OFFSET + state, 0);
-                    int yOffset = Utils.getIntOrDefault(json, Constants.JSON_Y_OFFSET + state, 0);
-                    int x = pos.baseX + xOffset;
-                    int y = pos.baseY + yOffset;
-
-                    if (!hideSlotSprite) renderSlot(x, y, isActive, isHovered);
-                    ItemStack stack = inventory.getItem(pos.slotIndex);
-                    if (!stack.isEmpty()) renderItem(mc, json, stack, x, y, isActive, isHovered);
-                    if (!hideSlotNumber) renderSlotNumber(mc, json, pos.slotIndex, x, y, isActive, isHovered);
-                }
-                mc.renderBuffers().bufferSource().endBatch();
-            }
-
-            @SuppressWarnings("null")
-            void renderSlot(int x, int y, boolean active, boolean hovered) {
-                ResourceLocation tex = active ? Constants.SLOT_ACTIVE_TEXTURE :
-                    hovered ? Constants.SLOT_HOVERED_TEXTURE :
-                    Constants.SLOT_TEXTURE;
-                graphics.blit(RenderPipelines.GUI_TEXTURED, tex,
-                    x - slotSize / 2, y - slotSize / 2,
-                    0F, 0F, slotSize, slotSize, slotSize, slotSize);
-            }
-
-            @SuppressWarnings("null")
-            void renderItem(Minecraft mc, JsonObject json, ItemStack stack, int x, int y, boolean active, boolean hovered) {
-                String state = active ? "_active" : (hovered ? "_hovered" : "");
-                int ix = x + Utils.getIntOrDefault(json, Constants.JSON_ITEM_X_OFFSET + state, 0);
-                int iy = y + Utils.getIntOrDefault(json, Constants.JSON_ITEM_Y_OFFSET + state, 0);
-                graphics.pose().pushMatrix();
-                graphics.pose().translate(ix + 8, iy + 8);
-                float scale = itemSize / 16f;
-                graphics.pose().scale(scale, scale);
-                graphics.pose().translate(-(ix + 8), -(iy + 8));
-                graphics.renderItem(stack, ix, iy);
-                graphics.renderItemDecorations(mc.font, stack, ix, iy);
-                graphics.pose().popMatrix();
-            }
-
-            @SuppressWarnings("null")
-            void renderSlotNumber(Minecraft mc, JsonObject json, int index, int x, int y, boolean active, boolean hovered) {
-                String num = String.valueOf(index + 1);
-                String state = active ? "_active" : (hovered ? "_hovered" : "");
-                int xOffset = Utils.getIntOrDefault(json, Constants.JSON_SLOT_NUMBER_X_OFFSET + state, 0);
-                int yOffset = Utils.getIntOrDefault(json, Constants.JSON_SLOT_NUMBER_Y_OFFSET + state, 0);
-                int tx = x - mc.font.width(num) / 2 + xOffset;
-                int ty = y + itemSize / 2 + yOffset;
-                int col = active ? Utils.parseColor(json, Constants.JSON_SLOT_NUMBER_COLOR_ACTIVE, Constants.DEFAULT_SLOT_NUMBER_COLOR_ACTIVE) :
-                    hovered ? Utils.parseColor(json, Constants.JSON_SLOT_NUMBER_COLOR_HOVERED, Constants.DEFAULT_SLOT_NUMBER_COLOR_HOVERED) :
-                    Utils.parseColor(json, Constants.JSON_SLOT_NUMBER_COLOR, Constants.DEFAULT_SLOT_NUMBER_COLOR);
-                graphics.drawString(mc.font, num, tx, ty, col);
-            }
-
-            void renderBackground(JsonObject json, int screenWidth, int screenHeight) {
-                int baseColor = Utils.parseColor(json, Constants.JSON_BACKGROUND_OVERLAY_COLOR, 0x000000);
-                int colorWithAlpha = (backgroundDarkenOpacity << 24) | (baseColor & 0xFFFFFF);
-                graphics.fill(0, 0, screenWidth, screenHeight, colorWithAlpha);
-            }
+        if (!hasRenderedOnce) {
+            initializeCache();
+            if (cachedVisibleSlots.length == 0) return;
         }
 
-        new RenderHelper().renderAll();
+        double mouseX = mc.mouseHandler.xpos() * cachedScreenWidth / mc.getWindow().getScreenWidth() - cachedCenterX;
+        double mouseY = mc.mouseHandler.ypos() * cachedScreenHeight / mc.getWindow().getScreenHeight() - cachedCenterY;
+
+        boolean cursorInSelectionArea = RadialMenuHelper.isCursorInSelectionArea(mouseX, mouseY);
+
+        if (cursorInSelectionArea)
+            RadialMenuHandler.hoveredSlot = RadialMenuHelper.getHoveredSlot( mouseX, mouseY, cachedSlotPositions );
+        else
+            RadialMenuHandler.hoveredSlot = -1;
+
+        RadialMenuHandler.selectedSlot = cachedInventory.getSelectedSlot();
+
+        if (GlobalConfig.BACKGROUND_OPACITY > 0) renderBackground(graphics, cachedScreenWidth, cachedScreenHeight);
+
+        renderVisibleSlots(graphics);
+
+        mc.renderBuffers().bufferSource().endBatch();
+        
+        hasRenderedOnce = true;
     }
 
-    public void selectHoveredSlot() {
-        if (hoveredSlot < 0 || hoveredSlot >= Constants.SLOT_COUNT || activeSlot == hoveredSlot) return;
+    private void renderVisibleSlots(GuiGraphics graphics) {
+        if (GlobalConfig.HIDE_SLOT_SPRITE && GlobalConfig.HIDE_SLOT_NUMBER) return;
 
-        CommonRenderFunctions.selectSlot(hoveredSlot);
+        for (SlotPosition pos : cachedSlotPositions) {
+            boolean isActive = (pos.slotIndex == RadialMenuHandler.selectedSlot);
+            boolean isHovered = (pos.slotIndex == RadialMenuHandler.hoveredSlot);
+            
+            int xOffset = isActive ? jsonConfig.xOffsetActive : (isHovered ? jsonConfig.xOffsetHovered : jsonConfig.xOffset);
+            int yOffset = isActive ? jsonConfig.yOffsetActive : (isHovered ? jsonConfig.yOffsetHovered : jsonConfig.yOffset);
+
+            int x = pos.baseX + xOffset;
+            int y = pos.baseY + yOffset;
+
+            if (!GlobalConfig.HIDE_SLOT_SPRITE) renderSlot(graphics, x, y, isActive, isHovered);
+            
+            ItemStack stack = cachedInventory.getItem(pos.slotIndex);
+            if (!stack.isEmpty()) renderItem(graphics, cachedInventory.getItem(pos.slotIndex), x, y, isActive, isHovered);
+            
+            if (!GlobalConfig.HIDE_SLOT_NUMBER) renderSlotNumber(graphics, pos.slotIndex, x, y, isActive, isHovered);
+        }
     }
+
+    private void renderSlot(GuiGraphics graphics, int x, int y, boolean active, boolean hovered) {
+        ResourceLocation tex = active ? Constants.SLOT_ACTIVE_TEXTURE :
+            hovered ? Constants.SLOT_HOVERED_TEXTURE :
+            Constants.SLOT_TEXTURE;
+
+        graphics.blit(Objects.requireNonNull(RenderPipelines.GUI_TEXTURED), Objects.requireNonNull(tex),
+            x - GlobalConfig.SLOT_SIZE / 2, y - GlobalConfig.SLOT_SIZE / 2,
+            0F, 0F, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE);
+    }
+
+    private void renderItem(GuiGraphics graphics, ItemStack stack, int x, int y, boolean active, boolean hovered) {
+
+        int xOffset = active ? jsonConfig.itemXOffsetActive : (hovered ? jsonConfig.itemXOffsetHovered : jsonConfig.itemXOffset);
+        int yOffset = active ? jsonConfig.itemYOffsetActive : (hovered ? jsonConfig.itemXOffsetHovered : jsonConfig.itemXOffset);
+
+        int ix = x + xOffset;
+        int iy = y + yOffset;
+        
+        graphics.pose().pushMatrix();
+        graphics.pose().translate(ix + 8, iy + 8);
+        float scale = GlobalConfig.ITEM_SIZE / 16f;
+        graphics.pose().scale(scale, scale);
+        graphics.pose().translate(-(ix + 8), -(iy + 8));
+
+        if (stack == null) return;
+
+        graphics.renderItem(stack, ix, iy);
+
+        if (mc.font == null) return;
+
+        graphics.renderItemDecorations(mc.font, stack, ix, iy);
+        graphics.pose().popMatrix();
+    }
+
+    private void renderSlotNumber(GuiGraphics graphics, int index, int x, int y, boolean active, boolean hovered) {
+
+        String num = String.valueOf(index + 1);
+
+        int xOffset = active ? jsonConfig.slotNumberXOffsetActive : (hovered ? jsonConfig.slotNumberXOffsetHovered : jsonConfig.slotNumberXOffset);
+        int yOffset = active ? jsonConfig.slotNumberYOffsetActive : (hovered ? jsonConfig.slotNumberYOffsetHovered : jsonConfig.slotNumberYOffset);
+
+        if (num == null) return;
+
+        int tx = x - mc.font.width(num) / 2 + xOffset;
+        int ty = y + GlobalConfig.ITEM_SIZE / 2 + yOffset;
+        
+        int col = active ? JsonHelper.parseColor(jsonConfig.slotNumberColorActive, 0) :
+            hovered ? JsonHelper.parseColor(jsonConfig.slotNumberColorHovered, 0) :
+            JsonHelper.parseColor(jsonConfig.slotNumberColor, 0);
+        
+        if (mc.font == null) return;
+
+        graphics.drawString(mc.font, num, tx, ty, col);
+    }
+
+    private void renderBackground(GuiGraphics graphics, int screenWidth, int screenHeight) {
+        int baseColor = JsonHelper.parseColor(jsonConfig.backgroundOverlayColor, 0);
+
+        int colorWithAlpha = (GlobalConfig.BACKGROUND_OPACITY << 24) | (baseColor & 0xFFFFFF);
+        graphics.fill(0, 0, screenWidth, screenHeight, colorWithAlpha);
+    }
+    
 }
