@@ -51,14 +51,10 @@ public class KeyBindings {
             
             if (event.getAction() == GLFW.GLFW_PRESS) {
                 RadialMenuHandler.handleOpenMenuKeyBehaviour(true);
-
-                Constants.LOG.error("Pressed");
             } 
             
             else if (event.getAction() == GLFW.GLFW_RELEASE) {
                 RadialMenuHandler.handleOpenMenuKeyBehaviour(false);
-
-                Constants.LOG.error("Released");
             }
         }
     }

@@ -1,5 +1,7 @@
 package com.tomkovic.slice;
 
+import javax.annotation.Nonnull;
+
 import com.tomkovic.slice.handlers.RadialMenuHandler;
 
 import net.minecraft.resources.ResourceLocation;
@@ -21,7 +23,6 @@ public class SliceClient {
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             Config.pushConfigToGlobal();
-            Constants.LOG.info("Client setup complete");
         });
     }
     
@@ -29,7 +30,6 @@ public class SliceClient {
     public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
         event.register(KeyBindings.OPEN_RADIAL_MENU); 
         event.register(KeyBindings.CLICK_TO_SELECT);
-        Constants.LOG.info("Key mappings registered");
     }
     
     @Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
