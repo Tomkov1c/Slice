@@ -1,7 +1,6 @@
 package com.tomkovic.slice;
 
-import javax.annotation.Nonnull;
-
+import com.tomkovic.slice.commands.ReloadConfigCommand;
 import com.tomkovic.slice.handlers.RadialMenuHandler;
 
 import net.minecraft.resources.ResourceLocation;
@@ -9,6 +8,7 @@ import net.minecraftforge.client.event.AddGuiOverlayLayersEvent;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -34,6 +34,11 @@ public class SliceClient {
     
     @Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
     public static class ForgeEvents {
+
+        @SubscribeEvent
+        public static void onRegisterCommands(RegisterCommandsEvent event) {
+            ReloadConfigCommand.register(event.getDispatcher());
+        }
         
         @SubscribeEvent
         public static void onPlayerLogin(ClientPlayerNetworkEvent.LoggingIn event) {
