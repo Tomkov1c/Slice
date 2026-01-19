@@ -45,12 +45,13 @@ public class RadialMenuHelper {
 
         SlotPosition[] positions = new SlotPosition[visibleSlots.length];
         
-        boolean fullCircle = (GlobalConfig.START_ANGLE == GlobalConfig.END_ANGLE) || 
-                             ((GlobalConfig.START_ANGLE == 0 && GlobalConfig.END_ANGLE == 360) || 
-                             (GlobalConfig.START_ANGLE == 360 && GlobalConfig.END_ANGLE == 0));
+        double startDeg = ((GlobalConfig.START_ANGLE % 360) + 360) % 360;
+        double endDeg   = ((GlobalConfig.END_ANGLE   % 360) + 360) % 360;
 
-        double startRad = Math.toRadians(GlobalConfig.START_ANGLE) - Math.PI / 2;
-        double endRad = Math.toRadians(GlobalConfig.END_ANGLE) - Math.PI / 2;
+        boolean fullCircle = startDeg == endDeg;
+
+        double startRad = Math.toRadians(startDeg) - Math.PI / 2;
+        double endRad   = Math.toRadians(endDeg)   - Math.PI / 2;
         
         double angleRange;
         if (fullCircle)
