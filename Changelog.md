@@ -6,6 +6,7 @@
 - Made code more scalable for future features (Suggest [here](https://github.com/Tomkov1c/Slice/issues)).
 - Removed hardcoded fallback values for custom values in texturepacks,
 - If `Click to Select` and `Close on Select` are enabled in `Hold mode`, the menu won't reapear untill `Open Menu` key gets released.
+- Made `calculateSlotPositions()` normalize the angle.
 - Removed junk.
 
 ## <img width="20" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true">  NeoForge
@@ -15,5 +16,10 @@
 - Keybinding state gets sent to `common`, where it gets processed correctly.
 
 ## <img width="20" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg">  Forge
+
+- Added `Recenter on Select` feature, that recenters you cursor in the menu when you select a slot.
+- Renderer doesn't constantly reread json files inside texture packs when rendering.
+- Renderer caches values that can't be changed when the menu is open.
+- Keybinding state gets sent to `common`, where it gets processed correctly.
 
 ## <img width="20" src="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg">  Fabric / <img width="20" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg"> Quilt
