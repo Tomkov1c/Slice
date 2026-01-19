@@ -1,5 +1,7 @@
 package com.tomkovic.slice;
 
+import java.util.Objects;
+
 import com.tomkovic.slice.commands.ReloadConfigCommand;
 import com.tomkovic.slice.handlers.RadialMenuHandler;
 
@@ -72,7 +74,7 @@ public class SliceClient {
         @SubscribeEvent
         public static void registerGuiOverlays(AddGuiOverlayLayersEvent event) {
             event.getLayeredDraw().add(
-                ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "radial_menu"),
+                Objects.requireNonNull(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "radial_menu")),
                 (guiGraphics, partialTick) -> {
                     SliceClient.renderer.render(guiGraphics, partialTick.getGameTimeDeltaTicks());
                 }

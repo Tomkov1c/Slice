@@ -1,6 +1,5 @@
 package com.tomkovic.slice.commands;
 
-import com.electronwill.nightconfig.core.CommentedConfig;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.tomkovic.slice.Config;
@@ -11,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.nio.file.Path;
+import java.util.Objects;
 
 public class ReloadConfigCommand {
     
@@ -29,7 +29,7 @@ public class ReloadConfigCommand {
             
             if (!configPath.toFile().exists()) {
                 context.getSource().sendFailure(
-                    Component.literal("§cConfig file not found at: " + configPath)
+                    Objects.requireNonNull(Component.literal("§cConfig file not found at: " + configPath))
                 );
                 return 0;
             }
@@ -50,7 +50,7 @@ public class ReloadConfigCommand {
             return 1;
         } catch (Exception e) {
             context.getSource().sendFailure(
-                Component.literal("§cFailed to reload config: " + e.getMessage())
+                Objects.requireNonNull(Component.literal("§cFailed to reload config: " + e.getMessage()))
             );
             e.printStackTrace();
             return 0;
