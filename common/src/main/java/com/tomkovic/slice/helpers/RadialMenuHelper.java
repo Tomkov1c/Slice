@@ -51,7 +51,17 @@ public class RadialMenuHelper {
 
         double startRad = Math.toRadians(GlobalConfig.START_ANGLE) - Math.PI / 2;
         double endRad = Math.toRadians(GlobalConfig.END_ANGLE) - Math.PI / 2;
-        double angleRange = fullCircle ? Math.PI * 2 : (endRad - startRad + 2 * Math.PI) % (2 * Math.PI);
+        
+        double angleRange;
+        if (fullCircle)
+            angleRange = Math.PI * 2;
+        else {
+            angleRange = endRad - startRad;
+
+            while (angleRange <= 0) { angleRange += 2 * Math.PI;}
+            while (angleRange > 2 * Math.PI) { angleRange -= 2 * Math.PI;}
+        }
+
         double angleStep = fullCircle ? angleRange / visibleSlots.length : 
                               (visibleSlots.length > 1 ? angleRange / (visibleSlots.length - 1) : 0);
 
@@ -91,17 +101,6 @@ public class RadialMenuHelper {
         if (bestAngularDistance > maxAcceptable) return -1;
         
         return bestSlot;
-    }
-
-    public static double calculateSlotAngle(int slotIndex, int totalSlots) {
-        double angleMultiplier = GlobalConfig.REVERSE_ROTATION ? -1.0 : 1.0;
-        return (Math.PI * 2 * slotIndex / totalSlots) * angleMultiplier - Math.PI / 2;
-    }
-
-    public static double normalizeAngle(double angle) {
-        while (angle < 0) angle += Math.PI * 2;
-        while (angle >= Math.PI * 2) angle -= Math.PI * 2;
-        return angle;
     }
 
     public static ResourceLocation guiTexture(String name) {
