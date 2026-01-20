@@ -1,8 +1,9 @@
-package com.tomkovic.slice;
+package com.tomkovic.slice.integrations;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import me.shedaniel.autoconfig.AutoConfig;
+import com.tomkovic.slice.SliceConfigScreen;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 

@@ -24,7 +24,7 @@
             "com.tomkovic.slice.SliceClient"
         ],
         "modmenu": [
-            "com.tomkovic.slice.ModMenuIntegration"
+            "com.tomkovic.slice.integrations.ModMenuIntegration"
         ]
     },
     "depends": {
@@ -37,4 +37,3 @@
         "another-mod": "*"
     }
 }
-  
