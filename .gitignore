@@ -35,3 +35,5 @@ repo
 .DS_Store
 
 *.mp4
+
+.factorypath
