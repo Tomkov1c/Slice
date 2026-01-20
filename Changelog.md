@@ -14,6 +14,7 @@
 - Renderer doesn't constantly reread json files inside texture packs when rendering.
 - Renderer caches values that can't be changed when the menu is open.
 - Keybinding state gets sent to `common`, where it gets processed correctly.
+- Removed potential reason why you might get banned on servers like Hypixel (RIP in peace Mark's SkyBlock account)
 
 ## <img width="20" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg">  Forge
 
@@ -21,6 +22,13 @@
 - Renderer doesn't constantly reread json files inside texture packs when rendering.
 - Renderer caches values that can't be changed when the menu is open.
 - Keybinding state gets sent to `common`, where it gets processed correctly.
+- Removed potential reason why you might get banned on servers like Hypixel (RIP in peace Mark's SkyBlock account)
 - Add `/slice reloadClient` command that refreshes the config from the file.
 
 ## <img width="20" src="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg">  Fabric / <img width="20" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg"> Quilt
+
+- Added `Recenter on Select` feature, that recenters you cursor in the menu when you select a slot.
+- Renderer doesn't constantly reread json files inside texture packs when rendering.
+- Renderer caches values that can't be changed when the menu is open.
+- Keybinding state gets sent to `common`, where it gets processed correctly.
+- Removed potential reason why you might get banned on servers like Hypixel (RIP in peace Mark's SkyBlock account)
