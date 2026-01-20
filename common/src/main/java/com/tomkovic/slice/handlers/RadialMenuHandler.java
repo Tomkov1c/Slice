@@ -20,10 +20,10 @@ public class RadialMenuHandler {
     public static void openMenu() {
         isMenuOpen = true;
         mc().mouseHandler.releaseMouse();
-        
+
         Services.PLATFORM.renderMenu();
     }
-    
+
     public static void closeMenu() {
         isMenuOpen = false;
         mc().mouseHandler.grabMouse();
@@ -74,10 +74,10 @@ public class RadialMenuHandler {
     }
 
     private static void selectSlot(int index) {
-        if (index < 0 && index > Constants.SLOT_COUNT) return;
+        if (index < 0 && index > 8 && mc().player == null) return;
 
         Services.PLATFORM.setSelectedSlot(index);
         selectedSlot = index;
     }
-    
+
 }

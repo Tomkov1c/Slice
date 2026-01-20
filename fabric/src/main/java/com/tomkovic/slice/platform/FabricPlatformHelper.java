@@ -2,6 +2,7 @@ package com.tomkovic.slice.platform;
 
 import com.tomkovic.slice.Constants;
 import com.tomkovic.slice.SliceClient;
+import com.tomkovic.slice.handlers.RadialMenuHandler;
 import com.tomkovic.slice.platform.services.IPlatformHelper;
 import java.lang.reflect.Field;
 import com.mojang.blaze3d.platform.Window;
@@ -10,16 +11,14 @@ import net.minecraft.client.Minecraft;
 
 import org.lwjgl.glfw.GLFW;
 
-
 public class FabricPlatformHelper implements IPlatformHelper {
 
     private static Field windowHandleField = null;
 
+    private Minecraft mc = RadialMenuHandler.mc();
+
     @Override
     public void setSelectedSlot(int index) {
-        Minecraft mc = Minecraft.getInstance();
-        if (mc.player == null || index < 0 || index > 8) return;
-
         mc.player.getInventory().selected = index;
     }
 
