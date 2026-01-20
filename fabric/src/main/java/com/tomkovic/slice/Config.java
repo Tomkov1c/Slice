@@ -1,9 +1,10 @@
 package com.tomkovic.slice;
 
+import com.tomkovic.slice.*;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
-@me.shedaniel.autoconfig.annotation.Config(name = "slice") 
+@me.shedaniel.autoconfig.annotation.Config(name = "slice")
 public class Config implements ConfigData {
 
     @ConfigEntry.Category("display")
@@ -19,6 +20,7 @@ public class Config implements ConfigData {
     public Misc misc = new Misc();
 
     public static class Display {
+
         @ConfigEntry.Gui.CollapsibleObject
         public Size size = new Size();
 
@@ -34,6 +36,7 @@ public class Config implements ConfigData {
         public boolean counterclockwiseRotation = false;
 
         public static class Size {
+
             @ConfigEntry.BoundedDiscrete(min = 40, max = 200)
             public int radialMenuRadius = 75;
 
@@ -45,6 +48,7 @@ public class Config implements ConfigData {
         }
 
         public static class Visibility {
+
             @ConfigEntry.BoundedDiscrete(min = 0, max = 255)
             public int backgroundDarkenOpacity = 0;
 
@@ -58,6 +62,7 @@ public class Config implements ConfigData {
             public DisabledSlots disabledSlots = new DisabledSlots();
 
             public static class DisabledSlots {
+
                 public boolean disableSlot1 = false;
 
                 public boolean disableSlot2 = false;
@@ -80,9 +85,12 @@ public class Config implements ConfigData {
     }
 
     public static class Behaviour {
+
         public boolean toggleKeybind = false;
 
         public boolean clickToSelect = false;
+
+        public boolean recenterOnSelect = false;
 
         public boolean closeOnSelect = true;
 
@@ -94,6 +102,48 @@ public class Config implements ConfigData {
     }
 
     public static class Misc {
+
         public boolean disableScrollingOnHotbar = false;
+    }
+
+    public void pushConfigToGlobal() {
+        // Display / Size
+        GlobalConfig.MENU_RADIUS = this.display.size.radialMenuRadius;
+        GlobalConfig.ITEM_SIZE = this.display.size.itemSize;
+        GlobalConfig.SLOT_SIZE = this.display.size.slotSize;
+
+        // Display / Visibility
+        GlobalConfig.BACKGROUND_OPACITY = this.display.visibility.backgroundDarkenOpacity;
+        GlobalConfig.HIDE_UNUSED_SLOTS = this.display.visibility.hideUnusedSlots;
+        GlobalConfig.HIDE_SLOT_NUMBER = this.display.visibility.hideSlotNumber;
+        GlobalConfig.HIDE_SLOT_SPRITE = this.display.visibility.hideSlotSprite;
+
+        // Display / Visibility / Disable Slots
+        GlobalConfig.DISABLE_SLOT_1 = this.display.visibility.disabledSlots.disableSlot1;
+        GlobalConfig.DISABLE_SLOT_2 = this.display.visibility.disabledSlots.disableSlot2;
+        GlobalConfig.DISABLE_SLOT_3 = this.display.visibility.disabledSlots.disableSlot3;
+        GlobalConfig.DISABLE_SLOT_4 = this.display.visibility.disabledSlots.disableSlot4;
+        GlobalConfig.DISABLE_SLOT_5 = this.display.visibility.disabledSlots.disableSlot5;
+        GlobalConfig.DISABLE_SLOT_6 = this.display.visibility.disabledSlots.disableSlot6;
+        GlobalConfig.DISABLE_SLOT_7 = this.display.visibility.disabledSlots.disableSlot7;
+        GlobalConfig.DISABLE_SLOT_8 = this.display.visibility.disabledSlots.disableSlot8;
+        GlobalConfig.DISABLE_SLOT_9 = this.display.visibility.disabledSlots.disableSlot9;
+
+        // Display / Angles
+        GlobalConfig.START_ANGLE = this.display.startAngle;
+        GlobalConfig.END_ANGLE = this.display.endAngle;
+        GlobalConfig.REVERSE_ROTATION = this.display.counterclockwiseRotation;
+
+        // Behaviour
+        GlobalConfig.TOGGLE_KEYBIND = this.behaviour.toggleKeybind;
+        GlobalConfig.CLICK_TO_SELECT = this.behaviour.clickToSelect;
+        GlobalConfig.RECENTER_ON_SELECT = this.behaviour.recenterOnSelect;
+        GlobalConfig.CLOSE_ON_SELECT = this.behaviour.closeOnSelect;
+        GlobalConfig.INNER_DEADZONE = this.behaviour.innerDeadzone;
+        GlobalConfig.OUTER_DEADZONE = this.behaviour.outerDeadzone;
+
+        // Misc
+        GlobalConfig.DISABLE_HOTBAR_SCROLLING = this.misc.disableScrollingOnHotbar;
+
     }
 }

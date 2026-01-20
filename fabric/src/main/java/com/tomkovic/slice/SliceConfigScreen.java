@@ -225,6 +225,15 @@ public final class SliceConfigScreen {
         );
 
         behaviour.addEntry(entryBuilder
+                .startBooleanToggle(Component.translatable("slice.configuration.behaviour.recenterOnSelect"),
+                        config.behaviour.recenterOnSelect)
+                .setDefaultValue(false)
+                .setTooltip(Component.translatable("slice.configuration.behaviour.recenterOnSelect.tooltip"))
+                .setSaveConsumer(v -> config.behaviour.recenterOnSelect = v)
+                .build()
+        );
+
+        behaviour.addEntry(entryBuilder
                 .startBooleanToggle(Component.translatable("slice.configuration.behaviour.closeOnSelect"),
                         config.behaviour.closeOnSelect)
                 .setDefaultValue(true)
