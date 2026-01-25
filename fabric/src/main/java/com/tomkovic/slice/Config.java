@@ -1,6 +1,5 @@
 package com.tomkovic.slice;
 
-import com.tomkovic.slice.*;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
