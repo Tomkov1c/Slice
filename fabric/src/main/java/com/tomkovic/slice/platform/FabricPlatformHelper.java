@@ -15,6 +15,8 @@ public class FabricPlatformHelper implements IPlatformHelper {
 
     private static Field windowHandleField = null;
 
+    private static Field cachedHandleField = null;
+
     private Minecraft mc = RadialMenuHandler.mc();
 
     @Override
@@ -43,22 +45,25 @@ public class FabricPlatformHelper implements IPlatformHelper {
 
     @Override
     public void centerCursor() {
-        Minecraft mc = Minecraft.getInstance();
         Window window = mc.getWindow();
 
-        double centerX = window.getScreenWidth() / 2.0;
-        double centerY = window.getScreenHeight() / 2.0;
-
         try {
-            if (windowHandleField == null) {
-                windowHandleField = Window.class.getDeclaredField("handle");
-                windowHandleField.setAccessible(true);
+            if (cachedHandleField == null) {
+                for (Field f : Window.class.getDeclaredFields()) {
+                    if (f.getType() == long.class) {
+                        f.setAccessible(true);
+                        cachedHandleField = f;
+                        break;
+                    }
+                }
             }
 
-            long windowHandle = windowHandleField.getLong(window);
-            GLFW.glfwSetCursorPos(windowHandle, centerX, centerY);
+            if (cachedHandleField != null) {
+                long handle = cachedHandleField.getLong(window);
+                GLFW.glfwSetCursorPos(handle, window.getScreenWidth() / 2.0, window.getScreenHeight() / 2.0);
+            }
         } catch (Exception e) {
-            Constants.LOG.error("Failed to center cursor", e);
+            Constants.LOG.error("Failed to center cursor via reflection", e);
         }
     }
 }
