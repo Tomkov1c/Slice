@@ -1,6 +1,5 @@
 package com.tomkovic.slice.handlers;
 
-import com.tomkovic.slice.Constants;
 import com.tomkovic.slice.GlobalConfig;
 import com.tomkovic.slice.platform.Services;
 
@@ -74,7 +73,8 @@ public class RadialMenuHandler {
     }
 
     private static void selectSlot(int index) {
-        if (index < 0 && index > 8 && mc().player == null) return;
+    	if (index == selectedSlot) return;
+        if (index < 0 || index > 8 || mc().player == null) return;
 
         Services.PLATFORM.setSelectedSlot(index);
         selectedSlot = index;
