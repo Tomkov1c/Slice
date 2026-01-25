@@ -12,7 +12,7 @@ import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 public class SliceClient implements ClientModInitializer {
 
     public static Config CONFIG;
-    public static RadialMenuRenderer renderer = new RadialMenuRenderer();
+    public static RadialMenuRenderer renderer;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -28,12 +28,15 @@ public class SliceClient implements ClientModInitializer {
 
         // Register renderer
         HudRenderCallback.EVENT.register((drawContext, tickDelta) -> {
-            renderer.render(drawContext, tickDelta.getGameTimeDeltaTicks());
+            if (renderer != null) renderer.render(drawContext, tickDelta.getGameTimeDeltaTicks());
         });
 
         // Do the key handling
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-        	if (client.screen == null && !RadialMenuHandler.canHandleKeyBind) RadialMenuHandler.canHandleKeyBind = true;
+        	if (client.screen == null && !RadialMenuHandler.canHandleKeyBind)  {
+                RadialMenuHandler.canHandleKeyBind = true;
+                renderer = new RadialMenuRenderer();
+            }
 
         	KeyBindings.handleOpenRadialMenu();
          	KeyBindings.handleClickToSelect();
@@ -43,6 +46,7 @@ public class SliceClient implements ClientModInitializer {
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
        		if (RadialMenuHandler.isMenuOpen) RadialMenuHandler.closeMenu();
 
+        	renderer = null;
             RadialMenuHandler.canHandleKeyBind = false;
         });
     }
