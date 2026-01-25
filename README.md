@@ -17,8 +17,6 @@
   <a href="https://modrinth.com/mod/slice/versions?l=quilt"><img alt="forge" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/quilt_vector.svg"></a>
 </p>
 
-> **Note:** This project is in beta and may be buggy.
-
 ## Features
 - Flexible layout control with adjustable radius, item size, and rotation angles
 - Visibility options for slots, numbers, and sprites
