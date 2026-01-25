@@ -4,6 +4,7 @@ import com.tomkovic.slice.GlobalConfig;
 import com.tomkovic.slice.platform.Services;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.player.Inventory;
 
 public class RadialMenuHandler {
 
@@ -74,7 +75,7 @@ public class RadialMenuHandler {
 
     private static void selectSlot(int index) {
     	if (index == selectedSlot) return;
-        if (index < 0 || index > 8 || mc().player == null) return;
+        if (index < 0 || index > Inventory.getSelectionSize()-1 || mc().player == null) return;
 
         Services.PLATFORM.setSelectedSlot(index);
         selectedSlot = index;

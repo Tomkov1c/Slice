@@ -15,12 +15,8 @@ public class Constants {
 
     public static final String TEXTURE_CONFIG_JSON_NAMESPACE_PATH = "textures/texture_config.json";
 
-	public static final int SLOT_COUNT = 9;
-    
     // Texture locations
     public static final ResourceLocation SLOT_TEXTURE = RadialMenuHelper.guiTexture("radial_slot");
     public static final ResourceLocation SLOT_HOVERED_TEXTURE = RadialMenuHelper.guiTexture("radial_slot_hovered");
     public static final ResourceLocation SLOT_ACTIVE_TEXTURE = RadialMenuHelper.guiTexture("radial_slot_active");
-    
-    private Constants() { }
 }

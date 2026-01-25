@@ -42,6 +42,7 @@ public class SliceClient implements ClientModInitializer {
         // Disble key handling when a screen is active
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
        		if (RadialMenuHandler.isMenuOpen) RadialMenuHandler.closeMenu();
+
             RadialMenuHandler.canHandleKeyBind = false;
         });
     }
