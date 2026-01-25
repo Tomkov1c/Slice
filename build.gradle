@@ -9,6 +9,25 @@ subprojects {
     tasks.withType(ProcessResources).configureEach {
         exclude '**/*.aseprite'
     }
+    afterEvaluate { project ->
+        if (project.name != "common") {
+
+            def loaderName = project.name
+            if (loaderName == "fabric") {
+                loaderName = "fabric&quilt"
+            }
+
+            tasks.configureEach { task ->
+                if (task.name == "jar") {
+                    task.archiveFileName = "Slice-${loaderName}-${rootProject.minecraft_version}-${rootProject.version}.jar"
+                }
+
+                if (task.name == "remapJar" || task.name == "shadowJar") {
+                    task.archiveFileName = "Slice-${loaderName}-${rootProject.minecraft_version}-${rootProject.version}.jar"
+                }
+            }
+        }
+    }
 }
 tasks.withType(Javadoc) {
     options.addStringOption('Xdoclint:none', '-quiet')
