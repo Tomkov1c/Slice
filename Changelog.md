@@ -31,4 +31,5 @@
 - Renderer doesn't constantly reread json files inside texture packs when rendering.
 - Renderer caches values that can't be changed when the menu is open.
 - Keybinding state gets sent to `common`, where it gets processed correctly.
+- Implment Mixins for better event cancellation.
 - Removed potential reason why you might get banned on servers like Hypixel (RIP in peace Mark's SkyBlock account)
