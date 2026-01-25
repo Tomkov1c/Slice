@@ -25,17 +25,15 @@ public class ForgePlatformHelper implements IPlatformHelper {
     public void setSelectedSlot(int index) {
         LocalPlayer player = mc.player;
 
-        if (player != null && index >= 0 && index <= 8) {
-            try {
-                if (selectedField == null) {
-                    selectedField = player.getInventory().getClass().getDeclaredField("selected");
-                    selectedField.setAccessible(true);
-                }
-                selectedField.setInt(player.getInventory(), index);
-
-            } catch (Exception e) {
-                e.printStackTrace();
+        try {
+            if (selectedField == null) {
+                selectedField = player.getInventory().getClass().getDeclaredField("selected");
+                selectedField.setAccessible(true);
             }
+            selectedField.setInt(player.getInventory(), index);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
