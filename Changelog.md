@@ -7,6 +7,8 @@
 - Removed hardcoded fallback values for custom values in texturepacks,
 - If `Click to Select` and `Close on Select` are enabled in `Hold mode`, the menu won't reapear untill `Open Menu` key gets released.
 - Made `calculateSlotPositions()` normalize the angle.
+- Removed hardcoded slot amount. Now it's dynamic.
+- Removed double cheking in a bunch of functions.
 - Removed junk.
 
 ## <img width="20" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true">  NeoForge
@@ -14,7 +16,8 @@
 - Renderer doesn't constantly reread json files inside texture packs when rendering.
 - Renderer caches values that can't be changed when the menu is open.
 - Keybinding state gets sent to `common`, where it gets processed correctly.
-- Removed potential reason why you might get banned on servers like Hypixel (RIP in peace Mark's SkyBlock account)
+- Removed double cheking in a bunch of functions.
+- Removed potential reason why you might get banned on servers like Hypixel (RIP in peace Mark's SkyBlock account).
 
 ## <img width="20" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg">  Forge
 
@@ -22,8 +25,9 @@
 - Renderer doesn't constantly reread json files inside texture packs when rendering.
 - Renderer caches values that can't be changed when the menu is open.
 - Keybinding state gets sent to `common`, where it gets processed correctly.
-- Removed potential reason why you might get banned on servers like Hypixel (RIP in peace Mark's SkyBlock account)
-- Add `/slice reloadClient` command that refreshes the config from the file.
+- Removed potential reason why you might get banned on servers like Hypixel (RIP in peace Mark's SkyBlock account).
+- Removed double cheking in a bunch of functions.
+- Added `/slice reloadClient` command that refreshes the config from the file.
 
 ## <img width="20" src="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg">  Fabric / <img width="20" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg"> Quilt
 
@@ -32,4 +36,5 @@
 - Renderer caches values that can't be changed when the menu is open.
 - Keybinding state gets sent to `common`, where it gets processed correctly.
 - Implment Mixins for better event cancellation.
-- Removed potential reason why you might get banned on servers like Hypixel (RIP in peace Mark's SkyBlock account)
+- Removed double cheking in a bunch of functions.
+- Removed potential reason why you might get banned on servers like Hypixel (RIP in peace Mark's SkyBlock account).
