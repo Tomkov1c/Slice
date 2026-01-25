@@ -33,6 +33,9 @@
         "minecraft": "~${minecraft_version}",
         "java": ">=${java_version}"
     },
+    "mixins": [
+        "slice.mixins.json"
+    ],
     "suggests": {
         "another-mod": "*"
     }

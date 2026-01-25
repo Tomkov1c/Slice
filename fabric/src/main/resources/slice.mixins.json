@@ -2,10 +2,14 @@
   "required": true,
   "minVersion": "0.8",
   "package": "${group}.mixins",
-  "compatibilityLevel": "JAVA_17",
+  "compatibilityLevel": "JAVA_21",
+  "priority": 1001,
   "mixins": [
+
   ],
   "client": [
+  	"MouseMixin",
+    "KeyMappingMixin"
   ],
   "injectors": {
     "defaultRequire": 1
