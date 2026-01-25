@@ -125,8 +125,6 @@ public class RadialMenuRenderer {
     }
 
     private void renderVisibleSlots(GuiGraphics graphics) {
-        if (GlobalConfig.HIDE_SLOT_SPRITE && GlobalConfig.HIDE_SLOT_NUMBER) return;
-
         for (SlotPosition pos : cachedSlotPositions) {
             boolean isActive = (pos.slotIndex == RadialMenuHandler.selectedSlot);
             boolean isHovered = (pos.slotIndex == RadialMenuHandler.hoveredSlot);
@@ -190,7 +188,7 @@ public class RadialMenuRenderer {
         if (num == null) return;
 
         int tx = x - mc.font.width(num) / 2 + xOffset;
-        int ty = y + GlobalConfig.ITEM_SIZE / 2 + yOffset;
+        int ty = y + GlobalConfig.ITEM_SIZE / 2 + yOffset + ((GlobalConfig.SLOT_SIZE - 16) / 2);
 
         int col = active ? JsonHelper.parseColor(jsonConfig.slotNumberColorActive, 0) :
             hovered ? JsonHelper.parseColor(jsonConfig.slotNumberColorHovered, 0) :
