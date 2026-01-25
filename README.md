@@ -32,7 +32,7 @@
 
 ## Supported Versions
 > **FYI**: <br> ✅ - Supported, ❌ - Unsupported, 🔍 - Planned / In development
-<br> Minimum loader versions are in the same order as loaders in `Loaders` column <br> `Latest Slice version` doesn't cite the latest ***published*** version. Check the [Modrinth page](https://modrinth.com/mod/slice) for the latest available version.<br> Main development currently recides on version **`1.21.9`**. Why? idk
+<br> Minimum loader versions are in the same order as loaders in `Loaders` column <br> `Latest Slice version` doesn't cite the latest ***published*** version. Check the [Modrinth page](https://modrinth.com/mod/slice) for the latest available version.<br> Main development currently resides on version **`1.21.9`**. Why? idk
 
 <table>
     <th>Version</th>
@@ -180,13 +180,13 @@
 ## How to customize/configure
 
 ### <img width="20" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/compact-minimal/supported/neoforge_vector.svg?raw=true"> Neoforge
-Neoforge offers an in-game config menu.
+NeoForge offers an in-game config menu.
 ```
 Main Menu > Mods > *Select Slice* > Config
 ```
 
 ### <img width="20" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/forge_vector.svg"> Forge
-I cannot be bothered to implement a config screen for forge. Please just edit the config file yourself.
+I cannot be bothered to implement a config screen for Forge. Please just edit the config file yourself.
 
 #### <img width="15" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/available/modrinth_vector.svg"> Modrinth
 
@@ -224,9 +224,9 @@ Feel free to send feedback on the [issues page](https://github.com/Tomkov1c/Slic
     <li><a href="https://badges.penpow.dev/badges/">Fancy badges</a> (Readme badges)</li>
     <li><a href="https://intergrav.github.io/devins-badges-docs/">Devin's badges</a> (Readme badges)</li>
     <li><a href="https://github.com/jaredlll08/MultiLoader-Template">jaredlll08 (Multiloader template)</li>
-    <li><a href="https://github.com/JannisX11/blockbench">JanisX11 (Blockbench)</li>
+    <li><a href="https://github.com/JannisX11/blockbench">JannisX11 (Blockbench)</li>
     <li><a href="https://github.com/ewanhowell5195/MinecraftTitleGenerator">Ewan Howell (Minecraft title generator)</li>
-    <li><a href="https://www.aseprite.org/">Aseprite</li>
+    <li><a href="https://www.aseprite.org/">Aseprite</li></a>
   </ul>
 </details>
 
