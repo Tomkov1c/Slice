@@ -15,8 +15,6 @@ public class FabricPlatformHelper implements IPlatformHelper {
 
     private static Field windowHandleField = null;
 
-    private static Field cachedHandleField = null;
-
     private Minecraft mc = RadialMenuHandler.mc();
 
     @Override
@@ -48,18 +46,18 @@ public class FabricPlatformHelper implements IPlatformHelper {
         Window window = mc.getWindow();
 
         try {
-            if (cachedHandleField == null) {
+            if (windowHandleField == null) {
                 for (Field f : Window.class.getDeclaredFields()) {
                     if (f.getType() == long.class) {
                         f.setAccessible(true);
-                        cachedHandleField = f;
+                        windowHandleField = f;
                         break;
                     }
                 }
             }
 
-            if (cachedHandleField != null) {
-                long handle = cachedHandleField.getLong(window);
+            if (windowHandleField != null) {
+                long handle = windowHandleField.getLong(window);
                 GLFW.glfwSetCursorPos(handle, window.getScreenWidth() / 2.0, window.getScreenHeight() / 2.0);
             }
         } catch (Exception e) {
