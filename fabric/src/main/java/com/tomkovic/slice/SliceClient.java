@@ -7,6 +7,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 
 public class SliceClient implements ClientModInitializer {
 
@@ -25,15 +26,22 @@ public class SliceClient implements ClientModInitializer {
         ConfigHandler.registerListener();
         CONFIG.pushConfigToGlobal();
 
+        // Register renderer
         HudRenderCallback.EVENT.register((drawContext, tickDelta) -> {
             renderer.render(drawContext, tickDelta.getGameTimeDeltaTicks());
         });
 
-        RadialMenuHandler.canHandleKeyBind = true;
-
+        // Do the key handling
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
+        	if (client.screen == null && !RadialMenuHandler.canHandleKeyBind) RadialMenuHandler.canHandleKeyBind = true;
+
         	KeyBindings.handleOpenRadialMenu();
          	KeyBindings.handleClickToSelect();
+        });
+
+        // Disble key handling when a screen is active
+        ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
+            RadialMenuHandler.canHandleKeyBind = false;
         });
     }
 }

@@ -50,13 +50,13 @@ public class KeyBindings {
     }
 
     public static void handleClickToSelect() {
+   		if (!RadialMenuHandler.isMenuOpen) return;
+
     	boolean isKeyDown = CLICK_TO_SELECT.isDown();
 
 	    if (CLICK_TO_SELECT_Privious_State == isKeyDown) return;
+	    if (isKeyDown) RadialMenuHandler.handleClickToSelect();
 
-	    if (isKeyDown) {
-	        RadialMenuHandler.handleClickToSelect();
-	    }
 	    CLICK_TO_SELECT_Privious_State = isKeyDown;
     }
 
