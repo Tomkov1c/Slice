@@ -18,44 +18,43 @@ import net.minecraftforge.fml.common.Mod;
 // MOD bus events - registration and setup only
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SliceClient {
-    
+
     public static RadialMenuRenderer renderer;
-    
+
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             Config.pushConfigToGlobal();
         });
     }
-    
-    @SubscribeEvent
-    public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
-        event.register(KeyBindings.OPEN_RADIAL_MENU); 
-        event.register(KeyBindings.CLICK_TO_SELECT);
-    }
-    
+
     @Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
     public static class ForgeEvents {
+        @SubscribeEvent
+        public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
+            event.register(KeyBindings.OPEN_RADIAL_MENU);
+            event.register(KeyBindings.CLICK_TO_SELECT);
+        }
 
         @SubscribeEvent
         public static void onRegisterCommands(RegisterCommandsEvent event) {
             ReloadConfigCommand.register(event.getDispatcher());
         }
-        
+
         @SubscribeEvent
         public static void onPlayerLogin(ClientPlayerNetworkEvent.LoggingIn event) {
             allowKeyBindHandling(true);
 
             renderer = new RadialMenuRenderer();
         }
-        
+
         @SubscribeEvent
         public static void onPlayerLogout(ClientPlayerNetworkEvent.LoggingOut event) {
             allowKeyBindHandling(false);
 
             renderer = null;
         }
-        
+
         @SubscribeEvent
         public static void onScreenOpen(ScreenEvent.Opening event) {
             if (RadialMenuHandler.isMenuOpen && event.getScreen() != null) {
@@ -63,14 +62,14 @@ public class SliceClient {
             }
             allowKeyBindHandling(false);
         }
-        
+
         @SubscribeEvent
-        public static void onScreenClose(ScreenEvent.Closing event) {              
+        public static void onScreenClose(ScreenEvent.Closing event) {
             if (renderer != null) {
                 allowKeyBindHandling(true);
             }
         }
-        
+
         @SubscribeEvent
         public static void registerGuiOverlays(AddGuiOverlayLayersEvent event) {
             event.getLayeredDraw().add(
@@ -81,7 +80,7 @@ public class SliceClient {
             );
         }
     }
-    
+
     // Private helper method
     private static void allowKeyBindHandling(boolean allow) {
         RadialMenuHandler.canHandleKeyBind = allow;
