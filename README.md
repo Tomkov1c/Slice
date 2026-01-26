@@ -58,7 +58,7 @@
           <img width="35" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg">
         </td>
         <td><code>21.10.0</code>, <code>60.0.0</code>, <code>0.18.0</code>, <code>0.30.0-beta</code></td>
-        <td><code>0.2.1</code></td>
+        <td><code>1.0.0</code></td>
     </tr>
     <tr><td>1.21.9</td> <td>✅</td>
       <td>
