@@ -13,40 +13,39 @@ import java.nio.file.Path;
 import java.util.Objects;
 
 public class ReloadConfigCommand {
-    
+
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("slice")
             .then(Commands.literal("reloadConfig")
-                .requires(source -> source.hasPermission(2))
                 .executes(ReloadConfigCommand::reloadConfig)
             )
         );
     }
-    
+
     private static int reloadConfig(CommandContext<CommandSourceStack> context) {
         try {
             Path configPath = FMLPaths.CONFIGDIR.get().resolve(Constants.MOD_ID + "-common.toml");
-            
+
             if (!configPath.toFile().exists()) {
                 context.getSource().sendFailure(
                     Objects.requireNonNull(Component.literal("§cConfig file not found at: " + configPath))
                 );
                 return 0;
             }
-            
-            com.electronwill.nightconfig.core.file.CommentedFileConfig fileConfig = 
+
+            com.electronwill.nightconfig.core.file.CommentedFileConfig fileConfig =
                 com.electronwill.nightconfig.core.file.CommentedFileConfig.of(configPath);
             fileConfig.load();
-            
+
             Config.CONFIG_SPEC.acceptConfig(fileConfig);
-            
+
             Config.pushConfigToGlobal();
-            
+
             context.getSource().sendSuccess(
-                () -> Component.literal("§aConfig reloaded from file and pushed to global!"), 
+                () -> Component.literal("§aConfig reloaded from file and pushed to global!"),
                 true
             );
-            
+
             return 1;
         } catch (Exception e) {
             context.getSource().sendFailure(

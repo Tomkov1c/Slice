@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.tomkovic.slice.helpers.RadialMenuHelper;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class Constants {
 
@@ -16,7 +16,7 @@ public class Constants {
     public static final String TEXTURE_CONFIG_JSON_NAMESPACE_PATH = "textures/texture_config.json";
 
     // Texture locations
-    public static final ResourceLocation SLOT_TEXTURE = RadialMenuHelper.guiTexture("radial_slot");
-    public static final ResourceLocation SLOT_HOVERED_TEXTURE = RadialMenuHelper.guiTexture("radial_slot_hovered");
-    public static final ResourceLocation SLOT_ACTIVE_TEXTURE = RadialMenuHelper.guiTexture("radial_slot_active");
+    public static final Identifier SLOT_TEXTURE = RadialMenuHelper.guiTexture("radial_slot");
+    public static final Identifier SLOT_HOVERED_TEXTURE = RadialMenuHelper.guiTexture("radial_slot_hovered");
+    public static final Identifier SLOT_ACTIVE_TEXTURE = RadialMenuHelper.guiTexture("radial_slot_active");
 }

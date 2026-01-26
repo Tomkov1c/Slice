@@ -8,13 +8,13 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.tomkovic.slice.handlers.RadialMenuHandler;
 
 import net.minecraft.client.KeyMapping;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class KeyBindings {
 
     @NotNull
     public static final KeyMapping.Category CATEGORY_OBJECT = new KeyMapping.Category(
-        Objects.requireNonNull(ResourceLocation.fromNamespaceAndPath("slice", "radial_menu"))
+        Objects.requireNonNull(Identifier.fromNamespaceAndPath("slice", "radial_menu"))
     );
 
     public static boolean OPEN_RADIAL_MENU_Privious_State = false;
@@ -25,7 +25,8 @@ public class KeyBindings {
         "key.slice.open_radial_menu",
         InputConstants.Type.KEYSYM,
         GLFW.GLFW_KEY_R,
-        CATEGORY_OBJECT
+        CATEGORY_OBJECT,
+        0
     );
 
     @NotNull
@@ -33,7 +34,8 @@ public class KeyBindings {
         "key.slice.click_to_select",
         InputConstants.Type.MOUSE,
         GLFW.GLFW_MOUSE_BUTTON_1,
-        CATEGORY_OBJECT
+        CATEGORY_OBJECT,
+        0
     );
 
     public static void handleOpenRadialMenu() {

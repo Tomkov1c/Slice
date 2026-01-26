@@ -7,7 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.tomkovic.slice.Constants;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 
@@ -38,14 +38,14 @@ public class JsonHelper {
     @SuppressWarnings("null")
     public static JsonObject readJsonFromResources(ResourceManager resourceManager, String path) {
         try {
-            ResourceLocation location = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, path);
-            
+            Identifier location = Identifier.fromNamespaceAndPath(Constants.MOD_ID, path);
+
             Resource resource = resourceManager.getResource(location).orElseThrow();
-            
+
             try (Reader reader = new InputStreamReader(resource.open())) {
                 return JsonParser.parseReader(reader).getAsJsonObject();
             }
-            
+
         } catch (Exception e) {
             Constants.LOG.error("[Slice] - JsonHelper: readJsonFromResources(): " + e);
             return null;

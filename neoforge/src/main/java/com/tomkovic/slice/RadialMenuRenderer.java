@@ -12,7 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
@@ -143,7 +143,7 @@ public class RadialMenuRenderer {
     }
 
     private void renderSlot(GuiGraphics graphics, int x, int y, boolean active, boolean hovered) {
-        ResourceLocation tex = active ? Constants.SLOT_ACTIVE_TEXTURE :
+        Identifier tex = active ? Constants.SLOT_ACTIVE_TEXTURE :
             hovered ? Constants.SLOT_HOVERED_TEXTURE :
             Constants.SLOT_TEXTURE;
 

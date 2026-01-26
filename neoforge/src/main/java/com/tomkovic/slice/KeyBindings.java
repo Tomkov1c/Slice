@@ -9,7 +9,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.tomkovic.slice.handlers.RadialMenuHandler;
 
 import net.minecraft.client.KeyMapping;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
@@ -21,9 +21,9 @@ public class KeyBindings {
 
     @Nonnull
     public static final KeyMapping.Category CATEGORY_OBJECT = new KeyMapping.Category(
-        Objects.requireNonNull(ResourceLocation.fromNamespaceAndPath("slice", "radial_menu"))
+        Objects.requireNonNull(Identifier.fromNamespaceAndPath("slice", "radial_menu"))
     );
-    
+
     @Nonnull
     public static final KeyMapping OPEN_RADIAL_MENU = new KeyMapping(
         "key.slice.open_radial_menu",
@@ -47,11 +47,11 @@ public class KeyBindings {
         if(!canHandleKeyBind) return;
 
         if (OPEN_RADIAL_MENU.getKey().getType() == InputConstants.Type.KEYSYM && event.getKey() == OPEN_RADIAL_MENU.getKey().getValue()) {
-            
+
             if (event.getAction() == GLFW.GLFW_PRESS) {
                 RadialMenuHandler.handleOpenMenuKeyBehaviour(true);
-            } 
-            
+            }
+
             else if (event.getAction() == GLFW.GLFW_RELEASE) {
                 RadialMenuHandler.handleOpenMenuKeyBehaviour(false);
             }
@@ -63,12 +63,12 @@ public class KeyBindings {
         if(!canHandleKeyBind) return;
 
         if (OPEN_RADIAL_MENU.getKey().getType() == InputConstants.Type.MOUSE && event.getButton() == OPEN_RADIAL_MENU.getKey().getValue()) {
-            
+
             if (event.getAction() == GLFW.GLFW_PRESS) {
                 RadialMenuHandler.handleOpenMenuKeyBehaviour(true);
                 event.setCanceled(true);
-            } 
-            
+            }
+
             else if (event.getAction() == GLFW.GLFW_RELEASE) {
                 RadialMenuHandler.handleOpenMenuKeyBehaviour(false);
                 event.setCanceled(true);
@@ -80,11 +80,11 @@ public class KeyBindings {
                 if (GlobalConfig.CLICK_TO_SELECT) {RadialMenuHandler.handleClickToSelect();}
 
                 event.setCanceled(true);
-            } 
-            
+            }
+
             else if (event.getAction() == GLFW.GLFW_RELEASE) {
                 if (GlobalConfig.CLICK_TO_SELECT) {RadialMenuHandler.handleClickToSelect();}
-                
+
                 event.setCanceled(true);
             }
         }
@@ -103,5 +103,5 @@ public class KeyBindings {
         event.register(OPEN_RADIAL_MENU);
         event.register(CLICK_TO_SELECT);
     }
-    
+
 }

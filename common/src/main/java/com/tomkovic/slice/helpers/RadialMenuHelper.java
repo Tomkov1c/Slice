@@ -1,7 +1,7 @@
 package com.tomkovic.slice.helpers;
 
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import com.tomkovic.slice.GlobalConfig;
 import com.tomkovic.slice.classes.SlotPosition;
@@ -103,8 +103,8 @@ public class RadialMenuHelper {
         return bestSlot;
     }
 
-    public static ResourceLocation guiTexture(String name) {
-        return ResourceLocation.fromNamespaceAndPath("slice", "textures/gui/" + name + ".png");
+    public static Identifier guiTexture(String name) {
+        return Identifier.fromNamespaceAndPath("slice", "textures/gui/" + name + ".png");
     }
 
     public static boolean isCursorInSelectionArea(double cursorX, double cursorY) {

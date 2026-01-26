@@ -5,7 +5,7 @@ import java.util.Objects;
 import com.tomkovic.slice.commands.ReloadConfigCommand;
 import com.tomkovic.slice.handlers.RadialMenuHandler;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraftforge.client.event.AddGuiOverlayLayersEvent;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
@@ -73,7 +73,7 @@ public class SliceClient {
         @SubscribeEvent
         public static void registerGuiOverlays(AddGuiOverlayLayersEvent event) {
             event.getLayeredDraw().add(
-                Objects.requireNonNull(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "radial_menu")),
+                Objects.requireNonNull(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "radial_menu")),
                 (guiGraphics, partialTick) -> {
                     SliceClient.renderer.render(guiGraphics, partialTick.getGameTimeDeltaTicks());
                 }
