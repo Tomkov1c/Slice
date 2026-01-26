@@ -17,7 +17,6 @@ public class ReloadConfigCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("slice")
             .then(Commands.literal("reloadConfig")
-                .requires(source -> source.hasPermission(2))
                 .executes(ReloadConfigCommand::reloadConfig)
             )
         );
