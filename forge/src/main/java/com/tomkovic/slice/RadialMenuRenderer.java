@@ -103,10 +103,8 @@ public class RadialMenuRenderer {
 
         boolean cursorInSelectionArea = RadialMenuHelper.isCursorInSelectionArea(mouseX, mouseY);
 
-        if (cursorInSelectionArea)
-            RadialMenuHandler.hoveredSlot = RadialMenuHelper.getHoveredSlot(mouseX, mouseY, cachedSlotPositions);
-        else
-            RadialMenuHandler.hoveredSlot = -1;
+        if (cursorInSelectionArea) RadialMenuHandler.hoveredSlot = RadialMenuHelper.getHoveredSlot(mouseX, mouseY, cachedSlotPositions);
+        else RadialMenuHandler.hoveredSlot = -1;
 
         RadialMenuHandler.selectedSlot = cachedInventory.selected;
 
@@ -133,6 +131,7 @@ public class RadialMenuRenderer {
             if (!GlobalConfig.HIDE_SLOT_SPRITE) renderSlot(graphics, x, y, isActive, isHovered);
 
             ItemStack stack = cachedInventory.getItem(pos.slotIndex);
+
             if (!stack.isEmpty()) renderItem(graphics, stack, x, y, isActive, isHovered);
 
             if (!GlobalConfig.HIDE_SLOT_NUMBER) renderSlotNumber(graphics, pos.slotIndex, x, y, isActive, isHovered);
@@ -141,8 +140,8 @@ public class RadialMenuRenderer {
 
     private void renderSlot(GuiGraphics graphics, int x, int y, boolean active, boolean hovered) {
         ResourceLocation tex = active ? Constants.SLOT_ACTIVE_TEXTURE :
-            hovered ? Constants.SLOT_HOVERED_TEXTURE :
-            Constants.SLOT_TEXTURE;
+                               hovered ? Constants.SLOT_HOVERED_TEXTURE :
+                                         Constants.SLOT_TEXTURE;
 
         graphics.blit(tex,
             x - GlobalConfig.SLOT_SIZE / 2, y - GlobalConfig.SLOT_SIZE / 2,
@@ -158,17 +157,16 @@ public class RadialMenuRenderer {
 
         if (stack == null || stack.isEmpty()) return;
 
+        float scale = GlobalConfig.ITEM_SIZE / 16f;
+
         graphics.pose().pushPose();
         graphics.pose().translate(ix + 8f, iy + 8f, 0f);
-        float scale = GlobalConfig.ITEM_SIZE / 16f;
         graphics.pose().scale(scale, scale, 1f);
         graphics.pose().translate(-(ix + 8f), -(iy + 8f), 0f);
 
         graphics.renderItem(stack, ix, iy);
 
-        if (mc.font != null) {
-            graphics.renderItemDecorations(mc.font, stack, ix, iy);
-        }
+        if (mc.font != null) graphics.renderItemDecorations(mc.font, stack, ix, iy);
 
         graphics.pose().popPose();
     }

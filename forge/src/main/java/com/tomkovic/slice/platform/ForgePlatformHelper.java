@@ -56,8 +56,6 @@ public class ForgePlatformHelper implements IPlatformHelper {
         }
     }
 
-
-
     @Override
     public void centerCursor() {
         Minecraft mc = Minecraft.getInstance();

@@ -24,9 +24,7 @@ public class SliceClient {
             Minecraft mc = Minecraft.getInstance();
             mc.gui.layers.add(
                 (guiGraphics, deltaTracker) -> {
-                    if (SliceClient.renderer != null) {
-                        SliceClient.renderer.render(guiGraphics, deltaTracker.getGameTimeDeltaTicks());
-                    }
+                    if (SliceClient.renderer != null) SliceClient.renderer.render(guiGraphics, deltaTracker.getGameTimeDeltaTicks());
                 }
             );
         });
