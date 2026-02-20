@@ -11,7 +11,6 @@ import com.tomkovic.slice.helpers.RadialMenuHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -111,7 +110,7 @@ public class RadialMenuRenderer {
         else
             RadialMenuHandler.hoveredSlot = -1;
 
-        RadialMenuHandler.selectedSlot = cachedInventory.getSelectedSlot();
+        RadialMenuHandler.selectedSlot = cachedInventory.selected;
 
         if (GlobalConfig.BACKGROUND_OPACITY > 0) renderBackground(graphics, cachedScreenWidth, cachedScreenHeight);
 
@@ -147,7 +146,7 @@ public class RadialMenuRenderer {
             hovered ? Constants.SLOT_HOVERED_TEXTURE :
             Constants.SLOT_TEXTURE;
 
-        graphics.blit(Objects.requireNonNull(RenderPipelines.GUI_TEXTURED), Objects.requireNonNull(tex),
+        graphics.blit(Objects.requireNonNull(tex),
             x - GlobalConfig.SLOT_SIZE / 2, y - GlobalConfig.SLOT_SIZE / 2,
             0F, 0F, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE);
     }
@@ -160,11 +159,11 @@ public class RadialMenuRenderer {
         int ix = x + xOffset;
         int iy = y + yOffset;
 
-        graphics.pose().pushMatrix();
-        graphics.pose().translate(ix + 8, iy + 8);
+        graphics.pose().pushPose();
+        graphics.pose().translate(ix + 8, iy + 8, 0);
         float scale = GlobalConfig.ITEM_SIZE / 16f;
-        graphics.pose().scale(scale, scale);
-        graphics.pose().translate(-(ix + 8), -(iy + 8));
+        graphics.pose().scale(scale, scale, 1.0f);
+        graphics.pose().translate(-(ix + 8), -(iy + 8), 0);
 
         if (stack == null) return;
 
@@ -173,7 +172,7 @@ public class RadialMenuRenderer {
         if (mc.font == null) return;
 
         graphics.renderItemDecorations(mc.font, stack, ix, iy);
-        graphics.pose().popMatrix();
+        graphics.pose().popPose();
     }
 
     private void renderSlotNumber(GuiGraphics graphics, int index, int x, int y, boolean active, boolean hovered) {
