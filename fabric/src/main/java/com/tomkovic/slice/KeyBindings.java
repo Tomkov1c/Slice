@@ -13,9 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 public class KeyBindings {
 
     @NotNull
-    public static final KeyMapping.Category CATEGORY_OBJECT = new KeyMapping.Category(
-        Objects.requireNonNull(ResourceLocation.fromNamespaceAndPath("slice", "radial_menu"))
-    );
+    public static final String CATEGORY_OBJECT = "key.categories.slice";
 
     public static boolean OPEN_RADIAL_MENU_Privious_State = false;
     public static boolean CLICK_TO_SELECT_Privious_State = false;

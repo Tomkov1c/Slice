@@ -11,7 +11,6 @@ import com.tomkovic.slice.helpers.RadialMenuHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -108,12 +107,10 @@ public class RadialMenuRenderer {
 
         boolean cursorInSelectionArea = RadialMenuHelper.isCursorInSelectionArea(mouseX, mouseY);
 
-        if (cursorInSelectionArea)
-            RadialMenuHandler.hoveredSlot = RadialMenuHelper.getHoveredSlot( mouseX, mouseY, cachedSlotPositions );
-        else
-            RadialMenuHandler.hoveredSlot = -1;
+        if (cursorInSelectionArea) RadialMenuHandler.hoveredSlot = RadialMenuHelper.getHoveredSlot( mouseX, mouseY, cachedSlotPositions );
+        else RadialMenuHandler.hoveredSlot = -1;
 
-        RadialMenuHandler.selectedSlot = cachedInventory.getSelectedSlot();
+        RadialMenuHandler.selectedSlot = cachedInventory.selected;
 
         if (GlobalConfig.BACKGROUND_OPACITY > 0) renderBackground(graphics, cachedScreenWidth, cachedScreenHeight);
 
@@ -146,36 +143,34 @@ public class RadialMenuRenderer {
 
     private void renderSlot(GuiGraphics graphics, int x, int y, boolean active, boolean hovered) {
         ResourceLocation tex = active ? Constants.SLOT_ACTIVE_TEXTURE :
-            hovered ? Constants.SLOT_HOVERED_TEXTURE :
-            Constants.SLOT_TEXTURE;
+                               hovered ? Constants.SLOT_HOVERED_TEXTURE :
+                                            Constants.SLOT_TEXTURE;
 
-        graphics.blit(Objects.requireNonNull(RenderPipelines.GUI_TEXTURED), Objects.requireNonNull(tex),
+        graphics.blit(tex,
             x - GlobalConfig.SLOT_SIZE / 2, y - GlobalConfig.SLOT_SIZE / 2,
-            0F, 0F, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE);
+            0, 0, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE);
     }
 
     private void renderItem(GuiGraphics graphics, ItemStack stack, int x, int y, boolean active, boolean hovered) {
-
         int xOffset = active ? jsonConfig.itemXOffsetActive : (hovered ? jsonConfig.itemXOffsetHovered : jsonConfig.itemXOffset);
         int yOffset = active ? jsonConfig.itemYOffsetActive : (hovered ? jsonConfig.itemXOffsetHovered : jsonConfig.itemXOffset);
 
         int ix = x + xOffset;
         int iy = y + yOffset;
 
-        graphics.pose().pushMatrix();
-        graphics.pose().translate(ix + 8, iy + 8);
+        if (stack == null || stack.isEmpty()) return;
+
         float scale = GlobalConfig.ITEM_SIZE / 16f;
-        graphics.pose().scale(scale, scale);
-        graphics.pose().translate(-(ix + 8), -(iy + 8));
 
-        if (stack == null) return;
-
+        graphics.pose().pushPose();
+        graphics.pose().translate(ix + 8f, iy + 8f, 0f);
+        graphics.pose().scale(scale, scale, 1f);
+        graphics.pose().translate(-(ix + 8f), -(iy + 8f), 0f);
         graphics.renderItem(stack, ix, iy);
 
-        if (mc.font == null) return;
+        if (mc.font != null) graphics.renderItemDecorations(mc.font, stack, ix, iy);
 
-        graphics.renderItemDecorations(mc.font, stack, ix, iy);
-        graphics.pose().popMatrix();
+        graphics.pose().popPose();
     }
 
     private void renderSlotNumber(GuiGraphics graphics, int index, int x, int y, boolean active, boolean hovered) {
@@ -191,8 +186,8 @@ public class RadialMenuRenderer {
         int ty = y + GlobalConfig.ITEM_SIZE / 2 + yOffset + ((GlobalConfig.SLOT_SIZE - 16) / 2);
 
         int col = active ? JsonHelper.parseColor(jsonConfig.slotNumberColorActive, 0) :
-            hovered ? JsonHelper.parseColor(jsonConfig.slotNumberColorHovered, 0) :
-            JsonHelper.parseColor(jsonConfig.slotNumberColor, 0);
+                  hovered ? JsonHelper.parseColor(jsonConfig.slotNumberColorHovered, 0) :
+                            JsonHelper.parseColor(jsonConfig.slotNumberColor, 0);
 
         if (mc.font == null) return;
 
