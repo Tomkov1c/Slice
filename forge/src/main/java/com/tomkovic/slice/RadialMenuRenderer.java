@@ -1,7 +1,5 @@
 package com.tomkovic.slice;
 
-import java.util.Objects;
-
 import com.tomkovic.slice.classes.SlotPosition;
 import com.tomkovic.slice.classes.TexturePackCustomValues;
 import com.tomkovic.slice.handlers.RadialMenuHandler;
@@ -11,7 +9,6 @@ import com.tomkovic.slice.helpers.RadialMenuHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -42,7 +39,6 @@ public class RadialMenuRenderer {
 
     private LocalPlayer cachedPlayer = null;
     private Inventory cachedInventory = null;
-    //
 
     public void onMenuOpen() {
         RadialMenuHandler.hoveredSlot = -1;
@@ -69,11 +65,9 @@ public class RadialMenuRenderer {
         cachedPlayer = null;
         cachedInventory = null;
         cachedSlotPositions = null;
-
     }
 
     private void initializeCache() {
-
         jsonConfig.parseFromResource(Constants.TEXTURE_CONFIG_JSON_NAMESPACE_PATH);
 
         if (cachedScreenWidth == -1 && cachedScreenHeight == -1) {
@@ -110,11 +104,11 @@ public class RadialMenuRenderer {
         boolean cursorInSelectionArea = RadialMenuHelper.isCursorInSelectionArea(mouseX, mouseY);
 
         if (cursorInSelectionArea)
-            RadialMenuHandler.hoveredSlot = RadialMenuHelper.getHoveredSlot( mouseX, mouseY, cachedSlotPositions );
+            RadialMenuHandler.hoveredSlot = RadialMenuHelper.getHoveredSlot(mouseX, mouseY, cachedSlotPositions);
         else
             RadialMenuHandler.hoveredSlot = -1;
 
-        RadialMenuHandler.selectedSlot = cachedInventory.getSelectedSlot();
+        RadialMenuHandler.selectedSlot = cachedInventory.selected;
 
         if (GlobalConfig.BACKGROUND_OPACITY > 0) renderBackground(graphics, cachedScreenWidth, cachedScreenHeight);
 
@@ -139,7 +133,7 @@ public class RadialMenuRenderer {
             if (!GlobalConfig.HIDE_SLOT_SPRITE) renderSlot(graphics, x, y, isActive, isHovered);
 
             ItemStack stack = cachedInventory.getItem(pos.slotIndex);
-            if (!stack.isEmpty()) renderItem(graphics, cachedInventory.getItem(pos.slotIndex), x, y, isActive, isHovered);
+            if (!stack.isEmpty()) renderItem(graphics, stack, x, y, isActive, isHovered);
 
             if (!GlobalConfig.HIDE_SLOT_NUMBER) renderSlotNumber(graphics, pos.slotIndex, x, y, isActive, isHovered);
         }
@@ -150,43 +144,40 @@ public class RadialMenuRenderer {
             hovered ? Constants.SLOT_HOVERED_TEXTURE :
             Constants.SLOT_TEXTURE;
 
-        graphics.blit(Objects.requireNonNull(RenderPipelines.GUI_TEXTURED), Objects.requireNonNull(tex),
+        graphics.blit(tex,
             x - GlobalConfig.SLOT_SIZE / 2, y - GlobalConfig.SLOT_SIZE / 2,
-            0F, 0F, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE);
+            0, 0, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE);
     }
 
     private void renderItem(GuiGraphics graphics, ItemStack stack, int x, int y, boolean active, boolean hovered) {
-
         int xOffset = active ? jsonConfig.itemXOffsetActive : (hovered ? jsonConfig.itemXOffsetHovered : jsonConfig.itemXOffset);
         int yOffset = active ? jsonConfig.itemYOffsetActive : (hovered ? jsonConfig.itemXOffsetHovered : jsonConfig.itemXOffset);
 
         int ix = x + xOffset;
         int iy = y + yOffset;
 
-        graphics.pose().pushMatrix();
-        graphics.pose().translate(ix + 8, iy + 8);
-        float scale = GlobalConfig.ITEM_SIZE / 16f;
-        graphics.pose().scale(scale, scale);
-        graphics.pose().translate(-(ix + 8), -(iy + 8));
+        if (stack == null || stack.isEmpty()) return;
 
-        if (stack == null) return;
+        graphics.pose().pushPose();
+        graphics.pose().translate(ix + 8f, iy + 8f, 0f);
+        float scale = GlobalConfig.ITEM_SIZE / 16f;
+        graphics.pose().scale(scale, scale, 1f);
+        graphics.pose().translate(-(ix + 8f), -(iy + 8f), 0f);
 
         graphics.renderItem(stack, ix, iy);
 
-        if (mc.font == null) return;
+        if (mc.font != null) {
+            graphics.renderItemDecorations(mc.font, stack, ix, iy);
+        }
 
-        graphics.renderItemDecorations(mc.font, stack, ix, iy);
-        graphics.pose().popMatrix();
+        graphics.pose().popPose();
     }
 
     private void renderSlotNumber(GuiGraphics graphics, int index, int x, int y, boolean active, boolean hovered) {
-
         String num = String.valueOf(index + 1);
 
         int xOffset = active ? jsonConfig.slotNumberXOffsetActive : (hovered ? jsonConfig.slotNumberXOffsetHovered : jsonConfig.slotNumberXOffset);
         int yOffset = active ? jsonConfig.slotNumberYOffsetActive : (hovered ? jsonConfig.slotNumberYOffsetHovered : jsonConfig.slotNumberYOffset);
-
-        if (num == null) return;
 
         int tx = x - mc.font.width(num) / 2 + xOffset;
         int ty = y + GlobalConfig.ITEM_SIZE / 2 + yOffset + ((GlobalConfig.SLOT_SIZE - 16) / 2);
@@ -206,5 +197,4 @@ public class RadialMenuRenderer {
         int colorWithAlpha = (GlobalConfig.BACKGROUND_OPACITY << 24) | (baseColor & 0xFFFFFF);
         graphics.fill(0, 0, screenWidth, screenHeight, colorWithAlpha);
     }
-
 }

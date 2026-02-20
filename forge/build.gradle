@@ -11,6 +11,8 @@ jar {
 }
 
 minecraft {
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+
     mappings channel: 'official', version: minecraft_version
 
     copyIdeResources = true //Calls processResources when in dev
@@ -91,7 +93,7 @@ processResources {
     inputs.property 'version', version
     inputs.property 'mod_id', mod_id
     inputs.property 'mod_name', mod_name
-    
+
     filesMatching('META-INF/mods.toml') {
         expand(
             'mod_id': mod_id,

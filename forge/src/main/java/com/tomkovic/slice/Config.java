@@ -2,7 +2,7 @@ package com.tomkovic.slice;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
-import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 
@@ -14,7 +14,7 @@ public class Config {
     public static final ForgeConfigSpec CONFIG_SPEC;
 
     // Display
-    
+
         // Display / size
         public final ForgeConfigSpec.IntValue radialMenuRadius;
         public final ForgeConfigSpec.IntValue itemSize;
@@ -70,7 +70,7 @@ public class Config {
                         this.itemSize = size
                                 .translation("slice.configuration.display.size.itemSize")
                                 .defineInRange("itemSize", 16, 1, 64);
-                        
+
                         this.slotSize = size
                                 .translation("slice.configuration.display.size.slotSize")
                                 .defineInRange("slotSize", 32, 16, 64);
@@ -80,19 +80,19 @@ public class Config {
                 var visibility = builder
                         .translation("slice.configuration.category.display.visibility")
                         .push("visibility");
-                
+
                         backgroundDarkenOpacity = visibility
                                 .translation("slice.configuration.display.visibility.backgroundDarkenOpacity")
                                 .defineInRange("backgroundDarkenOpacity", 0, 0, 255);
-                
+
                         this.hideUnusedSlots = visibility
                                 .translation("slice.configuration.display.visibility.hideUnusedSlots")
                                 .define("hideUnusedSlots", false);
-                        
+
                         this.hideSlotNumber = visibility
                                 .translation("slice.configuration.display.visibility.hideSlotNumber")
                                 .define("hideSlotNumber", false);
-                        
+
                         this.hideSlotSprite = visibility
                                 .translation("slice.configuration.display.visibility.hideSlotSprite")
                                 .define("hideSlotSprite", false);
@@ -120,7 +120,7 @@ public class Config {
                                 this.disableSlot5 = disabledSlots
                                         .translation("slice.configuration.display.visibility.disabledSlots.disableSlot5")
                                         .define("disableSlot5", false);
-                                
+
                                 this.disableSlot6 = disabledSlots
                                         .translation("slice.configuration.display.visibility.disabledSlots.disableSlot6")
                                         .define("disableSlot6", false);
@@ -132,27 +132,27 @@ public class Config {
                                 this.disableSlot8 = disabledSlots
                                         .translation("slice.configuration.display.visibility.disabledSlots.disableSlot8")
                                         .define("disableSlot8", false);
-                                
+
                                 this.disableSlot9 = disabledSlots
                                         .translation("slice.configuration.display.visibility.disabledSlots.disableSlot9")
                                         .define("disableSlot9", false);
 
 
                         disabledSlots.pop();
-                
+
                 visibility.pop();
 
                 this.startAngle = display
                         .translation("slice.configuration.display.maxAngle")
                         .defineInRange("startAngle", 360, 0, 360);
-                
+
                 this.endAngle = display
                         .translation("slice.configuration.display.endAngle")
                         .defineInRange("endAngle", 360, 0, 360);
 
                 this.counterclockwiseRotation = display
                         .translation("slice.configuration.display.counterclockwiseRotation")
-                        .define("counterclockwiseRotation", false);   
+                        .define("counterclockwiseRotation", false);
 
         display.pop();
 
@@ -169,7 +169,7 @@ public class Config {
                 this.clickToSelect = behaviour
                         .translation("slice.configuration.behaviour.clickToSelect")
                         .define("clickToSelect", false);
-                
+
                 this.recenterOnSelect = behaviour
                         .translation("slice.configuration.behaviour.recenterOnSelect")
                         .define("recenterOnSelect", false);
@@ -181,7 +181,7 @@ public class Config {
                 this.innerDeadzone = behaviour
                         .translation("slice.configuration.behaviour.innerDeadzone")
                         .defineInRange("innerDeadzone", 72, 0, 1000);
-                
+
                 this.outerDeadzone = behaviour
                         .translation("slice.configuration.behaviour.outerDeadzone")
                         .defineInRange("outerDeadzone", 47, 0, 1000);
@@ -196,7 +196,7 @@ public class Config {
 
                 this.disableScrollingOnHotbar = misc
                         .translation("slice.configuration.misc.disableScrollingOnHotbar")
-                        .define("disableScrollingOnHotbar", false);    
+                        .define("disableScrollingOnHotbar", false);
 
         misc.pop();
     }
@@ -217,13 +217,13 @@ public class Config {
         GlobalConfig.MENU_RADIUS = CONFIG.radialMenuRadius.get();
         GlobalConfig.ITEM_SIZE = CONFIG.itemSize.get();
         GlobalConfig.SLOT_SIZE = CONFIG.slotSize.get();
-        
+
         // Display / Visibility
         GlobalConfig.BACKGROUND_OPACITY = CONFIG.backgroundDarkenOpacity.get();
         GlobalConfig.HIDE_UNUSED_SLOTS = CONFIG.hideUnusedSlots.get();
         GlobalConfig.HIDE_SLOT_NUMBER = CONFIG.hideSlotNumber.get();
         GlobalConfig.HIDE_SLOT_SPRITE = CONFIG.hideSlotSprite.get();
-        
+
         // Display / Visibility / Disable Slots
         GlobalConfig.DISABLE_SLOT_1 = CONFIG.disableSlot1.get();
         GlobalConfig.DISABLE_SLOT_2 = CONFIG.disableSlot2.get();
@@ -234,12 +234,12 @@ public class Config {
         GlobalConfig.DISABLE_SLOT_7 = CONFIG.disableSlot7.get();
         GlobalConfig.DISABLE_SLOT_8 = CONFIG.disableSlot8.get();
         GlobalConfig.DISABLE_SLOT_9 = CONFIG.disableSlot9.get();
-        
+
         // Display / Angles
         GlobalConfig.START_ANGLE = CONFIG.startAngle.get();
         GlobalConfig.END_ANGLE = CONFIG.endAngle.get();
         GlobalConfig.REVERSE_ROTATION = CONFIG.counterclockwiseRotation.get();
-        
+
         // Behaviour
         GlobalConfig.TOGGLE_KEYBIND = CONFIG.toggleKeybind.get();
         GlobalConfig.CLICK_TO_SELECT = CONFIG.clickToSelect.get();
@@ -247,7 +247,7 @@ public class Config {
         GlobalConfig.CLOSE_ON_SELECT = CONFIG.closeOnSelect.get();
         GlobalConfig.INNER_DEADZONE = CONFIG.innerDeadzone.get();
         GlobalConfig.OUTER_DEADZONE = CONFIG.outerDeadzone.get();
-        
+
         // Misc
         GlobalConfig.DISABLE_HOTBAR_SCROLLING = CONFIG.disableScrollingOnHotbar.get();
     }
