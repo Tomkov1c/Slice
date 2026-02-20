@@ -24,8 +24,7 @@ public class SliceClient {
     @EventBusSubscriber(modid = Constants.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
     public static class ModEvents {
         @SubscribeEvent
-        static void onClientSetup(FMLClientSetupEvent event) {
-        }
+        static void onClientSetup(FMLClientSetupEvent event) {}
     }
 
     @SubscribeEvent
@@ -47,9 +46,7 @@ public class SliceClient {
     }
 
     @SubscribeEvent
-    public static void onScreenClose(ScreenEvent.Closing event) {
-        if (renderer != null) allowKeyBindHandling(true);
-    }
+    public static void onScreenClose(ScreenEvent.Closing event) { if (renderer != null) allowKeyBindHandling(true); }
 
     @SubscribeEvent
     public static void onRenderGui(RenderGuiEvent.Post event) {

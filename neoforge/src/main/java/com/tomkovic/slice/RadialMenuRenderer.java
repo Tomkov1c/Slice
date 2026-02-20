@@ -105,10 +105,8 @@ public class RadialMenuRenderer {
 
         boolean cursorInSelectionArea = RadialMenuHelper.isCursorInSelectionArea(mouseX, mouseY);
 
-        if (cursorInSelectionArea)
-            RadialMenuHandler.hoveredSlot = RadialMenuHelper.getHoveredSlot( mouseX, mouseY, cachedSlotPositions );
-        else
-            RadialMenuHandler.hoveredSlot = -1;
+        if (cursorInSelectionArea) RadialMenuHandler.hoveredSlot = RadialMenuHelper.getHoveredSlot( mouseX, mouseY, cachedSlotPositions );
+        else RadialMenuHandler.hoveredSlot = -1;
 
         RadialMenuHandler.selectedSlot = cachedInventory.selected;
 
@@ -117,6 +115,7 @@ public class RadialMenuRenderer {
         renderVisibleSlots(graphics);
 
         mc.renderBuffers().bufferSource().endBatch();
+        mc.re
 
         hasRenderedOnce = true;
     }
@@ -135,23 +134,24 @@ public class RadialMenuRenderer {
             if (!GlobalConfig.HIDE_SLOT_SPRITE) renderSlot(graphics, x, y, isActive, isHovered);
 
             ItemStack stack = cachedInventory.getItem(pos.slotIndex);
-            if (!stack.isEmpty()) renderItem(graphics, cachedInventory.getItem(pos.slotIndex), x, y, isActive, isHovered);
 
+            if (!stack.isEmpty()) renderItem(graphics, cachedInventory.getItem(pos.slotIndex), x, y, isActive, isHovered);
             if (!GlobalConfig.HIDE_SLOT_NUMBER) renderSlotNumber(graphics, pos.slotIndex, x, y, isActive, isHovered);
         }
     }
 
     private void renderSlot(GuiGraphics graphics, int x, int y, boolean active, boolean hovered) {
         ResourceLocation tex = active ? Constants.SLOT_ACTIVE_TEXTURE :
-            hovered ? Constants.SLOT_HOVERED_TEXTURE :
-            Constants.SLOT_TEXTURE;
+                               hovered ? Constants.SLOT_HOVERED_TEXTURE :
+                                            Constants.SLOT_TEXTURE;
 
         graphics.blit(Objects.requireNonNull(tex),
-            x - GlobalConfig.SLOT_SIZE / 2, y - GlobalConfig.SLOT_SIZE / 2,
-            0F, 0F, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE);
+                      x - GlobalConfig.SLOT_SIZE / 2, y - GlobalConfig.SLOT_SIZE / 2,
+                      0F, 0F, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE);
     }
 
     private void renderItem(GuiGraphics graphics, ItemStack stack, int x, int y, boolean active, boolean hovered) {
+        if (stack == null || mc.font == null) return;
 
         int xOffset = active ? jsonConfig.itemXOffsetActive : (hovered ? jsonConfig.itemXOffsetHovered : jsonConfig.itemXOffset);
         int yOffset = active ? jsonConfig.itemYOffsetActive : (hovered ? jsonConfig.itemXOffsetHovered : jsonConfig.itemXOffset);
@@ -159,39 +159,33 @@ public class RadialMenuRenderer {
         int ix = x + xOffset;
         int iy = y + yOffset;
 
+        float scale = GlobalConfig.ITEM_SIZE / 16f;
+
         graphics.pose().pushPose();
         graphics.pose().translate(ix + 8, iy + 8, 0);
-        float scale = GlobalConfig.ITEM_SIZE / 16f;
         graphics.pose().scale(scale, scale, 1.0f);
         graphics.pose().translate(-(ix + 8), -(iy + 8), 0);
 
-        if (stack == null) return;
-
         graphics.renderItem(stack, ix, iy);
-
-        if (mc.font == null) return;
 
         graphics.renderItemDecorations(mc.font, stack, ix, iy);
         graphics.pose().popPose();
     }
 
     private void renderSlotNumber(GuiGraphics graphics, int index, int x, int y, boolean active, boolean hovered) {
-
         String num = String.valueOf(index + 1);
+
+        if (num == null || mc.font == null) return;
 
         int xOffset = active ? jsonConfig.slotNumberXOffsetActive : (hovered ? jsonConfig.slotNumberXOffsetHovered : jsonConfig.slotNumberXOffset);
         int yOffset = active ? jsonConfig.slotNumberYOffsetActive : (hovered ? jsonConfig.slotNumberYOffsetHovered : jsonConfig.slotNumberYOffset);
-
-        if (num == null) return;
 
         int tx = x - mc.font.width(num) / 2 + xOffset;
         int ty = y + GlobalConfig.ITEM_SIZE / 2 + yOffset + ((GlobalConfig.SLOT_SIZE - 16) / 2);
 
         int col = active ? JsonHelper.parseColor(jsonConfig.slotNumberColorActive, 0) :
-            hovered ? JsonHelper.parseColor(jsonConfig.slotNumberColorHovered, 0) :
-            JsonHelper.parseColor(jsonConfig.slotNumberColor, 0);
-
-        if (mc.font == null) return;
+                  hovered ? JsonHelper.parseColor(jsonConfig.slotNumberColorHovered, 0) :
+                            JsonHelper.parseColor(jsonConfig.slotNumberColor, 0);
 
         graphics.drawString(mc.font, num, tx, ty, col);
     }

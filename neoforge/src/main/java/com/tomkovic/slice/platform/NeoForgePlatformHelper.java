@@ -22,9 +22,7 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     private Minecraft mc = RadialMenuHandler.mc();
 
     @Override
-    public void setSelectedSlot(int index) {
-        mc.player.getInventory().selected = index;
-    }
+    public void setSelectedSlot(int index) { mc.player.getInventory().selected = index; }
 
     @Override
     public void renderMenu() {
@@ -44,8 +42,6 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
             SliceClient.renderer.clearCache();
         }
     }
-
-
 
     @Override
     public void centerCursor() {

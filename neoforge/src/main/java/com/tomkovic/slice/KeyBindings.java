@@ -41,16 +41,9 @@ public class KeyBindings {
     public static void onKeyInput(InputEvent.Key event) {
         if(!canHandleKeyBind) return;
 
-        if (OPEN_RADIAL_MENU.getKey().getType() == InputConstants.Type.KEYSYM && event.getKey() == OPEN_RADIAL_MENU.getKey().getValue()) {
-
-            if (event.getAction() == GLFW.GLFW_PRESS) {
-                RadialMenuHandler.handleOpenMenuKeyBehaviour(true);
-            }
-
-            else if (event.getAction() == GLFW.GLFW_RELEASE) {
-                RadialMenuHandler.handleOpenMenuKeyBehaviour(false);
-            }
-        }
+        if (OPEN_RADIAL_MENU.getKey().getType() == InputConstants.Type.KEYSYM && event.getKey() == OPEN_RADIAL_MENU.getKey().getValue())
+            if (event.getAction() == GLFW.GLFW_PRESS) RadialMenuHandler.handleOpenMenuKeyBehaviour(true);
+            else if (event.getAction() == GLFW.GLFW_RELEASE) RadialMenuHandler.handleOpenMenuKeyBehaviour(false);
     }
 
     @SubscribeEvent
@@ -63,7 +56,6 @@ public class KeyBindings {
                 RadialMenuHandler.handleOpenMenuKeyBehaviour(true);
                 event.setCanceled(true);
             }
-
             else if (event.getAction() == GLFW.GLFW_RELEASE) {
                 RadialMenuHandler.handleOpenMenuKeyBehaviour(false);
                 event.setCanceled(true);
@@ -89,9 +81,7 @@ public class KeyBindings {
     public static void onMouseInput(InputEvent.MouseScrollingEvent event) {
         if(!canHandleKeyBind) return;
 
-        if (GlobalConfig.DISABLE_HOTBAR_SCROLLING) {
-            event.setCanceled(true);
-        }
+        if (GlobalConfig.DISABLE_HOTBAR_SCROLLING) event.setCanceled(true);
     }
 
     public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
