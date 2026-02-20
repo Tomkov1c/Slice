@@ -115,7 +115,6 @@ public class RadialMenuRenderer {
         renderVisibleSlots(graphics);
 
         mc.renderBuffers().bufferSource().endBatch();
-        mc.re
 
         hasRenderedOnce = true;
     }
