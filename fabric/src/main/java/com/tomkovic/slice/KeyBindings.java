@@ -39,12 +39,10 @@ public class KeyBindings {
 
 	    if (OPEN_RADIAL_MENU_Privious_State == isKeyDown) return;
 
-	    if (isKeyDown) {
-	        RadialMenuHandler.handleOpenMenuKeyBehaviour(true);
-	    } else if (!isKeyDown) {
-	        RadialMenuHandler.handleOpenMenuKeyBehaviour(false);
-	    }
-	    OPEN_RADIAL_MENU_Privious_State = isKeyDown;
+	    if (isKeyDown) RadialMenuHandler.handleOpenMenuKeyBehaviour(true);
+	    else if (!isKeyDown) RadialMenuHandler.handleOpenMenuKeyBehaviour(false);
+
+		OPEN_RADIAL_MENU_Privious_State = isKeyDown;
     }
 
     public static void handleClickToSelect() {

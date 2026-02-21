@@ -36,7 +36,7 @@ public final class SliceConfigScreen {
 
         display.addEntry(entryBuilder
                 .startIntField(Component.translatable("slice.configuration.display.size.radialMenuRadius"),
-                        config.display.size.radialMenuRadius)
+                                config.display.size.radialMenuRadius)
                 .setDefaultValue(75).setMin(40).setMax(200)
                 .setTooltip(Component.translatable("slice.configuration.display.size.radialMenuRadius.tooltip"))
                 .setSaveConsumer(v -> config.display.size.radialMenuRadius = v)
@@ -45,7 +45,7 @@ public final class SliceConfigScreen {
 
         display.addEntry(entryBuilder
                 .startIntField(Component.translatable("slice.configuration.display.size.itemSize"),
-                        config.display.size.itemSize)
+                                config.display.size.itemSize)
                 .setDefaultValue(16).setMin(1).setMax(64)
                 .setTooltip(Component.translatable("slice.configuration.display.size.itemSize.tooltip"))
                 .setSaveConsumer(v -> config.display.size.itemSize = v)
@@ -54,7 +54,7 @@ public final class SliceConfigScreen {
 
         display.addEntry(entryBuilder
                 .startIntField(Component.translatable("slice.configuration.display.size.slotSize"),
-                        config.display.size.slotSize)
+                                config.display.size.slotSize)
                 .setDefaultValue(32).setMin(16).setMax(64)
                 .setTooltip(Component.translatable("slice.configuration.display.size.slotSize.tooltip"))
                 .setSaveConsumer(v -> config.display.size.slotSize = v)
@@ -69,7 +69,7 @@ public final class SliceConfigScreen {
 
         display.addEntry(entryBuilder
                 .startIntField(Component.translatable("slice.configuration.display.visibility.backgroundDarkenOpacity"),
-                        config.display.visibility.backgroundDarkenOpacity)
+                                config.display.visibility.backgroundDarkenOpacity)
                 .setDefaultValue(0).setMin(0).setMax(255)
                 .setTooltip(Component.translatable("slice.configuration.display.visibility.backgroundDarkenOpacity.tooltip"))
                 .setSaveConsumer(v -> config.display.visibility.backgroundDarkenOpacity = v)
@@ -78,7 +78,7 @@ public final class SliceConfigScreen {
 
         display.addEntry(entryBuilder
                 .startBooleanToggle(Component.translatable("slice.configuration.display.visibility.hideUnusedSlots"),
-                        config.display.visibility.hideUnusedSlots)
+                                    config.display.visibility.hideUnusedSlots)
                 .setDefaultValue(false)
                 .setTooltip(Component.translatable("slice.configuration.display.visibility.hideUnusedSlots.tooltip"))
                 .setSaveConsumer(v -> config.display.visibility.hideUnusedSlots = v)
@@ -87,7 +87,7 @@ public final class SliceConfigScreen {
 
         display.addEntry(entryBuilder
                 .startBooleanToggle(Component.translatable("slice.configuration.display.visibility.hideSlotNumber"),
-                        config.display.visibility.hideSlotNumber)
+                                    config.display.visibility.hideSlotNumber)
                 .setDefaultValue(false)
                 .setTooltip(Component.translatable("slice.configuration.display.visibility.hideSlotNumber.tooltip"))
                 .setSaveConsumer(v -> config.display.visibility.hideSlotNumber = v)
@@ -96,7 +96,7 @@ public final class SliceConfigScreen {
 
         display.addEntry(entryBuilder
                 .startBooleanToggle(Component.translatable("slice.configuration.display.visibility.hideSlotSprite"),
-                        config.display.visibility.hideSlotSprite)
+                                    config.display.visibility.hideSlotSprite)
                 .setDefaultValue(false)
                 .setTooltip(Component.translatable("slice.configuration.display.visibility.hideSlotSprite.tooltip"))
                 .setSaveConsumer(v -> config.display.visibility.hideSlotSprite = v)
@@ -111,55 +111,55 @@ public final class SliceConfigScreen {
 
         display.addEntry(entryBuilder
                 .startBooleanToggle(Component.translatable("slice.configuration.display.visibility.disabledSlots.disableSlot1"),
-                        config.display.visibility.disabledSlots.disableSlot1)
+                                    config.display.visibility.disabledSlots.disableSlot1)
                 .setSaveConsumer(v -> config.display.visibility.disabledSlots.disableSlot1 = v)
                 .build()
         );
         display.addEntry(entryBuilder
                 .startBooleanToggle(Component.translatable("slice.configuration.display.visibility.disabledSlots.disableSlot2"),
-                        config.display.visibility.disabledSlots.disableSlot2)
+                                    config.display.visibility.disabledSlots.disableSlot2)
                 .setSaveConsumer(v -> config.display.visibility.disabledSlots.disableSlot2 = v)
                 .build()
         );
         display.addEntry(entryBuilder
                 .startBooleanToggle(Component.translatable("slice.configuration.display.visibility.disabledSlots.disableSlot3"),
-                        config.display.visibility.disabledSlots.disableSlot3)
+                                    config.display.visibility.disabledSlots.disableSlot3)
                 .setSaveConsumer(v -> config.display.visibility.disabledSlots.disableSlot3 = v)
                 .build()
         );
         display.addEntry(entryBuilder
                 .startBooleanToggle(Component.translatable("slice.configuration.display.visibility.disabledSlots.disableSlot4"),
-                        config.display.visibility.disabledSlots.disableSlot4)
+                                    config.display.visibility.disabledSlots.disableSlot4)
                 .setSaveConsumer(v -> config.display.visibility.disabledSlots.disableSlot4 = v)
                 .build()
         );
         display.addEntry(entryBuilder
                 .startBooleanToggle(Component.translatable("slice.configuration.display.visibility.disabledSlots.disableSlot5"),
-                        config.display.visibility.disabledSlots.disableSlot5)
+                                    config.display.visibility.disabledSlots.disableSlot5)
                 .setSaveConsumer(v -> config.display.visibility.disabledSlots.disableSlot5 = v)
                 .build()
         );
         display.addEntry(entryBuilder
                 .startBooleanToggle(Component.translatable("slice.configuration.display.visibility.disabledSlots.disableSlot6"),
-                        config.display.visibility.disabledSlots.disableSlot6)
+                                    config.display.visibility.disabledSlots.disableSlot6)
                 .setSaveConsumer(v -> config.display.visibility.disabledSlots.disableSlot6 = v)
                 .build()
         );
         display.addEntry(entryBuilder
                 .startBooleanToggle(Component.translatable("slice.configuration.display.visibility.disabledSlots.disableSlot7"),
-                        config.display.visibility.disabledSlots.disableSlot7)
+                                    config.display.visibility.disabledSlots.disableSlot7)
                 .setSaveConsumer(v -> config.display.visibility.disabledSlots.disableSlot7 = v)
                 .build()
         );
         display.addEntry(entryBuilder
                 .startBooleanToggle(Component.translatable("slice.configuration.display.visibility.disabledSlots.disableSlot8"),
-                        config.display.visibility.disabledSlots.disableSlot8)
+                                    config.display.visibility.disabledSlots.disableSlot8)
                 .setSaveConsumer(v -> config.display.visibility.disabledSlots.disableSlot8 = v)
                 .build()
         );
         display.addEntry(entryBuilder
                 .startBooleanToggle(Component.translatable("slice.configuration.display.visibility.disabledSlots.disableSlot9"),
-                        config.display.visibility.disabledSlots.disableSlot9)
+                                    config.display.visibility.disabledSlots.disableSlot9)
                 .setSaveConsumer(v -> config.display.visibility.disabledSlots.disableSlot9 = v)
                 .build()
         );
@@ -174,7 +174,7 @@ public final class SliceConfigScreen {
 
         display.addEntry(entryBuilder
                 .startIntField(Component.translatable("slice.configuration.display.maxAngle"),
-                        config.display.startAngle)
+                                config.display.startAngle)
                 .setDefaultValue(360).setMin(0).setMax(360)
                 .setTooltip(Component.translatable("slice.configuration.display.maxAngle.tooltip"))
                 .setSaveConsumer(v -> config.display.startAngle = v)
@@ -183,7 +183,7 @@ public final class SliceConfigScreen {
 
         display.addEntry(entryBuilder
                 .startIntField(Component.translatable("slice.configuration.display.endAngle"),
-                        config.display.endAngle)
+                                config.display.endAngle)
                 .setDefaultValue(360).setMin(0).setMax(360)
                 .setTooltip(Component.translatable("slice.configuration.display.endAngle.tooltip"))
                 .setSaveConsumer(v -> config.display.endAngle = v)
@@ -192,7 +192,7 @@ public final class SliceConfigScreen {
 
         display.addEntry(entryBuilder
                 .startBooleanToggle(Component.translatable("slice.configuration.display.counterclockwiseRotation"),
-                        config.display.counterclockwiseRotation)
+                                    config.display.counterclockwiseRotation)
                 .setDefaultValue(false)
                 .setTooltip(Component.translatable("slice.configuration.display.counterclockwiseRotation.tooltip"))
                 .setSaveConsumer(v -> config.display.counterclockwiseRotation = v)
@@ -208,7 +208,7 @@ public final class SliceConfigScreen {
 
         behaviour.addEntry(entryBuilder
                 .startBooleanToggle(Component.translatable("slice.configuration.behaviour.toggleKeybind"),
-                        config.behaviour.toggleKeybind)
+                                    config.behaviour.toggleKeybind)
                 .setDefaultValue(false)
                 .setTooltip(Component.translatable("slice.configuration.behaviour.toggleKeybind.tooltip"))
                 .setSaveConsumer(v -> config.behaviour.toggleKeybind = v)
@@ -217,7 +217,7 @@ public final class SliceConfigScreen {
 
         behaviour.addEntry(entryBuilder
                 .startBooleanToggle(Component.translatable("slice.configuration.behaviour.clickToSelect"),
-                        config.behaviour.clickToSelect)
+                                    config.behaviour.clickToSelect)
                 .setDefaultValue(false)
                 .setTooltip(Component.translatable("slice.configuration.behaviour.clickToSelect.tooltip"))
                 .setSaveConsumer(v -> config.behaviour.clickToSelect = v)
@@ -226,7 +226,7 @@ public final class SliceConfigScreen {
 
         behaviour.addEntry(entryBuilder
                 .startBooleanToggle(Component.translatable("slice.configuration.behaviour.recenterOnSelect"),
-                        config.behaviour.recenterOnSelect)
+                                    config.behaviour.recenterOnSelect)
                 .setDefaultValue(false)
                 .setTooltip(Component.translatable("slice.configuration.behaviour.recenterOnSelect.tooltip"))
                 .setSaveConsumer(v -> config.behaviour.recenterOnSelect = v)
@@ -235,7 +235,7 @@ public final class SliceConfigScreen {
 
         behaviour.addEntry(entryBuilder
                 .startBooleanToggle(Component.translatable("slice.configuration.behaviour.closeOnSelect"),
-                        config.behaviour.closeOnSelect)
+                                    config.behaviour.closeOnSelect)
                 .setDefaultValue(true)
                 .setTooltip(Component.translatable("slice.configuration.behaviour.closeOnSelect.tooltip"))
                 .setSaveConsumer(v -> config.behaviour.closeOnSelect = v)
@@ -249,7 +249,7 @@ public final class SliceConfigScreen {
 
         behaviour.addEntry(entryBuilder
                 .startIntField(Component.translatable("slice.configuration.behaviour.innerDeadzone"),
-                        config.behaviour.innerDeadzone)
+                                config.behaviour.innerDeadzone)
                 .setDefaultValue(72).setMin(0).setMax(1000)
                 .setTooltip(Component.translatable("slice.configuration.behaviour.innerDeadzone.tooltip"))
                 .setSaveConsumer(v -> config.behaviour.innerDeadzone = v)
@@ -258,7 +258,7 @@ public final class SliceConfigScreen {
 
         behaviour.addEntry(entryBuilder
                 .startIntField(Component.translatable("slice.configuration.behaviour.outerDeadzone"),
-                        config.behaviour.outerDeadzone)
+                                config.behaviour.outerDeadzone)
                 .setDefaultValue(47).setMin(0).setMax(1000)
                 .setTooltip(Component.translatable("slice.configuration.behaviour.outerDeadzone.tooltip"))
                 .setSaveConsumer(v -> config.behaviour.outerDeadzone = v)
@@ -274,7 +274,7 @@ public final class SliceConfigScreen {
 
         misc.addEntry(entryBuilder
                 .startBooleanToggle(Component.translatable("slice.configuration.misc.disableScrollingOnHotbar"),
-                        config.misc.disableScrollingOnHotbar)
+                                    config.misc.disableScrollingOnHotbar)
                 .setDefaultValue(false)
                 .setTooltip(Component.translatable("slice.configuration.misc.disableScrollingOnHotbar.tooltip"))
                 .setSaveConsumer(v -> config.misc.disableScrollingOnHotbar = v)
