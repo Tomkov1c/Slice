@@ -2,11 +2,13 @@ package com.tomkovic.slice;
 
 import javax.annotation.Nonnull;
 
-import org.lwjgl.glfw.GLFW;
-import com.mojang.blaze3d.platform.InputConstants;
 import com.tomkovic.slice.handlers.RadialMenuHandler;
 
+import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
+
 import net.minecraft.client.KeyMapping;
+
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -14,10 +16,8 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class KeyBindings {
-
     public static boolean canHandleKeyBind = false;
 
-    @Nonnull
     public static final String CATEGORY_OBJECT = "key.categories.slice";
 
     @Nonnull
@@ -46,9 +46,7 @@ public class KeyBindings {
 
             if (event.getAction() == GLFW.GLFW_PRESS) {
                 RadialMenuHandler.handleOpenMenuKeyBehaviour(true);
-            }
-
-            else if (event.getAction() == GLFW.GLFW_RELEASE) {
+            }else if (event.getAction() == GLFW.GLFW_RELEASE) {
                 RadialMenuHandler.handleOpenMenuKeyBehaviour(false);
             }
         }
@@ -63,9 +61,7 @@ public class KeyBindings {
             if (event.getAction() == GLFW.GLFW_PRESS) {
                 RadialMenuHandler.handleOpenMenuKeyBehaviour(true);
                 return true;
-            }
-
-            else if (event.getAction() == GLFW.GLFW_RELEASE) {
+            }else if (event.getAction() == GLFW.GLFW_RELEASE) {
                 RadialMenuHandler.handleOpenMenuKeyBehaviour(false);
                 return true;
             }
@@ -76,25 +72,18 @@ public class KeyBindings {
                 if (GlobalConfig.CLICK_TO_SELECT) {RadialMenuHandler.handleClickToSelect();}
 
                 return true;
-            }
-
-            else if (event.getAction() == GLFW.GLFW_RELEASE) {
+            }else if (event.getAction() == GLFW.GLFW_RELEASE) {
                 if (GlobalConfig.CLICK_TO_SELECT) {RadialMenuHandler.handleClickToSelect();}
 
                 return true;
             }
         }
-
         return false;
     }
 
     @SubscribeEvent
     public static boolean onMouseInput(InputEvent.MouseScrollingEvent event) {
-        if(!canHandleKeyBind) return false;
-
-        if (GlobalConfig.DISABLE_HOTBAR_SCROLLING) {
-            return true;
-        }
+        if (GlobalConfig.DISABLE_HOTBAR_SCROLLING && canHandleKeyBind) return true;
 
         return false;
     }

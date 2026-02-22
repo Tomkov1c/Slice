@@ -1,20 +1,22 @@
 package com.tomkovic.slice.platform;
 
-import com.mojang.blaze3d.platform.Window;
+import java.lang.reflect.Field;
+import java.util.Objects;
+
 import com.tomkovic.slice.Constants;
 import com.tomkovic.slice.SliceClient;
 import com.tomkovic.slice.platform.services.IPlatformHelper;
+import com.tomkovic.slice.handlers.RadialMenuHandler;
+
+import com.mojang.blaze3d.platform.Window;
+import org.lwjgl.glfw.GLFW;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket;
-import java.lang.reflect.Field;
-import java.util.Objects;
-import com.tomkovic.slice.handlers.RadialMenuHandler;
 
-import org.lwjgl.glfw.GLFW;
 
 public class ForgePlatformHelper implements IPlatformHelper {
-
     private static Field selectedField;
 
     private static Field windowHandleField = null;

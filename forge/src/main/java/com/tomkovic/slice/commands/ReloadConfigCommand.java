@@ -1,16 +1,19 @@
 package com.tomkovic.slice.commands;
 
-import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.context.CommandContext;
+import java.nio.file.Path;
+import java.util.Objects;
+
 import com.tomkovic.slice.Config;
 import com.tomkovic.slice.Constants;
+
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.context.CommandContext;
+
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
-import net.minecraftforge.fml.loading.FMLPaths;
 
-import java.nio.file.Path;
-import java.util.Objects;
+import net.minecraftforge.fml.loading.FMLPaths;
 
 public class ReloadConfigCommand {
 
@@ -33,8 +36,7 @@ public class ReloadConfigCommand {
                 return 0;
             }
 
-            com.electronwill.nightconfig.core.file.CommentedFileConfig fileConfig =
-                com.electronwill.nightconfig.core.file.CommentedFileConfig.of(configPath);
+            CommentedFileConfig fileConfig = CommentedFileConfig.of(configPath);
             fileConfig.load();
 
             Config.CONFIG_SPEC.acceptConfig(fileConfig);
@@ -48,9 +50,7 @@ public class ReloadConfigCommand {
 
             return 1;
         } catch (Exception e) {
-            context.getSource().sendFailure(
-                Objects.requireNonNull(Component.literal("§cFailed to reload config: " + e.getMessage()))
-            );
+            context.getSource().sendFailure(Objects.requireNonNull(Component.literal("§cFailed to reload config: " + e.getMessage())));
             e.printStackTrace();
             return 0;
         }

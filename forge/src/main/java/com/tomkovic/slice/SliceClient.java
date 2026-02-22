@@ -2,8 +2,10 @@ package com.tomkovic.slice;
 
 import com.tomkovic.slice.commands.ReloadConfigCommand;
 import com.tomkovic.slice.handlers.RadialMenuHandler;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.ScreenEvent;
@@ -14,7 +16,6 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SliceClient {
-
     public static RadialMenuRenderer renderer;
 
     @SubscribeEvent
@@ -40,9 +41,7 @@ public class SliceClient {
     public static class ForgeEvents {
 
         @SubscribeEvent
-        public static void onRegisterCommands(RegisterCommandsEvent event) {
-            ReloadConfigCommand.register(event.getDispatcher());
-        }
+        public static void onRegisterCommands(RegisterCommandsEvent event) { ReloadConfigCommand.register(event.getDispatcher()); }
 
         @SubscribeEvent
         public static void onPlayerLogin(ClientPlayerNetworkEvent.LoggingIn event) {
@@ -58,17 +57,14 @@ public class SliceClient {
 
         @SubscribeEvent
         public static void onScreenOpen(ScreenEvent.Opening event) {
-            if (RadialMenuHandler.isMenuOpen && event.getScreen() != null) {
+            if (RadialMenuHandler.isMenuOpen && event.getScreen() != null)
                 RadialMenuHandler.closeMenu();
-            }
             allowKeyBindHandling(false);
         }
 
         @SubscribeEvent
         public static void onScreenClose(ScreenEvent.Closing event) {
-            if (renderer != null) {
-                allowKeyBindHandling(true);
-            }
+            if (renderer != null) allowKeyBindHandling(true);
         }
     }
 

@@ -14,7 +14,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
 public class RadialMenuRenderer {
-
     Minecraft mc = RadialMenuHandler.mc();
 
     public boolean isRendering = false;
@@ -144,8 +143,15 @@ public class RadialMenuRenderer {
                                          Constants.SLOT_TEXTURE;
 
         graphics.blit(tex,
-            x - GlobalConfig.SLOT_SIZE / 2, y - GlobalConfig.SLOT_SIZE / 2,
-            0, 0, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE);
+                        x - GlobalConfig.SLOT_SIZE / 2,
+                        y - GlobalConfig.SLOT_SIZE / 2,
+                        0,
+                        0,
+                        GlobalConfig.SLOT_SIZE,
+                        GlobalConfig.SLOT_SIZE,
+                        GlobalConfig.SLOT_SIZE,
+                        GlobalConfig.SLOT_SIZE
+        );
     }
 
     private void renderItem(GuiGraphics graphics, ItemStack stack, int x, int y, boolean active, boolean hovered) {
@@ -181,8 +187,8 @@ public class RadialMenuRenderer {
         int ty = y + GlobalConfig.ITEM_SIZE / 2 + yOffset + ((GlobalConfig.SLOT_SIZE - 16) / 2);
 
         int col = active ? JsonHelper.parseColor(jsonConfig.slotNumberColorActive, 0) :
-            hovered ? JsonHelper.parseColor(jsonConfig.slotNumberColorHovered, 0) :
-            JsonHelper.parseColor(jsonConfig.slotNumberColor, 0);
+                  hovered ? JsonHelper.parseColor(jsonConfig.slotNumberColorHovered, 0) :
+                            JsonHelper.parseColor(jsonConfig.slotNumberColor, 0);
 
         if (mc.font == null) return;
 
