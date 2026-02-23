@@ -15,6 +15,8 @@ import net.minecraft.network.chat.Component;
 
 import net.minecraftforge.fml.loading.FMLPaths;
 
+import com.electronwill.nightconfig.core.file.CommentedFileConfig;
+
 public class ReloadConfigCommand {
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
