@@ -1,7 +1,5 @@
 package com.tomkovic.slice;
 
-import java.util.Objects;
-
 import javax.annotation.Nonnull;
 
 import org.lwjgl.glfw.GLFW;
@@ -9,7 +7,6 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.tomkovic.slice.handlers.RadialMenuHandler;
 
 import net.minecraft.client.KeyMapping;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;

@@ -14,7 +14,6 @@ public class SliceClient implements ClientModInitializer {
     public static Config CONFIG;
     public static RadialMenuRenderer renderer;
 
-    @SuppressWarnings("deprecation")
     @Override
     public void onInitializeClient() {
         KeyBindingHelper.registerKeyBinding(KeyBindings.OPEN_RADIAL_MENU);

@@ -1,14 +1,11 @@
 package com.tomkovic.slice;
 
-import java.util.Objects;
-
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.tomkovic.slice.handlers.RadialMenuHandler;
 
 import net.minecraft.client.KeyMapping;
-import net.minecraft.resources.ResourceLocation;
 
 public class KeyBindings {
 

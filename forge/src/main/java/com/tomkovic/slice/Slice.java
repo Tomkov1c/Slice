@@ -1,7 +1,5 @@
 package com.tomkovic.slice;
 
-import java.lang.invoke.MethodHandles;
-
 import com.tomkovic.slice.handlers.ConfigHandler;
 
 import net.minecraftforge.fml.common.Mod;

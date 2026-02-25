@@ -1,7 +1,5 @@
 package com.tomkovic.slice;
 
-import java.util.Objects;
-
 import com.tomkovic.slice.classes.SlotPosition;
 import com.tomkovic.slice.classes.TexturePackCustomValues;
 import com.tomkovic.slice.handlers.RadialMenuHandler;

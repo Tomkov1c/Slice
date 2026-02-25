@@ -4,8 +4,6 @@ import com.tomkovic.slice.commands.ReloadConfigCommand;
 import com.tomkovic.slice.handlers.RadialMenuHandler;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
-
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.ScreenEvent;

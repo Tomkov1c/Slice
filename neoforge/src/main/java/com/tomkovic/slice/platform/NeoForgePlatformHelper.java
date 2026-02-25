@@ -1,7 +1,5 @@
 package com.tomkovic.slice.platform;
 
-import java.util.Objects;
-
 import org.lwjgl.glfw.GLFW;
 import java.lang.reflect.Field;
 
@@ -11,8 +9,6 @@ import com.tomkovic.slice.Constants;
 import com.tomkovic.slice.SliceClient;
 import com.tomkovic.slice.platform.services.IPlatformHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket;
 import com.tomkovic.slice.handlers.RadialMenuHandler;
 
 public class NeoForgePlatformHelper implements IPlatformHelper {

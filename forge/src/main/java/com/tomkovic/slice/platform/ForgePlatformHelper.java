@@ -1,8 +1,6 @@
 package com.tomkovic.slice.platform;
 
 import java.lang.reflect.Field;
-import java.util.Objects;
-
 import com.tomkovic.slice.Constants;
 import com.tomkovic.slice.SliceClient;
 import com.tomkovic.slice.platform.services.IPlatformHelper;
@@ -13,7 +11,6 @@ import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket;
 
 
 public class ForgePlatformHelper implements IPlatformHelper {
