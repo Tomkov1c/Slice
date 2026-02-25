@@ -65,7 +65,7 @@ public class ForgePlatformHelper implements IPlatformHelper {
 
         try {
             if (windowHandleField == null) {
-                windowHandleField = Window.class.getDeclaredField("handle");
+                windowHandleField = Window.class.getDeclaredField("window");
                 windowHandleField.setAccessible(true);
             }
 
