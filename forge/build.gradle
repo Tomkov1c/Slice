@@ -68,6 +68,8 @@ minecraft {
 sourceSets.main.resources.srcDir 'src/generated/resources'
 
 dependencies {
+    implementation project(':common')
+
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     // Forge's hack fix
