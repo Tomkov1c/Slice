@@ -53,38 +53,37 @@ public class KeyBindings {
     }
 
     @SubscribeEvent
-    public static boolean onMouseInput(InputEvent.MouseButton.Pre event) {
-        if(!canHandleKeyBind) return false;
+    public static void onMouseInput(InputEvent.MouseButton.Pre event) {
+        if(!canHandleKeyBind) return;
 
-        if (OPEN_RADIAL_MENU.getKey().getType() == InputConstants.Type.MOUSE && event.getButton() == OPEN_RADIAL_MENU.getKey().getValue()) {
-
+        if (OPEN_RADIAL_MENU.getKey().getType() == InputConstants.Type.MOUSE &&
+            event.getButton() == OPEN_RADIAL_MENU.getKey().getValue()) {
             if (event.getAction() == GLFW.GLFW_PRESS) {
                 RadialMenuHandler.handleOpenMenuKeyBehaviour(true);
-                return true;
-            }else if (event.getAction() == GLFW.GLFW_RELEASE) {
+                event.setCanceled(true);
+                return;
+            } else if (event.getAction() == GLFW.GLFW_RELEASE) {
                 RadialMenuHandler.handleOpenMenuKeyBehaviour(false);
-                return true;
+                event.setCanceled(true);
+                return;
             }
         }
 
         if (event.getButton() == CLICK_TO_SELECT.getKey().getValue() && RadialMenuHandler.isMenuOpen) {
             if (event.getAction() == GLFW.GLFW_PRESS) {
-                if (GlobalConfig.CLICK_TO_SELECT) {RadialMenuHandler.handleClickToSelect();}
-
-                return true;
-            }else if (event.getAction() == GLFW.GLFW_RELEASE) {
-                if (GlobalConfig.CLICK_TO_SELECT) {RadialMenuHandler.handleClickToSelect();}
-
-                return true;
+                if (GlobalConfig.CLICK_TO_SELECT) RadialMenuHandler.handleClickToSelect();
+                event.setCanceled(true);
+                return;
+            } else if (event.getAction() == GLFW.GLFW_RELEASE) {
+                if (GlobalConfig.CLICK_TO_SELECT) RadialMenuHandler.handleClickToSelect();
+                event.setCanceled(true);
+                return;
             }
         }
-        return false;
     }
 
     @SubscribeEvent
-    public static boolean onMouseInput(InputEvent.MouseScrollingEvent event) {
-        if (GlobalConfig.DISABLE_HOTBAR_SCROLLING && canHandleKeyBind) return true;
-
-        return false;
+    public static void onMouseScrolling(InputEvent.MouseScrollingEvent event) {
+        if (GlobalConfig.DISABLE_HOTBAR_SCROLLING && canHandleKeyBind) event.setCanceled(true);
     }
 }
