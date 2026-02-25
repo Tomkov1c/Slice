@@ -111,8 +111,6 @@ public class RadialMenuRenderer {
 
         renderVisibleSlots(graphics);
 
-        mc.renderBuffers().bufferSource().endBatch();
-
         hasRenderedOnce = true;
     }
 
@@ -175,6 +173,8 @@ public class RadialMenuRenderer {
         if (mc.font != null) graphics.renderItemDecorations(mc.font, stack, ix, iy);
 
         graphics.pose().popPose();
+
+        mc.renderBuffers().bufferSource().endBatch();
     }
 
     private void renderSlotNumber(GuiGraphics graphics, int index, int x, int y, boolean active, boolean hovered) {
