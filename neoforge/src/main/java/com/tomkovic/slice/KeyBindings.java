@@ -16,13 +16,15 @@ public class KeyBindings {
 
     public static boolean canHandleKeyBind = false;
 
+    public static final String CATEGORY_OBJECT = "key.category.slice.radial_menu";
+
     @Nonnull
     public static final KeyMapping OPEN_RADIAL_MENU = new KeyMapping(
         "key.slice.open_radial_menu",
         KeyConflictContext.IN_GAME,
         InputConstants.Type.KEYSYM,
         GLFW.GLFW_KEY_R,
-        "key.category.slice.radial_menu"
+        CATEGORY_OBJECT
     );
 
     @Nonnull
@@ -31,7 +33,7 @@ public class KeyBindings {
         KeyConflictContext.GUI,
         InputConstants.Type.MOUSE,
         GLFW.GLFW_MOUSE_BUTTON_1,
-        "key.category.slice.radial_menu"
+        CATEGORY_OBJECT
     );
 
     @SubscribeEvent

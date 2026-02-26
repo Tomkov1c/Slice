@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.Mod;
 public class KeyBindings {
     public static boolean canHandleKeyBind = false;
 
-    public static final String CATEGORY_OBJECT = "key.categories.slice";
+    public static final String CATEGORY_OBJECT = "key.category.slice.radial_menu";
 
     @Nonnull
     public static final KeyMapping OPEN_RADIAL_MENU = new KeyMapping(

@@ -10,7 +10,7 @@ import net.minecraft.client.KeyMapping;
 public class KeyBindings {
 
     @NotNull
-    public static final String CATEGORY_OBJECT = "key.categories.slice";
+    public static final String CATEGORY_OBJECT = "key.category.slice.radial_menu";
 
     public static boolean OPEN_RADIAL_MENU_Privious_State = false;
     public static boolean CLICK_TO_SELECT_Privious_State = false;
