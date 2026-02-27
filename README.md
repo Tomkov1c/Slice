@@ -32,7 +32,7 @@
 
 ## Supported Versions
 > **FYI**: <br> ✅ - Supported, ❌ - Unsupported, 🔍 - Planned / In development
-<br> Minimum loader versions are in the same order as loaders in `Loaders` column <br> `Latest Slice version` doesn't cite the latest ***published*** version. Check the [Modrinth page](https://modrinth.com/mod/slice) for the latest available version.<br> Main development currently resides on version **`1.21.9`**. Why? idk
+<br> Minimum loader versions are in the same order as loaders in `Loaders` column <br> `Latest Slice version` doesn't cite the latest ***published*** version. Check the [Modrinth page](https://modrinth.com/mod/slice) for the latest available version.<br> Main development currently resides on version **`1.21.11`**. Why? idk
 
 <table>
     <th>Version</th>
@@ -48,7 +48,7 @@
           <img width="35" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg">
         </td>
         <td><code>21.11.0</code>, <code>61.0.0</code>, <code>0.18.0</code>, <code>0.30.0-beta</code></td>
-        <td><code>0.2.1</code></td>
+        <td><code>1.0.0</code></td>
     </tr>
     <tr><td>1.21.10</td>  <td>✅</td>
         <td>
@@ -78,6 +78,16 @@
     <tr><td>1.21.3</td> <td>❌</td><td></td><td></td><td></td></tr>
     <tr><td>1.21.2</td> <td>❌</td><td></td><td></td><td></td></tr>
     <tr><td>1.21.1</td> <td>🔍</td><td></td><td></td><td></td></tr>
+    <tr><td>1.21.1</td> <td>✅</td>
+      <td>
+        <img width="35" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"> 
+        <img width="35" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg"> 
+        <img width="35" src="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg">
+        <img width="35" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg">
+      </td>
+      <td><code>21.1.1</code>, <code>52.1.0</code>, <code>0.17.0</code>, <code>0.27.0</code></td>
+      <td><code>1.0.0</code></td>
+    </tr>
     <tr><td>1.21</td>   <td>❌</td><td></td><td></td><td></td></tr>
     <tr><td>1.20.2</td> <td>❌</td><td></td><td></td><td></td></tr>
     <tr><td>1.20.1</td> <td>❌</td><td></td><td></td><td></td></tr>
@@ -157,6 +167,7 @@
     <tr><td>1.21.11</td><td><code>0.139.4+1.21.11</code></td></tr>
     <tr><td>1.21.10</td><td><code>0.134.1+1.21.10</code></td></tr>
     <tr><td>1.21.9</td><td><code>0.133.14+1.21.9</code></td></tr>
+    <tr><td>1.21.1</td><td><code>0.102.0+1.21.1</code></td></tr>
   </table>
   
 </details>
@@ -173,6 +184,7 @@
     <tr><td>1.21.11</td><td><code>0.139.4+1.21.11</code></td></tr>
     <tr><td>1.21.10</td><td><code>0.134.1+1.21.10</code></td></tr>
     <tr><td>1.21.9</td><td><code>0.133.14+1.21.9</code></td></tr>
+    <tr><td>1.21.1</td><td><code>0.102.0+1.21.1</code></td></tr>
   </table>
   
 </details>
