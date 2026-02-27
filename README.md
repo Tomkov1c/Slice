@@ -84,7 +84,7 @@
         <img width="35" src="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg">
         <img width="35" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg">
       </td>
-      <td><code>21.1.1</code>, <code>52.1.0</code>, <code>0.17.0</code>, <code>?</code></td>
+      <td><code>21.1.1</code>, <code>52.1.0</code>, <code>0.17.0</code>, <code>0.27.0</code></td>
       <td><code>1.0.0</code></td>
     </tr>
     <tr><td>1.21</td>   <td>❌</td><td></td><td></td><td></td></tr>
