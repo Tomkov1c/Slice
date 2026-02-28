@@ -6,9 +6,12 @@ plugins {
 }
 
 subprojects {
+    apply plugin: 'eclipse'
+
     tasks.withType(ProcessResources).configureEach {
         exclude '**/*.aseprite'
     }
+
     afterEvaluate { project ->
         if (project.name != "common") {
 

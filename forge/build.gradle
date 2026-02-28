@@ -66,6 +66,8 @@ minecraft {
 sourceSets.main.resources.srcDir 'src/generated/resources'
 
 dependencies {
+    implementation project(':common')
+
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     // Forge's hack fix
@@ -91,7 +93,7 @@ processResources {
     inputs.property 'version', version
     inputs.property 'mod_id', mod_id
     inputs.property 'mod_name', mod_name
-    
+
     filesMatching('META-INF/mods.toml') {
         expand(
             'mod_id': mod_id,
