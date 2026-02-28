@@ -23,8 +23,10 @@ public class RadialMenuRenderer {
     public boolean isRendering = false;
     public boolean hasRenderedOnce = false;
 
-    private double cursorX = -1;
-    private double cursorY = -1;
+    @SuppressWarnings("unused")
+	private double cursorX = -1;
+    @SuppressWarnings("unused")
+	private double cursorY = -1;
 
     TexturePackCustomValues jsonConfig = new TexturePackCustomValues();
 
