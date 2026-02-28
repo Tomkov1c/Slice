@@ -38,5 +38,12 @@
     ],
     "suggests": {
         "another-mod": "*"
+    },
+    "custom": {
+        "modmenu": {
+            "links": {
+                "modmenu.kofi": "${kofi_link}"
+            }
+        }
     }
 }
