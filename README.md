@@ -232,6 +232,7 @@ Feel free to send feedback on the [issues page](https://github.com/Tomkov1c/Slic
     <h2>Credits</h2>
   </summary>
   <ul>
+    <li><a href="https://polyfrost.org/">Polyfrost Staff</a> (Listing my mod inside their client)</li>
     <li><a href="https://badges.penpow.dev/badges/">Fancy badges</a> (Readme badges)</li>
     <li><a href="https://intergrav.github.io/devins-badges-docs/">Devin's badges</a> (Readme badges)</li>
     <li><a href="https://github.com/jaredlll08/MultiLoader-Template">jaredlll08 (Multiloader template)</li>
