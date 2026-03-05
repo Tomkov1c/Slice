@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Slice Icon" title="Slice" src=".concepts/Title with sub.png"
+    <img alt="Slice Icon" title="Slice" src=".github/Title with sub.png"
   width="512">
 </p>
 
