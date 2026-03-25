@@ -43,89 +43,92 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
-      - name: Prepare Modrinth Description
+      - name: Prepare Modrinth Body (On-the-fly)
         run: |
-          # 1. Copy README to a temporary file
+          # Create a clean project description from README
           cp README.md MODRINTH_BODY.md
 
-          # 2. Remove the Modrinth Badge block (the <a> tag containing modrinth_vector)
+          # Remove the Modrinth badge link block
           sed -i '/href="https:\/\/modrinth.com\/mod\/slice"/,+2d' MODRINTH_BODY.md
 
-          # 3. Remove the specific "Latest Slice version" disclaimer line
+          # Remove the specific version disclaimer line
           sed -i '/`Latest Slice version` doesn'\''t cite the latest \*\*\*published\*\*\* version/d' MODRINTH_BODY.md
 
-          # 4. Clean up extra double line breaks caused by deletions
+          # Clean up formatting
           sed -i '/^$/N;/^\n$/D' MODRINTH_BODY.md
 
       - name: Process and Publish
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-          GIT_USER: ${{ secrets.GIT_USER_NAME }}
-          GIT_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
         run: |
-          # Configure Git using your secrets
-          git config --global user.name "$GIT_USER"
-          git config --global user.email "$GIT_EMAIL"
+          # Hardcoded Project ID
+          PROJECT_ID="dbuOrodS"
 
           # Extract Minecraft version from gradle.properties
           MC_VERSION=$(grep "minecraft_version" gradle.properties | cut -d'=' -f2)
 
-          # Badge URLs
-          COMMON_BADGE="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/available/github_vector.svg"
-          NEO_BADGE="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"
-          FORGE_BADGE="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg"
-          FABRIC_BADGE="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg"
-          QUILT_BADGE="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg"
+          # Loader Badge URLs for the Stitched Changelog
+          COMMON_B="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/available/github_vector.svg"
+          NEO_B="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"
+          FORGE_B="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg"
+          FABRIC_B="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg"
+          QUILT_B="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg"
 
-          # Loaders to process
+          # Determine which loaders to process
           LOADERS=""
           if [ "${{ github.event.inputs.publish_fabric }}" = "true" ]; then LOADERS="$LOADERS fabric"; fi
           if [ "${{ github.event.inputs.publish_forge }}" = "true" ]; then LOADERS="$LOADERS forge"; fi
           if [ "${{ github.event.inputs.publish_neoforge }}" = "true" ]; then LOADERS="$LOADERS neoforge"; fi
 
           for LOADER in $LOADERS; do
-            # Build the Stitching Changelog
-            echo "## <img width=\"20\" src=\"$COMMON_BADGE\"> Common and General" > STITCHED_CHANGELOG.md
+            # Build the Stitched Changelog (Common + Loader Specific)
+            echo "## <img width=\"20\" src=\"$COMMON_B\"> Common and General" > STITCHED_CHANGELOG.md
             cat common/CHANGELOG.md >> STITCHED_CHANGELOG.md
             echo -e "\n" >> STITCHED_CHANGELOG.md
 
+            ACTUAL_LOADERS="$LOADER"
+            DEPS=""
+
             if [ "$LOADER" = "neoforge" ]; then
-                echo "## <img width=\"20\" src=\"$NEO_BADGE\"> NeoForge" >> STITCHED_CHANGELOG.md
+                echo "## <img width=\"20\" src=\"$NEO_B\"> NeoForge" >> STITCHED_CHANGELOG.md
             elif [ "$LOADER" = "forge" ]; then
-                echo "## <img width=\"20\" src=\"$FORGE_BADGE\"> Forge" >> STITCHED_CHANGELOG.md
+                echo "## <img width=\"20\" src=\"$FORGE_B\"> Forge" >> STITCHED_CHANGELOG.md
             elif [ "$LOADER" = "fabric" ]; then
-                echo "## <img width=\"20\" src=\"$FABRIC_BADGE\"> Fabric / <img width=\"20\" src=\"$QUILT_BADGE\"> Quilt" >> STITCHED_CHANGELOG.md
+                echo "## <img width=\"20\" src=\"$FABRIC_B\"> Fabric / <img width=\"20\" src=\"$QUILT_B\"> Quilt" >> STITCHED_CHANGELOG.md
+                ACTUAL_LOADERS="fabric quilt"
+                # Fabric-only dependencies as per your screenshot
+                DEPS="-Pdependencies=fabric-api:required,cloth-config:embedded,modmenu:optional"
             fi
 
             cat $LOADER/CHANGELOG.md >> STITCHED_CHANGELOG.md
 
-            # -------------------------------------------------------------------
-            # PUBLISH EXECUTION
-            # -------------------------------------------------------------------
-            # Note: This assumes you have a modrinth task in your build.gradle
-            # that accepts -Pchangelog and -Pbody arguments.
-
+            # Publish via Gradle
             ./gradlew :$LOADER:modrinth \
+              -PmodrinthId="$PROJECT_ID" \
               -PversionName="${{ github.event.inputs.version_name }}" \
               -PversionType="${{ github.event.inputs.version_type }}" \
               -Pchangelog="$(cat STITCHED_CHANGELOG.md)" \
               -Pbody="$(cat MODRINTH_BODY.md)" \
-              -PmcVersion="$MC_VERSION"
+              -PmcVersion="$MC_VERSION" \
+              -PmodrinthLoaders="$ACTUAL_LOADERS" \
+              $DEPS
 
-            # Clear local loader changelog
+            # Clear the local loader changelog
             echo "" > $LOADER/CHANGELOG.md
           done
 
-          # Clear common changelog
+          # Clear the common changelog
           echo "" > common/CHANGELOG.md
 
       - name: Commit and Push Changes
+        env:
+          GIT_USER: ${{ secrets.GIT_USER_NAME }}
+          GIT_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
         run: |
+          git config --global user.name "$GIT_USER"
+          git config --global user.email "$GIT_EMAIL"
           git add .
-          # Check if there are changes to commit to avoid workflow failure
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
-          else
+          if ! git diff --staged --quiet; then
             git commit -m "Chore: clear changelogs for version ${{ github.event.inputs.version_name }} [skip ci]"
             git push origin main
           fi
