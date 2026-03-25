@@ -1,7 +1,12 @@
-name: Copy README to All Branches
+name: Sync README
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - $default-branch
+    paths:
+      - 'README.md'
 
 jobs:
   copy-readme:
