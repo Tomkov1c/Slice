@@ -18,8 +18,8 @@ jobs:
 
       - name: Copy README to all other branches
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "${{ secrets.GIT_USER_NAME }}"
+          git config user.email "${{ secrets.GIT_USER_EMAIL }}"
 
           # Save README from source branch
           cp README.md /tmp/README.md
