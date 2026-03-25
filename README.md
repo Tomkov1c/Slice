@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Slice Icon" title="Slice" src=".concepts/Title with sub.png"
+    <img alt="Slice Icon" title="Slice" src=".github/Title with sub.png"
   width="512">
 </p>
 
@@ -32,7 +32,7 @@
 
 ## Supported Versions
 > **FYI**: <br> ✅ - Supported, ❌ - Unsupported, 🔍 - Planned / In development
-<br> Minimum loader versions are in the same order as loaders in `Loaders` column <br> `Latest Slice version` doesn't cite the latest ***published*** version. Check the [Modrinth page](https://modrinth.com/mod/slice) for the latest available version.<br> Main development currently resides on version **`1.21.9`**. Why? idk
+<br> Minimum loader versions are in the same order as loaders in `Loaders` column <br> `Latest Slice version` doesn't cite the latest ***published*** version. Check the [Modrinth page](https://modrinth.com/mod/slice) for the latest available version.<br> Main development currently resides on version **`1.21.11`**. Why? idk
 
 <table>
     <th>Version</th>
@@ -48,7 +48,7 @@
           <img width="35" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg">
         </td>
         <td><code>21.11.0</code>, <code>61.0.0</code>, <code>0.18.0</code>, <code>0.30.0-beta</code></td>
-        <td><code>0.2.1</code></td>
+        <td><code>1.0.0</code></td>
     </tr>
     <tr><td>1.21.10</td>  <td>✅</td>
         <td>
@@ -232,6 +232,7 @@ Feel free to send feedback on the [issues page](https://github.com/Tomkov1c/Slic
     <h2>Credits</h2>
   </summary>
   <ul>
+    <li><a href="https://polyfrost.org/">Polyfrost Staff</a> (Listing my mod inside their client)</li>
     <li><a href="https://badges.penpow.dev/badges/">Fancy badges</a> (Readme badges)</li>
     <li><a href="https://intergrav.github.io/devins-badges-docs/">Devin's badges</a> (Readme badges)</li>
     <li><a href="https://github.com/jaredlll08/MultiLoader-Template">jaredlll08 (Multiloader template)</li>
