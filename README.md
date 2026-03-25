@@ -141,24 +141,21 @@
 
 <details>
   <summary>
-    <img width="15" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true">
-    <h4>NeoForge</h4>
+    <img width="15" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"> NeoForge
   </summary>
    None
 </details>
 
 <details>
   <summary>
-    <img width="15" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg">
-    <h4>Forge</h4>
+    <img width="15" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg"> Forge
   </summary>
    None
 </details>
 
 <details>
   <summary>
-    <img width="15" src="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg">
-    <h4>Fabric</h4>
+    <img width="15" src="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg"> Fabric
   </summary>
 
   <table>
@@ -174,8 +171,7 @@
 
 <details>
   <summary>
-    <img width="15" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg">
-    <h4>Quilt</h4>
+    <img width="15" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg"> Quilt
   </summary>
 
   <table>
@@ -229,9 +225,7 @@ Main Menu > Mods > *Select Slice* > -Config button next to the name-
 Feel free to send feedback on the [issues page](https://github.com/Tomkov1c/Slice/issues). Feature requests and bug reports are always welcome! Stars too :)
 
 <details>
-  <summary>
-    <h2>Credits</h2>
-  </summary>
+  <summary>Credits</summary>
   <ul>
     <li><a href="https://polyfrost.org/">Polyfrost Staff</a> (Listing my mod inside their client)</li>
     <li><a href="https://badges.penpow.dev/badges/">Fancy badges</a> (Readme badges)</li>
