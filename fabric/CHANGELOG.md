@@ -1,0 +1,1 @@
+- Make the mod appear as client only
