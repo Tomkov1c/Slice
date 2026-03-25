@@ -1,0 +1,44 @@
+name: Copy README to All Branches
+
+on:
+  workflow_dispatch:
+
+jobs:
+  copy-readme:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout source branch
+        uses: actions/checkout@v4
+        with:
+          ref: 1.21.11
+          fetch-depth: 0
+
+      - name: Copy README to all other branches
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Save README from source branch
+          cp README.md /tmp/README.md
+
+          # Get all remote branches except the source
+          branches=$(git branch -r | grep -v 'HEAD' | grep -v 'origin/1\.21\.11' | sed 's/origin\///')
+
+          for branch in $branches; do
+            echo ">>> Processing branch: $branch"
+
+            git checkout "$branch"
+            cp /tmp/README.md README.md
+
+            if git diff --quiet README.md; then
+              echo "No changes needed for $branch, skipping."
+            else
+              git add README.md
+              git commit -m "chore: sync README from branch 1.21.11"
+              git push origin "$branch"
+              echo "README pushed to $branch"
+            fi
+          done
