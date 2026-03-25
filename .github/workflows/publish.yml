@@ -1,0 +1,131 @@
+name: Publish to Modrinth
+on:
+  workflow_dispatch:
+    inputs:
+      version_name:
+        description: 'Version Name (e.g., 1.0.0)'
+        required: true
+      version_type:
+        description: 'Release Type'
+        required: true
+        default: 'release'
+        type: choice
+        options: [release, beta, alpha]
+      publish_fabric:
+        description: 'Publish Fabric'
+        type: boolean
+        default: false
+      publish_forge:
+        description: 'Publish Forge'
+        type: boolean
+        default: false
+      publish_neoforge:
+        description: 'Publish NeoForge'
+        type: boolean
+        default: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Prepare Modrinth Description
+        run: |
+          # 1. Copy README to a temporary file
+          cp README.md MODRINTH_BODY.md
+
+          # 2. Remove the Modrinth Badge block (the <a> tag containing modrinth_vector)
+          sed -i '/href="https:\/\/modrinth.com\/mod\/slice"/,+2d' MODRINTH_BODY.md
+
+          # 3. Remove the specific "Latest Slice version" disclaimer line
+          sed -i '/`Latest Slice version` doesn'\''t cite the latest \*\*\*published\*\*\* version/d' MODRINTH_BODY.md
+
+          # 4. Clean up extra double line breaks caused by deletions
+          sed -i '/^$/N;/^\n$/D' MODRINTH_BODY.md
+
+      - name: Process and Publish
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          GIT_USER: ${{ secrets.GIT_USER_NAME }}
+          GIT_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
+        run: |
+          # Configure Git using your secrets
+          git config --global user.name "$GIT_USER"
+          git config --global user.email "$GIT_EMAIL"
+
+          # Extract Minecraft version from gradle.properties
+          MC_VERSION=$(grep "minecraft_version" gradle.properties | cut -d'=' -f2)
+
+          # Badge URLs
+          COMMON_BADGE="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/available/github_vector.svg"
+          NEO_BADGE="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"
+          FORGE_BADGE="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg"
+          FABRIC_BADGE="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg"
+          QUILT_BADGE="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg"
+
+          # Loaders to process
+          LOADERS=""
+          if [ "${{ github.event.inputs.publish_fabric }}" = "true" ]; then LOADERS="$LOADERS fabric"; fi
+          if [ "${{ github.event.inputs.publish_forge }}" = "true" ]; then LOADERS="$LOADERS forge"; fi
+          if [ "${{ github.event.inputs.publish_neoforge }}" = "true" ]; then LOADERS="$LOADERS neoforge"; fi
+
+          for LOADER in $LOADERS; do
+            # Build the Stitching Changelog
+            echo "## <img width=\"20\" src=\"$COMMON_BADGE\"> Common and General" > STITCHED_CHANGELOG.md
+            cat common/CHANGELOG.md >> STITCHED_CHANGELOG.md
+            echo -e "\n" >> STITCHED_CHANGELOG.md
+
+            if [ "$LOADER" = "neoforge" ]; then
+                echo "## <img width=\"20\" src=\"$NEO_BADGE\"> NeoForge" >> STITCHED_CHANGELOG.md
+            elif [ "$LOADER" = "forge" ]; then
+                echo "## <img width=\"20\" src=\"$FORGE_BADGE\"> Forge" >> STITCHED_CHANGELOG.md
+            elif [ "$LOADER" = "fabric" ]; then
+                echo "## <img width=\"20\" src=\"$FABRIC_BADGE\"> Fabric / <img width=\"20\" src=\"$QUILT_BADGE\"> Quilt" >> STITCHED_CHANGELOG.md
+            fi
+
+            cat $LOADER/CHANGELOG.md >> STITCHED_CHANGELOG.md
+
+            # -------------------------------------------------------------------
+            # PUBLISH EXECUTION
+            # -------------------------------------------------------------------
+            # Note: This assumes you have a modrinth task in your build.gradle
+            # that accepts -Pchangelog and -Pbody arguments.
+
+            ./gradlew :$LOADER:modrinth \
+              -PversionName="${{ github.event.inputs.version_name }}" \
+              -PversionType="${{ github.event.inputs.version_type }}" \
+              -Pchangelog="$(cat STITCHED_CHANGELOG.md)" \
+              -Pbody="$(cat MODRINTH_BODY.md)" \
+              -PmcVersion="$MC_VERSION"
+
+            # Clear local loader changelog
+            echo "" > $LOADER/CHANGELOG.md
+          done
+
+          # Clear common changelog
+          echo "" > common/CHANGELOG.md
+
+      - name: Commit and Push Changes
+        run: |
+          git add .
+          # Check if there are changes to commit to avoid workflow failure
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Chore: clear changelogs for version ${{ github.event.inputs.version_name }} [skip ci]"
+            git push origin main
+          fi
