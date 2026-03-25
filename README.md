@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Slice Icon" title="Slice" src=".concepts/Title with sub.png"
+    <img alt="Slice Icon" title="Slice" src=".github/Title with sub.png"
   width="512">
 </p>
 
@@ -77,7 +77,6 @@
     <tr><td>1.21.4</td> <td>❌</td><td></td><td></td><td></td></tr>
     <tr><td>1.21.3</td> <td>❌</td><td></td><td></td><td></td></tr>
     <tr><td>1.21.2</td> <td>❌</td><td></td><td></td><td></td></tr>
-    <tr><td>1.21.1</td> <td>🔍</td><td></td><td></td><td></td></tr>
     <tr><td>1.21.1</td> <td>✅</td>
       <td>
         <img width="35" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"> 
@@ -233,6 +232,7 @@ Feel free to send feedback on the [issues page](https://github.com/Tomkov1c/Slic
     <h2>Credits</h2>
   </summary>
   <ul>
+    <li><a href="https://polyfrost.org/">Polyfrost Staff</a> (Listing my mod inside their client)</li>
     <li><a href="https://badges.penpow.dev/badges/">Fancy badges</a> (Readme badges)</li>
     <li><a href="https://intergrav.github.io/devins-badges-docs/">Devin's badges</a> (Readme badges)</li>
     <li><a href="https://github.com/jaredlll08/MultiLoader-Template">jaredlll08 (Multiloader template)</li>
