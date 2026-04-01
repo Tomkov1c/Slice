@@ -37,3 +37,5 @@ repo
 *.mp4
 
 .factorypath
+
+/META-INF/
