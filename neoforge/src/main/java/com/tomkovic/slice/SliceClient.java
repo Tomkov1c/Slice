@@ -52,14 +52,14 @@ public class SliceClient {
     }
 
     @SubscribeEvent
-    public static void onScreenClose(ScreenEvent.Closing event) {              
+    public static void onScreenClose(ScreenEvent.Closing event) {
         if (renderer != null) allowKeyBindHandling(true);
     }
 
     @SubscribeEvent
     public static void onRenderGui(RenderGuiEvent.Post event) {
         if (RadialMenuHandler.isMenuOpen && renderer != null)
-            SliceClient.renderer.render(event.getGuiGraphics(), event.getPartialTick().getGameTimeDeltaTicks());
+            SliceClient.renderer.render(event.getGuiGraphics(), event.getPartialTick());
     }
 
 
