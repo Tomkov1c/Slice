@@ -1,0 +1,41 @@
+name: Bug report
+description: Report a bug you found
+title: '[Bug] '
+labels: ['bug']
+assignees: []
+body:
+  - type: checkboxes
+    id: loader
+    attributes:
+      label: Loader
+      options:
+        - label: NeoForge
+        - label: Forge
+        - label: Fabric
+        - label: Quilt
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Minecraft version
+      placeholder: 1.16.3
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      placeholder: Pressing `N` makes the player do a 360
+    validations:
+      required: true
+
+  - type: textarea
+    id: how_to_reproduce
+    attributes:
+      label: How to reproduce
+      placeholder: Press `N`
+    validations:
+      required: false
