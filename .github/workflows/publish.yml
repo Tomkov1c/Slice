@@ -38,92 +38,151 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: '25'
 
       - name: Make Gradle Executable
         run: chmod +x gradlew
 
-      - name: Build with Gradle
-        run: ./gradlew build
-
-      - name: Prepare Modrinth Body (On-the-fly)
+      - name: Determine Selected Loaders
+        id: loaders
         run: |
-          # Create a clean project description from README
+          LOADERS=""
+          if [ "${{ github.event.inputs.publish_fabric }}" = "true" ]; then LOADERS="$LOADERS fabric"; fi
+          if [ "${{ github.event.inputs.publish_forge }}" = "true" ]; then LOADERS="$LOADERS forge"; fi
+          if [ "${{ github.event.inputs.publish_neoforge }}" = "true" ]; then LOADERS="$LOADERS neoforge"; fi
+          LOADERS="${LOADERS# }"
+          echo "loaders=$LOADERS" >> $GITHUB_OUTPUT
+
+      - name: Build Selected Loaders
+        run: |
+          for LOADER in ${{ steps.loaders.outputs.loaders }}; do
+            echo ">>> Building $LOADER"
+            ./gradlew :$LOADER:build
+          done
+
+      - name: Prepare Modrinth Body
+        run: |
           cp README.md MODRINTH_BODY.md
-
-          # Remove the Modrinth badge link block
           sed -i '/href="https:\/\/modrinth.com\/mod\/slice"/,+2d' MODRINTH_BODY.md
-
-          # Remove the specific version disclaimer line
           sed -i '/`Latest Slice version` doesn'\''t cite the latest \*\*\*published\*\*\* version/d' MODRINTH_BODY.md
-
-          # Clean up formatting
           sed -i '/^$/N;/^\n$/D' MODRINTH_BODY.md
 
-      - name: Process and Publish
+      - name: Publish to Modrinth
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
         run: |
-          # Hardcoded Project ID
           PROJECT_ID="dbuOrodS"
+          MC_VERSION=$(grep "^minecraft_version=" gradle.properties | cut -d'=' -f2 | tr -d '[:space:]')
 
-          # Extract Minecraft version from gradle.properties
-          MC_VERSION=$(grep "minecraft_version" gradle.properties | cut -d'=' -f2)
-
-          # Loader Badge URLs for the Stitched Changelog
           COMMON_B="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/available/github_vector.svg"
           NEO_B="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"
           FORGE_B="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg"
           FABRIC_B="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg"
           QUILT_B="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg"
 
-          # Determine which loaders to process
-          LOADERS=""
-          if [ "${{ github.event.inputs.publish_fabric }}" = "true" ]; then LOADERS="$LOADERS fabric"; fi
-          if [ "${{ github.event.inputs.publish_forge }}" = "true" ]; then LOADERS="$LOADERS forge"; fi
-          if [ "${{ github.event.inputs.publish_neoforge }}" = "true" ]; then LOADERS="$LOADERS neoforge"; fi
+          ANY_FAILED=0
 
-          for LOADER in $LOADERS; do
-            # Build the Stitched Changelog (Common + Loader Specific)
-            echo "## <img width=\"20\" src=\"$COMMON_B\"> Common and General" > STITCHED_CHANGELOG.md
-            cat common/CHANGELOG.md >> STITCHED_CHANGELOG.md
-            echo -e "\n" >> STITCHED_CHANGELOG.md
+          for LOADER in ${{ steps.loaders.outputs.loaders }}; do
+            echo ">>> Publishing $LOADER"
 
-            ACTUAL_LOADERS="$LOADER"
-            DEPS=""
+            # Build stitched changelog
+            {
+              echo "## <img width=\"20\" src=\"$COMMON_B\"> Common and General"
+              cat common/CHANGELOG.md
+              echo ""
+              echo ""
+              if [ "$LOADER" = "neoforge" ]; then
+                echo "## <img width=\"20\" src=\"$NEO_B\"> NeoForge"
+              elif [ "$LOADER" = "forge" ]; then
+                echo "## <img width=\"20\" src=\"$FORGE_B\"> Forge"
+              elif [ "$LOADER" = "fabric" ]; then
+                echo "## <img width=\"20\" src=\"$FABRIC_B\"> Fabric / <img width=\"20\" src=\"$QUILT_B\"> Quilt"
+              fi
+              cat $LOADER/CHANGELOG.md
+            } > STITCHED_CHANGELOG.md
 
-            if [ "$LOADER" = "neoforge" ]; then
-                echo "## <img width=\"20\" src=\"$NEO_B\"> NeoForge" >> STITCHED_CHANGELOG.md
+            CHANGELOG=$(cat STITCHED_CHANGELOG.md)
+
+            if [ "$LOADER" = "fabric" ]; then
+              LOADERS_JSON='["fabric","quilt"]'
+              DEPS_JSON='[
+                {"project_id":"P7dR8mSH","version_type":"required","dependency_type":"required"},
+                {"project_id":"9s6osm5g","version_type":"required","dependency_type":"optional"},
+                {"project_id":"mOgUt4GM","version_type":"required","dependency_type":"optional"}
+              ]'
             elif [ "$LOADER" = "forge" ]; then
-                echo "## <img width=\"20\" src=\"$FORGE_B\"> Forge" >> STITCHED_CHANGELOG.md
-            elif [ "$LOADER" = "fabric" ]; then
-                echo "## <img width=\"20\" src=\"$FABRIC_B\"> Fabric / <img width=\"20\" src=\"$QUILT_B\"> Quilt" >> STITCHED_CHANGELOG.md
-                ACTUAL_LOADERS="fabric quilt"
-                # Fabric-only dependencies as per your screenshot
-                DEPS="-Pdependencies=fabric-api:required,cloth-config:embedded,modmenu:optional"
+              LOADERS_JSON='["forge"]'
+              DEPS_JSON='[]'
+            elif [ "$LOADER" = "neoforge" ]; then
+              LOADERS_JSON='["neoforge"]'
+              DEPS_JSON='[]'
             fi
 
-            cat $LOADER/CHANGELOG.md >> STITCHED_CHANGELOG.md
+            JAR_PATH=$(find $LOADER/build/libs -name "*.jar" \
+              ! -name "*-sources*" \
+              ! -name "*-javadoc*" \
+              ! -name "*-dev*" \
+              | head -1)
 
-            # Publish via Gradle
-            ./gradlew :$LOADER:modrinth \
-              -PmodrinthId="$PROJECT_ID" \
-              -PversionName="${{ github.event.inputs.version_name }}" \
-              -PversionType="${{ github.event.inputs.version_type }}" \
-              -Pchangelog="$(cat STITCHED_CHANGELOG.md)" \
-              -Pbody="$(cat MODRINTH_BODY.md)" \
-              -PmcVersion="$MC_VERSION" \
-              -PmodrinthLoaders="$ACTUAL_LOADERS" \
-              $DEPS
+            if [ -z "$JAR_PATH" ]; then
+              echo "ERROR: No jar found for $LOADER"
+              ANY_FAILED=1
+              continue
+            fi
 
-            # Clear the local loader changelog
-            echo "" > $LOADER/CHANGELOG.md
+            echo ">>> Using jar: $JAR_PATH"
+
+            VERSION_DATA=$(jq -n \
+              --arg name "${{ github.event.inputs.version_name }}" \
+              --arg version_number "${{ github.event.inputs.version_name }}" \
+              --arg version_type "${{ github.event.inputs.version_type }}" \
+              --arg changelog "$CHANGELOG" \
+              --argjson loaders "$LOADERS_JSON" \
+              --argjson deps "$DEPS_JSON" \
+              --arg mc_version "$MC_VERSION" \
+              --arg project_id "$PROJECT_ID" \
+              --arg filename "$(basename $JAR_PATH)" \
+              '{
+                name: $name,
+                version_number: $version_number,
+                version_type: $version_type,
+                changelog: $changelog,
+                loaders: $loaders,
+                dependencies: $deps,
+                game_versions: [$mc_version],
+                project_id: $project_id,
+                file_parts: [$filename],
+                primary_file: $filename
+              }')
+
+            RESPONSE=$(curl -s -w "\n%{http_code}" \
+              -X POST "https://api.modrinth.com/v2/version" \
+              -H "Authorization: $MODRINTH_TOKEN" \
+              -F "data=$VERSION_DATA" \
+              -F "$(basename $JAR_PATH)=@$JAR_PATH")
+
+            HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+            BODY_RESP=$(echo "$RESPONSE" | head -1)
+
+            if [ "$HTTP_CODE" != "200" ]; then
+              echo "ERROR: Modrinth API returned $HTTP_CODE for $LOADER"
+              echo "$BODY_RESP"
+              ANY_FAILED=1
+            else
+              echo "SUCCESS: Published $LOADER — clearing its changelog"
+              echo "" > $LOADER/CHANGELOG.md
+            fi
           done
 
-          # Clear the common changelog
-          echo "" > common/CHANGELOG.md
+          if [ "$ANY_FAILED" = "0" ]; then
+            echo "All loaders published — clearing common changelog"
+            echo "" > common/CHANGELOG.md
+          else
+            echo "One or more loaders failed — common changelog NOT cleared"
+            exit 1
+          fi
 
-      - name: Commit and Push Changes
+      - name: Commit and Push Cleared Changelogs
         env:
           GIT_USER: ${{ secrets.GIT_USER_NAME }}
           GIT_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
