@@ -42,7 +42,7 @@ jobs:
               echo "No changes needed for $branch, skipping."
             else
               git add README.md
-              git commit -m "Chore: sync README from $SOURCE_BRANCH"
+              git commit -m "[CHORE] Sync README from $SOURCE_BRANCH"
               git push origin "$branch"
               echo "README pushed to $branch"
             fi
