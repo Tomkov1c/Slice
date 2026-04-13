@@ -65,13 +65,17 @@ jobs:
       - name: Prepare Modrinth Body
         run: |
           cp README.md MODRINTH_BODY.md
+
+          # Replace relative icon with Modrinth CDN version
+          sed -i 's|src=".github/Title with sub.png"|src="https://cdn.modrinth.com/data/cached_images/fc3a60516f4b9a25606c4bed70256fcda3018290.png"|' MODRINTH_BODY.md
+
+          # Replace relative .github/ image paths with absolute raw GitHub URLs
+          sed -i 's|!\[\([^]]*\)\](\(.github/[^)]*\))|![\1](https://raw.githubusercontent.com/Tomkov1c/Slice/HEAD/\2)|g' MODRINTH_BODY.md
+
+          # Strip Modrinth badge/link block and stale notice
           sed -i '/href="https:\/\/modrinth.com\/mod\/slice"/,+2d' MODRINTH_BODY.md
           sed -i '/`Latest Slice version` doesn'\''t cite the latest \*\*\*published\*\*\* version/d' MODRINTH_BODY.md
           sed -i '/^$/N;/^\n$/D' MODRINTH_BODY.md
-
-          sed -i 's|src="https://github.com/Tomkov1c/Slice/blob/[^"]*/.github/[^"]*icon[^"]*"|src="https://cdn.modrinth.com/data/cached_images/fc3a60516f4b9a25606c4bed70256fcda3018290.png"|gI' MODRINTH_BODY.md
-
-          sed -i 's|https://github.com/\([^/]*\)/\([^/]*\)/blob/\([^"]*\)|https://github.com/\1/\2/raw/\3|g' MODRINTH_BODY.md
 
       - name: Update Modrinth Description
         env:
@@ -215,7 +219,7 @@ jobs:
         run: |
           git config --global user.name "$GIT_USER"
           git config --global user.email "$GIT_EMAIL"
-          git add .
+          git add -- . ':!MODRINTH_BODY.md' ':!STITCHED_CHANGELOG.md'
           if ! git diff --staged --quiet; then
             git commit -m "Chore: clear changelogs for version ${{ github.event.inputs.version_name }} [skip ci]"
             git push origin HEAD
