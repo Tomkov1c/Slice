@@ -69,6 +69,10 @@ jobs:
           sed -i '/`Latest Slice version` doesn'\''t cite the latest \*\*\*published\*\*\* version/d' MODRINTH_BODY.md
           sed -i '/^$/N;/^\n$/D' MODRINTH_BODY.md
 
+          sed -i 's|src="https://github.com/Tomkov1c/Slice/blob/[^"]*/.github/[^"]*icon[^"]*"|src="https://cdn.modrinth.com/data/cached_images/fc3a60516f4b9a25606c4bed70256fcda3018290.png"|gI' MODRINTH_BODY.md
+
+          sed -i 's|https://github.com/\([^/]*\)/\([^/]*\)/blob/\([^"]*\)|https://github.com/\1/\2/raw/\3|g' MODRINTH_BODY.md
+
       - name: Update Modrinth Description
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
