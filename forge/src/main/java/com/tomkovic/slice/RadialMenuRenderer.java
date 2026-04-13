@@ -9,7 +9,7 @@ import com.tomkovic.slice.helpers.JsonHelper;
 import com.tomkovic.slice.helpers.RadialMenuHelper;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
@@ -96,7 +96,7 @@ public class RadialMenuRenderer {
         }
     }
 
-    public void render(GuiGraphics graphics, float partialTick) {
+    public void render(GuiGraphicsExtractor graphics, float partialTick) {
         if (!isRendering) return;
 
         if (!hasRenderedOnce) {
@@ -125,7 +125,7 @@ public class RadialMenuRenderer {
         hasRenderedOnce = true;
     }
 
-    private void renderVisibleSlots(GuiGraphics graphics) {
+    private void renderVisibleSlots(GuiGraphicsExtractor graphics) {
         for (SlotPosition pos : cachedSlotPositions) {
             boolean isActive = (pos.slotIndex == RadialMenuHandler.selectedSlot);
             boolean isHovered = (pos.slotIndex == RadialMenuHandler.hoveredSlot);
@@ -145,7 +145,7 @@ public class RadialMenuRenderer {
         }
     }
 
-    private void renderSlot(GuiGraphics graphics, int x, int y, boolean active, boolean hovered) {
+    private void renderSlot(GuiGraphicsExtractor graphics, int x, int y, boolean active, boolean hovered) {
         Identifier tex = active ? Constants.SLOT_ACTIVE_TEXTURE :
             hovered ? Constants.SLOT_HOVERED_TEXTURE :
             Constants.SLOT_TEXTURE;
@@ -155,7 +155,7 @@ public class RadialMenuRenderer {
             0F, 0F, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE, GlobalConfig.SLOT_SIZE);
     }
 
-    private void renderItem(GuiGraphics graphics, ItemStack stack, int x, int y, boolean active, boolean hovered) {
+    private void renderItem(GuiGraphicsExtractor graphics, ItemStack stack, int x, int y, boolean active, boolean hovered) {
 
         int xOffset = active ? jsonConfig.itemXOffsetActive : (hovered ? jsonConfig.itemXOffsetHovered : jsonConfig.itemXOffset);
         int yOffset = active ? jsonConfig.itemYOffsetActive : (hovered ? jsonConfig.itemXOffsetHovered : jsonConfig.itemXOffset);
@@ -171,15 +171,14 @@ public class RadialMenuRenderer {
 
         if (stack == null) return;
 
-        graphics.renderItem(stack, ix, iy);
+        graphics.item(stack, ix, iy);
 
         if (mc.font == null) return;
 
-        graphics.renderItemDecorations(mc.font, stack, ix, iy);
-        graphics.pose().popMatrix();
+        graphics.itemDecorations(mc.font, stack, ix, iy);
     }
 
-    private void renderSlotNumber(GuiGraphics graphics, int index, int x, int y, boolean active, boolean hovered) {
+    private void renderSlotNumber(GuiGraphicsExtractor graphics, int index, int x, int y, boolean active, boolean hovered) {
 
         String num = String.valueOf(index + 1);
 
@@ -197,10 +196,10 @@ public class RadialMenuRenderer {
 
         if (mc.font == null) return;
 
-        graphics.drawString(mc.font, num, tx, ty, col);
+        graphics.text(mc.font, num, tx, ty, col);
     }
 
-    private void renderBackground(GuiGraphics graphics, int screenWidth, int screenHeight) {
+    private void renderBackground(GuiGraphicsExtractor graphics, int screenWidth, int screenHeight) {
         int baseColor = JsonHelper.parseColor(jsonConfig.backgroundOverlayColor, 0);
 
         int colorWithAlpha = (GlobalConfig.BACKGROUND_OPACITY << 24) | (baseColor & 0xFFFFFF);

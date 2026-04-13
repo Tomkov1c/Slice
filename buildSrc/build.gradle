@@ -7,3 +7,13 @@ java {
         languageVersion = JavaLanguageVersion.of(21)
     }
 }
+
+repositories {
+    maven { url = 'https://maven.minecraftforge.net' }
+    mavenCentral()
+    gradlePluginPortal()
+}
+
+dependencies {
+    implementation 'net.minecraftforge.gradle:net.minecraftforge.gradle.gradle.plugin:[7.0.17,8)'
+}
