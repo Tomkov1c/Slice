@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       version_name:
-        description: 'Version Name (e.g., 1.0.0)'
+        description: 'Version Name (e.g., Hotfix, Optimization update)'
         required: true
       version_type:
         description: 'Release Type'
@@ -102,6 +102,7 @@ jobs:
         run: |
           PROJECT_ID="dbuOrodS"
           MC_VERSION=$(grep "^minecraft_version=" gradle.properties | cut -d'=' -f2 | tr -d '[:space:]')
+          MOD_VERSION=$(grep "^version=" gradle.properties | cut -d'=' -f2 | tr -d '[:space:]')
 
           COMMON_B="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/available/github_vector.svg"
           NEO_B="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"
@@ -163,7 +164,7 @@ jobs:
 
             VERSION_DATA=$(jq -n \
               --arg name "${{ github.event.inputs.version_name }}" \
-              --arg version_number "${{ github.event.inputs.version_name }}-$LOADER" \
+              --arg version_number "$MOD_VERSION-$LOADER" \
               --arg version_type "${{ github.event.inputs.version_type }}" \
               --arg changelog "$CHANGELOG" \
               --argjson loaders "$LOADERS_JSON" \
