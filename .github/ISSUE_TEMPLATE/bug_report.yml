@@ -10,11 +10,15 @@ body:
       label: Loader
       options:
         - label: NeoForge
+          required: false
         - label: Forge
+          required: false
         - label: Fabric
+          required: false
         - label: Quilt
+          required: false
     validations:
-      required: true
+        required: true
 
   - type: input
     id: version
