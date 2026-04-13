@@ -163,7 +163,7 @@ jobs:
 
             VERSION_DATA=$(jq -n \
               --arg name "${{ github.event.inputs.version_name }}" \
-              --arg version_number "${{ github.event.inputs.version_name }}" \
+              --arg version_number "${{ github.event.inputs.version_name }}-$LOADER" \
               --arg version_type "${{ github.event.inputs.version_type }}" \
               --arg changelog "$CHANGELOG" \
               --argjson loaders "$LOADERS_JSON" \
