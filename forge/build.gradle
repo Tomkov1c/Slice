@@ -74,7 +74,7 @@ processResources {
         expand(
             'mod_id'           : mod_id,
             'mod_name'         : mod_name,
-            'version'      : version,
+            'version'          : version,
             'minecraft_version': minecraft_version,
             'forge_version'    : forge_version
         )
