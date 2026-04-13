@@ -152,7 +152,8 @@ jobs:
                 game_versions: [$mc_version],
                 project_id: $project_id,
                 file_parts: [$filename],
-                primary_file: $filename
+                primary_file: $filename,
+                featured: false
               }')
 
             RESPONSE=$(curl -s -w "\n%{http_code}" \
