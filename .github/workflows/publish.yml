@@ -103,6 +103,7 @@ jobs:
           PROJECT_ID="dbuOrodS"
           MC_VERSION=$(grep "^minecraft_version=" gradle.properties | cut -d'=' -f2 | tr -d '[:space:]')
           MOD_VERSION=$(grep "^version=" gradle.properties | cut -d'=' -f2 | tr -d '[:space:]')
+          echo "MOD_VERSION=$MOD_VERSION" >> $GITHUB_ENV
 
           COMMON_B="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/available/github_vector.svg"
           NEO_B="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"
@@ -222,6 +223,6 @@ jobs:
           git config --global user.email "$GIT_EMAIL"
           git add -- . ':!MODRINTH_BODY.md' ':!STITCHED_CHANGELOG.md'
           if ! git diff --staged --quiet; then
-            git commit -m "Chore: clear changelogs for version ${{ github.event.inputs.version_name }} [skip ci]"
+            git commit -m "Chore: clear changelogs for version $MOD_VERSION"
             git push origin HEAD
           fi
