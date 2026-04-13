@@ -67,6 +67,25 @@ jobs:
           sed -i '/`Latest Slice version` doesn'\''t cite the latest \*\*\*published\*\*\* version/d' MODRINTH_BODY.md
           sed -i '/^$/N;/^\n$/D' MODRINTH_BODY.md
 
+      - name: Update Modrinth Description
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+        run: |
+          PROJECT_ID="dbuOrodS"
+          BODY=$(cat MODRINTH_BODY.md)
+          RESPONSE=$(curl -s -w "\n%{http_code}" \
+            -X PATCH "https://api.modrinth.com/v2/project/$PROJECT_ID" \
+            -H "Authorization: $MODRINTH_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "$(jq -n --arg body "$BODY" '{body: $body}')")
+          HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+          if [ "$HTTP_CODE" != "204" ]; then
+            echo "ERROR: Failed to update project description (HTTP $HTTP_CODE)"
+            echo "$RESPONSE" | head -1
+            exit 1
+          fi
+          echo "SUCCESS: Project description updated"
+
       - name: Publish to Modrinth
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
@@ -193,5 +212,5 @@ jobs:
           git add .
           if ! git diff --staged --quiet; then
             git commit -m "Chore: clear changelogs for version ${{ github.event.inputs.version_name }} [skip ci]"
-            git push origin main
+            git push origin HEAD
           fi
