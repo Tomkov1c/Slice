@@ -1,0 +1,14 @@
+name: Feature request
+description: Got an idead for a feature?
+title: '[Feature request] '
+labels: ['feature request']
+assignees: []
+
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      placeholder: Please describe your idea. The more specific the better.
+    validations:
+      required: true
