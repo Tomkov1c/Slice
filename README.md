@@ -31,7 +31,7 @@
 
 ## Supported Versions
 > **FYI**: <br> ✅ - Supported, ❌ - Unsupported, 🔍 - Planned / In development
-<br> Minimum loader versions are in the same order as loaders in `Loaders` column <br> `Latest Slice version` doesn't cite the latest ***published*** version. Check the [Modrinth page](https://modrinth.com/mod/slice) for the latest available version.<br> Main development currently resides on version **`1.21.11`**. Why? idk
+<br> Minimum loader versions are in the same order as loaders in `Loaders` column <br> `Latest Slice version` doesn't cite the latest ***published*** version. Check the [Modrinth page](https://modrinth.com/mod/slice) for the latest available version.<br> Main development currently resides on version **`26.1`**. Why? idk
 
 <table>
     <th>Version</th>
