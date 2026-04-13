@@ -1,6 +1,5 @@
 <p align="center">
-    <img alt="Slice Icon" title="Slice" src=".github/Title with sub.png"
-  width="512">
+    <img alt="Slice Icon" title="Slice" src=".github/Title with sub.png" width="512">
 </p>
 
 <br>
@@ -40,7 +39,15 @@
     <th>Loaders</th>
     <th>Minimum required version</th>
     <th>Latest Slice version</th>
-    <tr><td>26.1</td> <td>❌</td><td></td><td></td><td></td></tr>
+    <tr><td>26.1</td> <td>✅</td>
+        <td>
+            <img width="35" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"> 
+            <img width="35" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg"> 
+            <img width="35" src="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg">
+        </td>
+        <td><code>26.1.0.1-beta</code>, <code>62.0.9</code>, <code>0.18.4</code></td>
+        <td><code>1.0.1</code></td>
+    </tr>
     <tr><td>1.21.11</td>  <td>✅</td>
         <td>
           <img width="35" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"> 
@@ -164,6 +171,7 @@
   <table>
     <th>Minecraft version</th>
     <th>Minimum FabricAPI version</th>
+    <tr><td>26.1</td><td><code>0.144.0+26.1</code></td></tr>
     <tr><td>1.21.11</td><td><code>0.139.4+1.21.11</code></td></tr>
     <tr><td>1.21.10</td><td><code>0.134.1+1.21.10</code></td></tr>
     <tr><td>1.21.9</td><td><code>0.133.14+1.21.9</code></td></tr>
@@ -229,9 +237,7 @@ Main Menu > Mods > *Select Slice* > -Config button next to the name-
 Feel free to send feedback on the [issues page](https://github.com/Tomkov1c/Slice/issues). Feature requests and bug reports are always welcome! Stars too :)
 
 <details>
-  <summary>
-    <h2>Credits</h2>
-  </summary>
+  <summary>Credits</summary>
   <ul>
     <li><a href="https://polyfrost.org/">Polyfrost Staff</a> (Listing my mod inside their client)</li>
     <li><a href="https://badges.penpow.dev/badges/">Fancy badges</a> (Readme badges)</li>
