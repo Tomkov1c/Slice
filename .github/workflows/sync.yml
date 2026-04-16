@@ -1,0 +1,120 @@
+name: Sync files
+
+on:
+  workflow_dispatch:
+    inputs:
+      sync_funding:
+        description: 'Sync .github/FUNDING.yml'
+        type: boolean
+        default: false
+      sync_links:
+        description: 'Sync gradle.properties links'
+        type: boolean
+        default: false
+      sync_readme:
+        description: 'Sync README.md'
+        type: boolean
+        default: false
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout source branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "${{ secrets.GIT_USER_NAME }}"
+          git config user.email "${{ secrets.GIT_USER_EMAIL }}"
+
+      - name: Cache files to sync
+        run: |
+          mkdir -p /tmp/sync
+
+          if [ "${{ inputs.sync_funding }}" = "true" ]; then
+            cp .github/FUNDING.yml /tmp/sync/FUNDING.yml
+            echo "::notice::Cached FUNDING.yml"
+          fi
+
+          if [ "${{ inputs.sync_links }}" = "true" ]; then
+            grep -E '^[a-zA-Z_]+=https?://' gradle.properties > /tmp/sync/links.txt
+            echo "::notice::Cached $(wc -l < /tmp/sync/links.txt) link(s) from gradle.properties"
+          fi
+
+          if [ "${{ inputs.sync_readme }}" = "true" ]; then
+            cp README.md /tmp/sync/README.md
+            echo "::notice::Cached README.md"
+          fi
+
+      - name: Sync to all other branches
+        run: |
+          SOURCE_BRANCH="${{ github.ref_name }}"
+
+          branches=$(git branch -r | grep -v 'HEAD' | grep -v "origin/$SOURCE_BRANCH" | sed 's/origin\///')
+          branch_count=$(echo "$branches" | grep -c '\S' || true)
+          echo "::notice::Processing $branch_count branch(es)"
+
+          total_synced=0
+          total_skipped=0
+
+          for branch in $branches; do
+            echo "::group::$branch"
+            git checkout "$branch" 2>&1
+            changed_files=""
+
+            # --- FUNDING.yml ---
+            if [ "${{ inputs.sync_funding }}" = "true" ]; then
+              mkdir -p .github
+              cp /tmp/sync/FUNDING.yml .github/FUNDING.yml
+              git diff --quiet .github/FUNDING.yml || changed_files="$changed_files .github/FUNDING.yml"
+            fi
+
+            # --- gradle.properties links ---
+            if [ "${{ inputs.sync_links }}" = "true" ]; then
+              if [ ! -f gradle.properties ]; then
+                echo "::warning::No gradle.properties found — skipping links"
+              else
+                while IFS= read -r link_line; do
+                  key=$(echo "$link_line" | cut -d'=' -f1)
+                  if grep -q "^${key}=" gradle.properties; then
+                    sed -i "s|^${key}=.*|${link_line}|" gradle.properties
+                  else
+                    echo "$link_line" >> gradle.properties
+                  fi
+                done < /tmp/sync/links.txt
+                git diff --quiet gradle.properties || changed_files="$changed_files gradle.properties"
+              fi
+            fi
+
+            # --- README.md ---
+            if [ "${{ inputs.sync_readme }}" = "true" ]; then
+              cp /tmp/sync/README.md README.md
+              git diff --quiet README.md || changed_files="$changed_files README.md"
+            fi
+
+            # Commit each changed file separately
+            branch_pushed=false
+            for f in $changed_files; do
+              git add "$f"
+              label="\`$(basename $f)\`"
+              git commit -m "[CHORE] Sync $label from $SOURCE_BRANCH"
+              branch_pushed=true
+            done
+            if [ "$branch_pushed" = "true" ]; then
+              git push origin "$branch"
+              echo "::notice::Pushed — $changed_files"
+              total_synced=$((total_synced + 1))
+            else
+              echo "::notice::No changes — skipping"
+              total_skipped=$((total_skipped + 1))
+            fi
+
+            echo "::endgroup::"
+          done
+
+          echo ""
+          echo "::notice::Done — $total_synced synced, $total_skipped skipped"
