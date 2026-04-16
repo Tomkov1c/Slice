@@ -1,0 +1,48 @@
+name: Sync FUNDING.yml
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - $default-branch
+    paths:
+      - '.github/FUNDING.yml'
+
+jobs:
+  sync-funding:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout source branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Sync FUNDING.yml to all other branches
+        run: |
+          git config user.name "${{ secrets.GIT_USER_NAME }}"
+          git config user.email "${{ secrets.GIT_USER_EMAIL }}"
+
+          SOURCE_BRANCH="${{ github.ref_name }}"
+          mkdir -p /tmp/github-funding
+          cp .github/FUNDING.yml /tmp/github-funding/FUNDING.yml
+
+          branches=$(git branch -r | grep -v 'HEAD' | grep -v "origin/$SOURCE_BRANCH" | sed 's/origin\///')
+
+          for branch in $branches; do
+            echo ">>> Processing branch: $branch"
+            git checkout "$branch"
+
+            mkdir -p .github
+            cp /tmp/github-funding/FUNDING.yml .github/FUNDING.yml
+
+            if git diff --quiet .github/FUNDING.yml; then
+              echo "No changes needed for $branch, skipping."
+            else
+              git add .github/FUNDING.yml
+              git commit -m "[CHORE] Sync FUNDING.yml from $SOURCE_BRANCH"
+              git push origin "$branch"
+              echo "FUNDING.yml pushed to $branch"
+            fi
+          done
