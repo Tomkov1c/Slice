@@ -21,10 +21,10 @@
             "${group}.Slice"
         ],
         "client": [
-            "com.tomkovic.slice.SliceClient"
+            "com.ansi.slice.SliceClient"
         ],
         "modmenu": [
-            "com.tomkovic.slice.integrations.ModMenuIntegration"
+            "com.ansi.slice.integrations.ModMenuIntegration"
         ]
     },
     "depends": {
