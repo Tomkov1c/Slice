@@ -1,4 +1,5 @@
 name: Publish to Modrinth
+
 on:
   workflow_dispatch:
     inputs:
@@ -28,9 +29,9 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-          contents: write
+      contents: write
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -42,10 +43,10 @@ jobs:
           distribution: 'temurin'
           java-version: '25'
 
-      - name: Make Gradle Executable
+      - name: Make Gradle executable
         run: chmod +x gradlew
 
-      - name: Determine Selected Loaders
+      - name: Resolve selected loaders
         id: loaders
         run: |
           LOADERS=""
@@ -53,31 +54,36 @@ jobs:
           if [ "${{ github.event.inputs.publish_forge }}" = "true" ]; then LOADERS="$LOADERS forge"; fi
           if [ "${{ github.event.inputs.publish_neoforge }}" = "true" ]; then LOADERS="$LOADERS neoforge"; fi
           LOADERS="${LOADERS# }"
-          echo "loaders=$LOADERS" >> $GITHUB_OUTPUT
 
-      - name: Build Selected Loaders
+          if [ -z "$LOADERS" ]; then
+            echo "::error::No loaders selected — enable at least one loader input before running."
+            exit 1
+          fi
+
+          echo "loaders=$LOADERS" >> $GITHUB_OUTPUT
+          echo "::notice::Selected loaders: $LOADERS"
+
+      - name: Build selected loaders
         run: |
           for LOADER in ${{ steps.loaders.outputs.loaders }}; do
-            echo ">>> Building $LOADER"
+            echo "::group::$LOADER"
             ./gradlew :$LOADER:build
+            echo "::endgroup::"
           done
 
-      - name: Prepare Modrinth Body
+      - name: Prepare Modrinth body
         run: |
           cp README.md MODRINTH_BODY.md
 
-          # Replace relative icon with Modrinth CDN version
           sed -i 's|src=".github/Title with sub.png"|src="https://cdn.modrinth.com/data/cached_images/fc3a60516f4b9a25606c4bed70256fcda3018290.png"|' MODRINTH_BODY.md
-
-          # Replace relative .github/ image paths with absolute raw GitHub URLs
           sed -i 's|!\[\([^]]*\)\](\(.github/[^)]*\))|![\1](https://raw.githubusercontent.com/ansi-sudo/Slice/HEAD/\2)|g' MODRINTH_BODY.md
-
-          # Strip Modrinth badge/link block and stale notice
           sed -i '/href="https:\/\/modrinth.com\/mod\/slice"/,+2d' MODRINTH_BODY.md
           sed -i '/`Latest Slice version` doesn'\''t cite the latest \*\*\*published\*\*\* version/d' MODRINTH_BODY.md
           sed -i '/^$/N;/^\n$/D' MODRINTH_BODY.md
 
-      - name: Update Modrinth Description
+          echo "::notice::Modrinth body prepared from README.md"
+
+      - name: Update Modrinth description
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
         run: |
@@ -88,13 +94,14 @@ jobs:
             -H "Authorization: $MODRINTH_TOKEN" \
             -H "Content-Type: application/json" \
             -d "$(jq -n --arg body "$BODY" '{body: $body}')")
+
           HTTP_CODE=$(echo "$RESPONSE" | tail -1)
           if [ "$HTTP_CODE" != "204" ]; then
-            echo "ERROR: Failed to update project description (HTTP $HTTP_CODE)"
+            echo "::error::Failed to update project description (HTTP $HTTP_CODE)"
             echo "$RESPONSE" | head -1
             exit 1
           fi
-          echo "SUCCESS: Project description updated"
+          echo "::notice::Project description updated successfully"
 
       - name: Publish to Modrinth
         env:
@@ -114,9 +121,8 @@ jobs:
           ANY_FAILED=0
 
           for LOADER in ${{ steps.loaders.outputs.loaders }}; do
-            echo ">>> Publishing $LOADER"
+            echo "::group::$LOADER"
 
-            # Build stitched changelog
             {
               echo "## <img width=\"20\" src=\"$COMMON_B\"> Common and General"
               cat common/CHANGELOG.md
@@ -156,12 +162,13 @@ jobs:
               | head -1)
 
             if [ -z "$JAR_PATH" ]; then
-              echo "ERROR: No jar found for $LOADER"
+              echo "::error::No jar found for $LOADER in $LOADER/build/libs"
               ANY_FAILED=1
+              echo "::endgroup::"
               continue
             fi
 
-            echo ">>> Using jar: $JAR_PATH"
+            echo "Using jar: $JAR_PATH"
 
             VERSION_DATA=$(jq -n \
               --arg name "${{ github.event.inputs.version_name }}" \
@@ -197,24 +204,26 @@ jobs:
             BODY_RESP=$(echo "$RESPONSE" | head -1)
 
             if [ "$HTTP_CODE" != "200" ]; then
-              echo "ERROR: Modrinth API returned $HTTP_CODE for $LOADER"
+              echo "::error::Modrinth API returned HTTP $HTTP_CODE for $LOADER"
               echo "$BODY_RESP"
               ANY_FAILED=1
             else
-              echo "SUCCESS: Published $LOADER — clearing its changelog"
+              echo "::notice::Published successfully — clearing $LOADER changelog"
               echo "" > $LOADER/CHANGELOG.md
             fi
+
+            echo "::endgroup::"
           done
 
           if [ "$ANY_FAILED" = "0" ]; then
-            echo "All loaders published — clearing common changelog"
+            echo "::notice::All loaders published — clearing common changelog"
             echo "" > common/CHANGELOG.md
           else
-            echo "One or more loaders failed — common changelog NOT cleared"
+            echo "::error::One or more loaders failed — common changelog NOT cleared"
             exit 1
           fi
 
-      - name: Commit and Push Cleared Changelogs
+      - name: Commit cleared changelogs
         env:
           GIT_USER: ${{ secrets.GIT_USER_NAME }}
           GIT_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
@@ -222,7 +231,10 @@ jobs:
           git config --global user.name "$GIT_USER"
           git config --global user.email "$GIT_EMAIL"
           git add -- . ':!MODRINTH_BODY.md' ':!STITCHED_CHANGELOG.md'
-          if ! git diff --staged --quiet; then
+          if git diff --staged --quiet; then
+            echo "::notice::No changelog changes to commit"
+          else
             git commit -m "[CHORE] Clear changelogs for version $MOD_VERSION"
             git push origin HEAD
+            echo "::notice::Changelogs committed and pushed"
           fi

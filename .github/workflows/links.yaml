@@ -19,49 +19,67 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Sync links in gradle.properties to all other branches
+      - name: Configure git
         run: |
           git config user.name "${{ secrets.GIT_USER_NAME }}"
           git config user.email "${{ secrets.GIT_USER_EMAIL }}"
 
+      - name: Extract links from gradle.properties
+        run: |
+          grep -E '^[a-zA-Z_]+=https?://' gradle.properties > /tmp/links.txt
+          link_count=$(wc -l < /tmp/links.txt)
+          echo "::notice::Found $link_count link(s) to sync:"
+          while IFS= read -r line; do
+            echo "  $line"
+          done < /tmp/links.txt
+
+      - name: Sync links to all other branches
+        run: |
           SOURCE_BRANCH="${{ github.ref_name }}"
 
-          # Extract the link lines from the source gradle.properties
-          # Matches lines like: key=https://...
-          grep -E '^[a-zA-Z_]+=https?://' gradle.properties > /tmp/links.txt
-          echo ">>> Links to sync:"
-          cat /tmp/links.txt
-
           branches=$(git branch -r | grep -v 'HEAD' | grep -v "origin/$SOURCE_BRANCH" | sed 's/origin\///')
+          branch_count=$(echo "$branches" | grep -c '\S' || true)
+
+          echo "::notice::Syncing gradle.properties links from \`$SOURCE_BRANCH\` to $branch_count branch(es)"
+
+          synced=0
+          skipped=0
+          missing=0
 
           for branch in $branches; do
-            echo ">>> Processing branch: $branch"
-            git checkout "$branch"
+            echo "::group::$branch"
+
+            git checkout "$branch" 2>&1
 
             if [ ! -f gradle.properties ]; then
-              echo "No gradle.properties found on $branch, skipping."
+              echo "::warning::No gradle.properties found — skipping"
+              missing=$((missing + 1))
+              echo "::endgroup::"
               continue
             fi
 
-            # For each link key=value from source, replace the matching line in target
-            changed=false
             while IFS= read -r link_line; do
               key=$(echo "$link_line" | cut -d'=' -f1)
-              # Replace the line with this key if it exists, otherwise append it
               if grep -q "^${key}=" gradle.properties; then
                 sed -i "s|^${key}=.*|${link_line}|" gradle.properties
               else
                 echo "$link_line" >> gradle.properties
               fi
-              changed=true
             done < /tmp/links.txt
 
             if git diff --quiet gradle.properties; then
-              echo "No changes needed for $branch, skipping."
+              echo "::notice::No changes — skipping"
+              skipped=$((skipped + 1))
             else
               git add gradle.properties
-              git commit -m "[CHORE] Sync links in `gradle.properties` from $SOURCE_BRANCH"
+              git commit -m "[CHORE] Sync links in \`gradle.properties\` from $SOURCE_BRANCH"
               git push origin "$branch"
-              echo "gradle.properties links pushed to $branch"
+              echo "::notice::Pushed successfully"
+              synced=$((synced + 1))
             fi
+
+            echo "::endgroup::"
           done
+
+          echo ""
+          echo "::notice::Done — $synced synced, $skipped skipped, $missing missing"
