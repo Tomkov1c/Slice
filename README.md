@@ -229,7 +229,7 @@ Main Menu > Mods > *Select Slice* > -Config button next to the name-
 
 ## Feedback
 
-Feel free to send feedback on the [issues page](https://github.com/Tomkov1c/Slice/issues). Feature requests and bug reports are always welcome! Stars too :)
+Feel free to send feedback on the [issues page](https://github.com/ansi-sudo/Slice/issues). Feature requests and bug reports are always welcome! Stars too :)
 
 <details>
   <summary>Credits</summary>

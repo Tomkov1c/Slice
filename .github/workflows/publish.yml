@@ -70,7 +70,7 @@ jobs:
           sed -i 's|src=".github/Title with sub.png"|src="https://cdn.modrinth.com/data/cached_images/fc3a60516f4b9a25606c4bed70256fcda3018290.png"|' MODRINTH_BODY.md
 
           # Replace relative .github/ image paths with absolute raw GitHub URLs
-          sed -i 's|!\[\([^]]*\)\](\(.github/[^)]*\))|![\1](https://raw.githubusercontent.com/Tomkov1c/Slice/HEAD/\2)|g' MODRINTH_BODY.md
+          sed -i 's|!\[\([^]]*\)\](\(.github/[^)]*\))|![\1](https://raw.githubusercontent.com/ansi-sudo/Slice/HEAD/\2)|g' MODRINTH_BODY.md
 
           # Strip Modrinth badge/link block and stale notice
           sed -i '/href="https:\/\/modrinth.com\/mod\/slice"/,+2d' MODRINTH_BODY.md
