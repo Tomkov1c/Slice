@@ -247,6 +247,6 @@ Feel free to send feedback on the [issues page](https://github.com/Tomkov1c/Slic
 
 <hr>
 
-<a href="https://ko-fi.com/tomkliner">
+<a href="https://ko-fi.com/ansi">
   <img alt="ghsponsors-singular" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/kofi-singular_vector.svg">
 </a>
