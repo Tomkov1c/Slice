@@ -41,7 +41,7 @@ jobs:
               echo "No changes needed for $branch, skipping."
             else
               git add .github/FUNDING.yml
-              git commit -m "[CHORE] Sync FUNDING.yml from $SOURCE_BRANCH"
+              git commit -m "[CHORE] Sync `FUNDING.yml` from $SOURCE_BRANCH"
               git push origin "$branch"
               echo "FUNDING.yml pushed to $branch"
             fi

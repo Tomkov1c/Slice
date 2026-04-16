@@ -60,7 +60,7 @@ jobs:
               echo "No changes needed for $branch, skipping."
             else
               git add gradle.properties
-              git commit -m "[CHORE] Sync links in gradle.properties from $SOURCE_BRANCH"
+              git commit -m "[CHORE] Sync links in `gradle.properties` from $SOURCE_BRANCH"
               git push origin "$branch"
               echo "gradle.properties links pushed to $branch"
             fi
