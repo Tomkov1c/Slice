@@ -2,8 +2,6 @@ package com.ansi.slice;
 
 import java.util.Objects;
 
-import com.ansi.slice.Constants;
-import com.ansi.slice.GlobalConfig;
 import com.ansi.slice.classes.SlotPosition;
 import com.ansi.slice.classes.TexturePackCustomValues;
 import com.ansi.slice.handlers.RadialMenuHandler;

@@ -1,6 +1,5 @@
 package com.ansi.slice;
 
-import com.ansi.slice.GlobalConfig;
 
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;

@@ -1,7 +1,6 @@
 package com.ansi.slice;
 
 import com.ansi.slice.handlers.RadialMenuHandler;
-import com.ansi.slice.Constants;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;

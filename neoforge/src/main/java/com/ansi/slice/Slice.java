@@ -1,7 +1,6 @@
 package com.ansi.slice;
 
 import com.ansi.slice.handlers.ConfigHandler;
-import com.ansi.slice.Constants;
 
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;

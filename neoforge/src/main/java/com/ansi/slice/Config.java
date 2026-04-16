@@ -5,7 +5,6 @@ import net.neoforged.neoforge.common.ModConfigSpec.BooleanValue;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.ansi.slice.GlobalConfig;
 
 public class Config {
     public static final Config CONFIG;
