@@ -15,11 +15,21 @@ on:
         description: 'Sync README.md'
         type: boolean
         default: false
+      sync_publish_workflow:
+        description: 'Sync .github/workflows/publish.yml'
+        type: boolean
+        default: false
+      sync_sync_workflow:
+        description: 'Sync .github/workflows/sync.yaml'
+        type: boolean
+        default: false
+
 jobs:
   sync:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      actions: write # Critical for syncing workflow files
     steps:
       - name: Checkout source branch
         uses: actions/checkout@v4
@@ -42,7 +52,7 @@ jobs:
 
           if [ "${{ inputs.sync_links }}" = "true" ]; then
             grep -E '^[a-zA-Z_]+=https?://' gradle.properties > /tmp/sync/links.txt
-            echo "::notice::Cached $(wc -l < /tmp/sync/links.txt) link(s) from gradle.properties"
+            echo "::notice::Cached links from gradle.properties"
           fi
 
           if [ "${{ inputs.sync_readme }}" = "true" ]; then
@@ -50,16 +60,20 @@ jobs:
             echo "::notice::Cached README.md"
           fi
 
+          if [ "${{ inputs.sync_publish_workflow }}" = "true" ]; then
+            cp .github/workflows/publish.yml /tmp/sync/publish.yml
+            echo "::notice::Cached publish.yml"
+          fi
+
+          if [ "${{ inputs.sync_sync_workflow }}" = "true" ]; then
+            cp .github/workflows/sync.yaml /tmp/sync/sync.yaml
+            echo "::notice::Cached sync.yaml"
+          fi
+
       - name: Sync to all other branches
         run: |
           SOURCE_BRANCH="${{ github.ref_name }}"
-
           branches=$(git branch -r | grep -v 'HEAD' | grep -v "origin/$SOURCE_BRANCH" | sed 's/origin\///')
-          branch_count=$(echo "$branches" | grep -c '\S' || true)
-          echo "::notice::Processing $branch_count branch(es)"
-
-          total_synced=0
-          total_skipped=0
 
           for branch in $branches; do
             echo "::group::$branch"
@@ -73,11 +87,23 @@ jobs:
               git diff --quiet .github/FUNDING.yml || changed_files="$changed_files .github/FUNDING.yml"
             fi
 
+            # --- publish.yml ---
+            if [ "${{ inputs.sync_publish_workflow }}" = "true" ]; then
+              mkdir -p .github/workflows
+              cp /tmp/sync/publish.yml .github/workflows/publish.yml
+              git diff --quiet .github/workflows/publish.yml || changed_files="$changed_files .github/workflows/publish.yml"
+            fi
+
+            # --- sync.yaml ---
+            if [ "${{ inputs.sync_sync_workflow }}" = "true" ]; then
+              mkdir -p .github/workflows
+              cp /tmp/sync/sync.yaml .github/workflows/sync.yaml
+              git diff --quiet .github/workflows/sync.yaml || changed_files="$changed_files .github/workflows/sync.yaml"
+            fi
+
             # --- gradle.properties links ---
             if [ "${{ inputs.sync_links }}" = "true" ]; then
-              if [ ! -f gradle.properties ]; then
-                echo "::warning::No gradle.properties found — skipping links"
-              else
+              if [ -f gradle.properties ]; then
                 while IFS= read -r link_line; do
                   key=$(echo "$link_line" | cut -d'=' -f1)
                   if grep -q "^${key}=" gradle.properties; then
@@ -100,21 +126,16 @@ jobs:
             branch_pushed=false
             for f in $changed_files; do
               git add "$f"
-              label="\`$(basename $f)\`"
-              git commit -m "[CHORE] Sync $label from $SOURCE_BRANCH"
+              git commit -m "[CHORE] Sync $(basename $f) from $SOURCE_BRANCH"
               branch_pushed=true
             done
+
             if [ "$branch_pushed" = "true" ]; then
               git push origin "$branch"
-              echo "::notice::Pushed — $changed_files"
-              total_synced=$((total_synced + 1))
+              echo "::notice::Synced changes to $branch"
             else
-              echo "::notice::No changes — skipping"
-              total_skipped=$((total_skipped + 1))
+              echo "::notice::No changes for $branch"
             fi
 
             echo "::endgroup::"
           done
-
-          echo ""
-          echo "::notice::Done — $total_synced synced, $total_skipped skipped"
