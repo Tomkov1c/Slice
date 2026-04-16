@@ -98,11 +98,17 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Read Java version
+        id: java_version
+        run: |
+          JAVA_VERSION=$(grep "^java_version=" gradle.properties | cut -d'=' -f2 | tr -d '[:space:]')
+          echo "java_version=$JAVA_VERSION" >> $GITHUB_OUTPUT
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '25'
+          java-version: ${{ steps.java_version.outputs.java_version }}
 
       - name: Make Gradle executable
         run: chmod +x gradlew
