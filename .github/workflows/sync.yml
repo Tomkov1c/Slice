@@ -23,13 +23,17 @@ on:
         description: 'Sync .github/workflows/sync.yaml'
         type: boolean
         default: false
+      sync_issue_templates:
+        description: 'Sync .github/ISSUE_TEMPLATE/*'
+        type: boolean
+        default: false
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      actions: write # Critical for syncing workflow files
+      actions: write
     steps:
       - name: Checkout source branch
         uses: actions/checkout@v4
@@ -43,31 +47,33 @@ jobs:
 
       - name: Cache files to sync
         run: |
-          mkdir -p /tmp/sync
+          mkdir -p /tmp/sync/issue_templates
 
           if [ "${{ inputs.sync_funding }}" = "true" ]; then
             cp .github/FUNDING.yml /tmp/sync/FUNDING.yml
-            echo "::notice::Cached FUNDING.yml"
           fi
 
           if [ "${{ inputs.sync_links }}" = "true" ]; then
             grep -E '^[a-zA-Z_]+=https?://' gradle.properties > /tmp/sync/links.txt
-            echo "::notice::Cached links from gradle.properties"
           fi
 
           if [ "${{ inputs.sync_readme }}" = "true" ]; then
             cp README.md /tmp/sync/README.md
-            echo "::notice::Cached README.md"
           fi
 
           if [ "${{ inputs.sync_publish_workflow }}" = "true" ]; then
             cp .github/workflows/publish.yml /tmp/sync/publish.yml
-            echo "::notice::Cached publish.yml"
           fi
 
           if [ "${{ inputs.sync_sync_workflow }}" = "true" ]; then
             cp .github/workflows/sync.yaml /tmp/sync/sync.yaml
-            echo "::notice::Cached sync.yaml"
+          fi
+
+          if [ "${{ inputs.sync_issue_templates }}" = "true" ]; then
+            if [ -d .github/ISSUE_TEMPLATE ]; then
+              cp -r .github/ISSUE_TEMPLATE/* /tmp/sync/issue_templates/
+              echo "::notice::Cached issue templates"
+            fi
           fi
 
       - name: Sync to all other branches
@@ -80,47 +86,48 @@ jobs:
             git checkout "$branch" 2>&1
             changed_files=""
 
+            # Function to stage a file and track it if changed
+            sync_file() {
+              local src=$1
+              local dest=$2
+              mkdir -p "$(dirname "$dest")"
+              cp "$src" "$dest"
+              if ! git diff --quiet "$dest"; then
+                changed_files="$changed_files $dest"
+              fi
+            }
+
             # --- FUNDING.yml ---
-            if [ "${{ inputs.sync_funding }}" = "true" ]; then
-              mkdir -p .github
-              cp /tmp/sync/FUNDING.yml .github/FUNDING.yml
-              git diff --quiet .github/FUNDING.yml || changed_files="$changed_files .github/FUNDING.yml"
-            fi
+            [ "${{ inputs.sync_funding }}" = "true" ] && sync_file /tmp/sync/FUNDING.yml .github/FUNDING.yml
 
-            # --- publish.yml ---
-            if [ "${{ inputs.sync_publish_workflow }}" = "true" ]; then
-              mkdir -p .github/workflows
-              cp /tmp/sync/publish.yml .github/workflows/publish.yml
-              git diff --quiet .github/workflows/publish.yml || changed_files="$changed_files .github/workflows/publish.yml"
-            fi
+            # --- Workflows ---
+            [ "${{ inputs.sync_publish_workflow }}" = "true" ] && sync_file /tmp/sync/publish.yml .github/workflows/publish.yml
+            [ "${{ inputs.sync_sync_workflow }}" = "true" ] && sync_file /tmp/sync/sync.yaml .github/workflows/sync.yaml
 
-            # --- sync.yaml ---
-            if [ "${{ inputs.sync_sync_workflow }}" = "true" ]; then
-              mkdir -p .github/workflows
-              cp /tmp/sync/sync.yaml .github/workflows/sync.yaml
-              git diff --quiet .github/workflows/sync.yaml || changed_files="$changed_files .github/workflows/sync.yaml"
+            # --- ISSUE_TEMPLATES ---
+            if [ "${{ inputs.sync_issue_templates }}" = "true" ]; then
+              for template in /tmp/sync/issue_templates/*; do
+                [ -e "$template" ] || continue
+                filename=$(basename "$template")
+                sync_file "$template" ".github/ISSUE_TEMPLATE/$filename"
+              done
             fi
 
             # --- gradle.properties links ---
-            if [ "${{ inputs.sync_links }}" = "true" ]; then
-              if [ -f gradle.properties ]; then
-                while IFS= read -r link_line; do
-                  key=$(echo "$link_line" | cut -d'=' -f1)
-                  if grep -q "^${key}=" gradle.properties; then
-                    sed -i "s|^${key}=.*|${link_line}|" gradle.properties
-                  else
-                    echo "$link_line" >> gradle.properties
-                  fi
-                done < /tmp/sync/links.txt
-                git diff --quiet gradle.properties || changed_files="$changed_files gradle.properties"
-              fi
+            if [ "${{ inputs.sync_links }}" = "true" ] && [ -f gradle.properties ]; then
+              while IFS= read -r link_line; do
+                key=$(echo "$link_line" | cut -d'=' -f1)
+                if grep -q "^${key}=" gradle.properties; then
+                  sed -i "s|^${key}=.*|${link_line}|" gradle.properties
+                else
+                  echo "$link_line" >> gradle.properties
+                fi
+              done < /tmp/sync/links.txt
+              git diff --quiet gradle.properties || changed_files="$changed_files gradle.properties"
             fi
 
             # --- README.md ---
-            if [ "${{ inputs.sync_readme }}" = "true" ]; then
-              cp /tmp/sync/README.md README.md
-              git diff --quiet README.md || changed_files="$changed_files README.md"
-            fi
+            [ "${{ inputs.sync_readme }}" = "true" ] && sync_file /tmp/sync/README.md README.md
 
             # Commit each changed file separately
             branch_pushed=false
