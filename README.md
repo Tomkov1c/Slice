@@ -39,14 +39,13 @@
     <th>Loaders</th>
     <th>Minimum required version</th>
     <th>Latest Slice version</th>
-    <tr><td>26.1.1</td>  <td>❌</td>
+    <tr><td>26.1.1</td>  <td>✅</td>
         <td>
           <img width="35" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/cozy-minimal/supported/neoforge_vector.svg?raw=true"> 
           <img width="35" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg"> 
           <img width="35" src="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg">
-          <img width="35" src="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg">
         </td>
-        <td><code>26.1.1.0-beta</code>, <code>63.0.0</code>, <code>0.18.4</code>, <code> </code></td>
+        <td><code>26.1.1.0-beta</code>, <code>63.0.1</code>, <code>0.18.4</code>, <code> </code></td>
         <td><code>1.0.2</code></td>
     </tr>
     <tr><td>26.1</td> <td>✅</td>
