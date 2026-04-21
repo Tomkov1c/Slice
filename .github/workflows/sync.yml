@@ -20,7 +20,7 @@ on:
         type: boolean
         default: false
       sync_sync_workflow:
-        description: 'Sync .github/workflows/sync.yaml'
+        description: 'Sync .github/workflows/sync.yml'
         type: boolean
         default: false
       sync_issue_templates:
@@ -66,7 +66,7 @@ jobs:
           fi
 
           if [ "${{ inputs.sync_sync_workflow }}" = "true" ]; then
-            cp .github/workflows/sync.yaml /tmp/sync/sync.yaml
+            cp .github/workflows/sync.yml /tmp/sync/sync.yml
           fi
 
           if [ "${{ inputs.sync_issue_templates }}" = "true" ]; then
@@ -102,7 +102,7 @@ jobs:
 
             # --- Workflows ---
             [ "${{ inputs.sync_publish_workflow }}" = "true" ] && sync_file /tmp/sync/publish.yml .github/workflows/publish.yml
-            [ "${{ inputs.sync_sync_workflow }}" = "true" ] && sync_file /tmp/sync/sync.yaml .github/workflows/sync.yaml
+            [ "${{ inputs.sync_sync_workflow }}" = "true" ] && sync_file /tmp/sync/sync.yml .github/workflows/sync.yml
 
             # --- ISSUE_TEMPLATES ---
             if [ "${{ inputs.sync_issue_templates }}" = "true" ]; then
