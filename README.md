@@ -45,7 +45,7 @@
           <img width="35" src="https://badges.penpow.dev/badges/supported/forge/cozy-minimal.svg"> 
           <img width="35" src="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg">
         </td>
-        <td><code>26.1.1.0-beta</code>, <code>63.0.1</code>, <code>0.18.4</code>, <code> </code></td>
+        <td><code>26.1.1.0-beta</code>, <code>63.0.1</code>, <code>0.18.4</code></td>
         <td><code>1.0.2</code></td>
     </tr>
     <tr><td>26.1</td> <td>✅</td>
