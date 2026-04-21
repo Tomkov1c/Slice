@@ -20,7 +20,7 @@ public class Slice {
 
     public Slice(FMLJavaModLoadingContext context) {
 
-        context.registerConfig(ModConfig.Type.COMMON, Config.CONFIG_SPEC);
+        context.registerConfig(ModConfig.Type.CLIENT, Config.CONFIG_SPEC);
 
         BusGroup.DEFAULT.register(MethodHandles.lookup() , new ConfigHandler());
 

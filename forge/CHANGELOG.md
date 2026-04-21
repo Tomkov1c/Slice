@@ -1,0 +1,1 @@
+- Change config file from `slice-common.toml` to `slice-client.toml`
