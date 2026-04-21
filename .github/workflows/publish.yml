@@ -132,18 +132,25 @@ jobs:
           QUILT_B="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg"
 
           {
-            echo "## <img width=\"20\" src=\"$COMMON_B\"> Common and General"
-            cat common/CHANGELOG.md
-            echo ""
-            echo ""
-            if [ "$LOADER" = "neoforge" ]; then
-              echo "## <img width=\"20\" src=\"$NEO_B\"> NeoForge"
-            elif [ "$LOADER" = "forge" ]; then
-              echo "## <img width=\"20\" src=\"$FORGE_B\"> Forge"
-            elif [ "$LOADER" = "fabric" ]; then
-              echo "## <img width=\"20\" src=\"$FABRIC_B\"> Fabric / <img width=\"20\" src=\"$QUILT_B\"> Quilt"
+            COMMON_CONTENT=$(cat common/CHANGELOG.md)
+            if [ -n "$COMMON_CONTENT" ]; then
+              echo "## <img width=\"20\" src=\"$COMMON_B\"> Common and General"
+              echo "$COMMON_CONTENT"
+              echo ""
+              echo ""
             fi
-            cat $LOADER/CHANGELOG.md
+
+            LOADER_CONTENT=$(cat $LOADER/CHANGELOG.md)
+            if [ -n "$LOADER_CONTENT" ]; then
+              if [ "$LOADER" = "neoforge" ]; then
+                echo "## <img width=\"20\" src=\"$NEO_B\"> NeoForge"
+              elif [ "$LOADER" = "forge" ]; then
+                echo "## <img width=\"20\" src=\"$FORGE_B\"> Forge"
+              elif [ "$LOADER" = "fabric" ]; then
+                echo "## <img width=\"20\" src=\"$FABRIC_B\"> Fabric / <img width=\"20\" src=\"$QUILT_B\"> Quilt"
+              fi
+              echo "$LOADER_CONTENT"
+            fi
           } > STITCHED_CHANGELOG.md
 
           CHANGELOG=$(cat STITCHED_CHANGELOG.md)
@@ -178,7 +185,7 @@ jobs:
 
           VERSION_DATA=$(jq -n \
             --arg name "${{ github.event.inputs.version_name }}" \
-            --arg version_number "$MOD_VERSION-$LOADER" \
+            --arg version_number "$MOD_VERSION" \
             --arg version_type "${{ github.event.inputs.version_type }}" \
             --arg changelog "$CHANGELOG" \
             --argjson loaders "$LOADERS_JSON" \
@@ -233,10 +240,10 @@ jobs:
       - name: Clear changelogs
         run: |
           for LOADER in $(echo '${{ needs.prepare.outputs.loaders }}' | jq -r '.[]'); do
-            echo "" > $LOADER/CHANGELOG.md
+            truncate -s 0 $LOADER/CHANGELOG.md
             echo "::notice::Cleared $LOADER changelog"
           done
-          echo "" > common/CHANGELOG.md
+          truncate -s 0 common/CHANGELOG.md
           echo "::notice::Cleared common changelog"
 
       - name: Commit cleared changelogs
