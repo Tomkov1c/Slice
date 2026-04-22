@@ -42,8 +42,7 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
 
     @Override
     public void centerCursor() {
-        Minecraft mc = Minecraft.getInstance();
-        Window window = mc.getWindow();
+        Window window = Constants.MINECRAFT.getWindow();
 
         double centerX = window.getScreenWidth() / 2.0;
         double centerY = window.getScreenHeight() / 2.0;
