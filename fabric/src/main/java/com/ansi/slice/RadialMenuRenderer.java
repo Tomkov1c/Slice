@@ -5,8 +5,8 @@ import java.util.Objects;
 import com.ansi.slice.classes.SlotPosition;
 import com.ansi.slice.classes.TexturePackCustomValues;
 import com.ansi.slice.handlers.RadialMenuHandler;
-import com.ansi.slice.helpers.JsonHelper;
 import com.ansi.slice.helpers.RadialMenuHelper;
+import com.ansi.slice.helpers.RadialMenuRendererHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -99,8 +99,13 @@ public class RadialMenuRenderer {
             if (cachedVisibleSlots.length == 0) return;
         }
 
-        double mouseX = Constants.MINECRAFT.mouseHandler.xpos() * cachedScreenWidth / Constants.MINECRAFT.getWindow().getScreenWidth() - cachedCenterX;
-        double mouseY = Constants.MINECRAFT.mouseHandler.ypos() * cachedScreenHeight / Constants.MINECRAFT.getWindow().getScreenHeight() - cachedCenterY;
+        double mouseX = RadialMenuRendererHelper.projectMouseX(
+            Constants.MINECRAFT.mouseHandler.xpos(), cachedScreenWidth,
+            Constants.MINECRAFT.getWindow().getScreenWidth(), cachedCenterX);
+
+        double mouseY = RadialMenuRendererHelper.projectMouseY(
+            Constants.MINECRAFT.mouseHandler.ypos(), cachedScreenHeight,
+            Constants.MINECRAFT.getWindow().getScreenHeight(), cachedCenterY);
 
         boolean cursorInSelectionArea = RadialMenuHelper.isCursorInSelectionArea(mouseX, mouseY);
 
@@ -120,14 +125,11 @@ public class RadialMenuRenderer {
 
     private void renderVisibleSlots(GuiGraphics graphics) {
         for (SlotPosition pos : cachedSlotPositions) {
-            boolean isActive = (pos.slotIndex == RadialMenuHandler.selectedSlot);
-            boolean isHovered = (pos.slotIndex == RadialMenuHandler.hoveredSlot);
+            boolean isActive = RadialMenuRendererHelper.isSlotActive(pos);
+            boolean isHovered = RadialMenuRendererHelper.isSlotHovered(pos);
 
-            int xOffset = isActive ? jsonConfig.xOffsetActive : (isHovered ? jsonConfig.xOffsetHovered : jsonConfig.xOffset);
-            int yOffset = isActive ? jsonConfig.yOffsetActive : (isHovered ? jsonConfig.yOffsetHovered : jsonConfig.yOffset);
-
-            int x = pos.baseX + xOffset;
-            int y = pos.baseY + yOffset;
+            int x = RadialMenuRendererHelper.resolveSlotX(pos, jsonConfig, isActive, isHovered);
+            int y = RadialMenuRendererHelper.resolveSlotY(pos, jsonConfig, isActive, isHovered);
 
             if (!GlobalConfig.HIDE_SLOT_SPRITE) renderSlot(graphics, x, y, isActive, isHovered);
 
@@ -152,12 +154,10 @@ public class RadialMenuRenderer {
         int xOffset = active ? jsonConfig.itemXOffsetActive : (hovered ? jsonConfig.itemXOffsetHovered : jsonConfig.itemXOffset);
         int yOffset = active ? jsonConfig.itemYOffsetActive : (hovered ? jsonConfig.itemXOffsetHovered : jsonConfig.itemXOffset);
 
-        int ix = x + xOffset;
-        int iy = y + yOffset;
+        int ix = RadialMenuRendererHelper.resolveItemX(x, jsonConfig, active, hovered);
+        int iy = RadialMenuRendererHelper.resolveItemY(y, jsonConfig, active, hovered);
 
-        if (stack == null || stack.isEmpty()) return;
-
-        float scale = GlobalConfig.ITEM_SIZE / 16f;
+        float scale = RadialMenuRendererHelper.resolveItemScale();
 
         graphics.pose().pushPose();
         graphics.pose().translate(ix + 8f, iy + 8f, 0f);
@@ -180,22 +180,16 @@ public class RadialMenuRenderer {
 
         if (num == null) return;
 
-        int tx = x - Constants.MINECRAFT.font.width(num) / 2 + xOffset;
-        int ty = y + GlobalConfig.ITEM_SIZE / 2 + yOffset + ((GlobalConfig.SLOT_SIZE - 16) / 2);
-
-        int col = active ? JsonHelper.parseColor(jsonConfig.slotNumberColorActive, 0) :
-                  hovered ? JsonHelper.parseColor(jsonConfig.slotNumberColorHovered, 0) :
-                            JsonHelper.parseColor(jsonConfig.slotNumberColor, 0);
-
+        int tx = RadialMenuRendererHelper.resolveSlotNumberX(x, Constants.MINECRAFT.font.width(num), jsonConfig, active, hovered);
+        int ty = RadialMenuRendererHelper.resolveSlotNumberY(y, jsonConfig, active, hovered);
+        int col = RadialMenuRendererHelper.resolveSlotNumberColor(jsonConfig, active, hovered);
         if (Constants.MINECRAFT.font == null) return;
 
         graphics.drawString(Constants.MINECRAFT.font, num, tx, ty, col);
     }
 
     private void renderBackground(GuiGraphics graphics, int screenWidth, int screenHeight) {
-        int baseColor = JsonHelper.parseColor(jsonConfig.backgroundOverlayColor, 0);
-
-        int colorWithAlpha = (GlobalConfig.BACKGROUND_OPACITY << 24) | (baseColor & 0xFFFFFF);
+        int colorWithAlpha = RadialMenuRendererHelper.resolveBackgroundColor(jsonConfig);
         graphics.fill(0, 0, screenWidth, screenHeight, colorWithAlpha);
     }
 
