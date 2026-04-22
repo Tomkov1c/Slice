@@ -6,8 +6,6 @@ import javax.annotation.Nonnull;
 
 import org.lwjgl.glfw.GLFW;
 
-import com.ansi.slice.Constants;
-import com.ansi.slice.GlobalConfig;
 import com.ansi.slice.handlers.RadialMenuHandler;
 import com.mojang.blaze3d.platform.InputConstants;
 

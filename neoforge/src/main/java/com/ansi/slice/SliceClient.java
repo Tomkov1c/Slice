@@ -1,7 +1,6 @@
 package com.ansi.slice;
 
 import com.ansi.slice.handlers.RadialMenuHandler;
-import com.ansi.slice.Constants;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -53,7 +52,7 @@ public class SliceClient {
     }
 
     @SubscribeEvent
-    public static void onScreenClose(ScreenEvent.Closing event) {              
+    public static void onScreenClose(ScreenEvent.Closing event) {
         if (renderer != null) allowKeyBindHandling(true);
     }
 

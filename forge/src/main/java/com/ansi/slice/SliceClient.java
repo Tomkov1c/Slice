@@ -2,7 +2,6 @@ package com.ansi.slice;
 
 import java.util.Objects;
 
-import com.ansi.slice.Constants;
 import com.ansi.slice.handlers.RadialMenuHandler;
 import com.ansi.slice.commands.ReloadConfigCommand;
 

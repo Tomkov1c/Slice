@@ -2,7 +2,6 @@ package com.ansi.slice;
 
 import java.lang.invoke.MethodHandles;
 
-import com.ansi.slice.Constants;
 import com.ansi.slice.handlers.ConfigHandler;
 
 import net.minecraftforge.eventbus.api.bus.BusGroup;

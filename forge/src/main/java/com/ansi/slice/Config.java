@@ -8,8 +8,6 @@ import net.minecraftforge.fml.event.config.ModConfigEvent;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.ansi.slice.Constants;
-import com.ansi.slice.GlobalConfig;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Config {

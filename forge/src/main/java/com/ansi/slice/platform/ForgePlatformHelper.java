@@ -1,12 +1,10 @@
 package com.ansi.slice.platform;
 
 import com.ansi.slice.Constants;
-import com.ansi.slice.handlers.RadialMenuHandler;
 import com.ansi.slice.platform.services.IPlatformHelper;
 import com.mojang.blaze3d.platform.Window;
 import com.ansi.slice.SliceClient;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import java.lang.reflect.Field;
 
@@ -18,11 +16,9 @@ public class ForgePlatformHelper implements IPlatformHelper {
 
     private static Field windowHandleField = null;
 
-    private Minecraft mc = RadialMenuHandler.mc();
-
     @Override
     public void setSelectedSlot(int index) {
-        LocalPlayer player = mc.player;
+        LocalPlayer player = Constants.MINECRAFT.player;
 
         try {
             if (selectedField == null) {
