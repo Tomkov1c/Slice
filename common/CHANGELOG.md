@@ -1,2 +1,1 @@
-- Update links to my new username
-- Update package name based on the new username
+- Remove constant instance refreshing
