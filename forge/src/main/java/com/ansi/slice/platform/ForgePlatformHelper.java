@@ -18,11 +18,9 @@ public class ForgePlatformHelper implements IPlatformHelper {
 
     private static Field windowHandleField = null;
 
-    private Minecraft mc = RadialMenuHandler.mc();
-
     @Override
     public void setSelectedSlot(int index) {
-        LocalPlayer player = mc.player;
+        LocalPlayer player = Constants.MINECRAFT.player;
 
         try {
             if (selectedField == null) {

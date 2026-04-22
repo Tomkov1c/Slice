@@ -7,7 +7,6 @@ import com.google.gson.annotations.SerializedName;
 import com.ansi.slice.helpers.JsonHelper;
 import com.ansi.slice.Constants;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.resources.ResourceManager;
 
 
@@ -85,10 +84,9 @@ public class TexturePackCustomValues {
 
     public void parseFromResource(String path) {
         try {
-            Minecraft mc = Minecraft.getInstance();
-            if (mc == null) return;
+            if (Constants.MINECRAFT == null) return;
 
-            ResourceManager resourceManager = mc.getResourceManager();
+            ResourceManager resourceManager = Constants.MINECRAFT.getResourceManager();
             if (resourceManager == null) return;
 
             JsonObject json = JsonHelper.readJsonFromResources(resourceManager, path);

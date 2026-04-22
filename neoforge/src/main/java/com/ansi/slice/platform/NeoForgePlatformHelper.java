@@ -15,11 +15,9 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
 
     private static Field windowHandleField = null;
 
-    private Minecraft mc = RadialMenuHandler.mc();
-
     @Override
     public void setSelectedSlot(int index) {
-        mc.player.getInventory().selected = index;
+        Constants.MINECRAFT.player.getInventory().selected = index;
     }
 
     @Override
