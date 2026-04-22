@@ -1,11 +1,61 @@
 package com.ansi.slice.helpers;
 
+import com.ansi.slice.Constants;
 import com.ansi.slice.GlobalConfig;
 import com.ansi.slice.classes.SlotPosition;
 import com.ansi.slice.classes.TexturePackCustomValues;
 import com.ansi.slice.handlers.RadialMenuHandler;
 
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.entity.player.Inventory;
+
 public class RadialMenuRendererHelper {
+
+    // Cache fields
+
+    public int cachedCenterX = 0;
+    public int cachedCenterY = 0;
+    public int[] cachedVisibleSlots = null;
+    public SlotPosition[] cachedSlotPositions = null;
+
+    public int cachedScreenWidth = -1;
+    public int cachedScreenHeight = -1;
+
+    public LocalPlayer cachedPlayer = null;
+    public Inventory cachedInventory = null;
+
+    // Cache management
+
+    public void clearCache() {
+        cachedScreenWidth = -1;
+        cachedScreenHeight = -1;
+        cachedCenterX = -1;
+        cachedCenterY = -1;
+        cachedPlayer = null;
+        cachedInventory = null;
+        cachedSlotPositions = null;
+    }
+
+    public void initializeCache(TexturePackCustomValues jsonConfig) {
+        jsonConfig.parseFromResource(Constants.TEXTURE_CONFIG_JSON_NAMESPACE_PATH);
+
+        if (cachedScreenWidth == -1 && cachedScreenHeight == -1) {
+            cachedScreenWidth = Constants.MINECRAFT.getWindow().getGuiScaledWidth();
+            cachedScreenHeight = Constants.MINECRAFT.getWindow().getGuiScaledHeight();
+            cachedCenterX = cachedScreenWidth / 2;
+            cachedCenterY = cachedScreenHeight / 2;
+        }
+
+        if (Constants.MINECRAFT.player != null) cachedPlayer = Constants.MINECRAFT.player;
+
+        if (cachedInventory == null && cachedPlayer != null) cachedInventory = cachedPlayer.getInventory();
+
+        if (cachedSlotPositions == null) {
+            cachedVisibleSlots = RadialMenuHelper.getVisibleSlots(cachedInventory);
+            if (cachedVisibleSlots.length == 0) return;
+            cachedSlotPositions = RadialMenuHelper.calculateSlotPositions(cachedVisibleSlots, cachedCenterX, cachedCenterY);
+        }
+    }
 
     // Offset resolution
 
