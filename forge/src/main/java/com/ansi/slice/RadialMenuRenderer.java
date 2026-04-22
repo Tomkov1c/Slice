@@ -2,15 +2,12 @@ package com.ansi.slice;
 
 import java.util.Objects;
 
-import com.ansi.slice.Constants;
-import com.ansi.slice.GlobalConfig;
 import com.ansi.slice.classes.SlotPosition;
 import com.ansi.slice.classes.TexturePackCustomValues;
 import com.ansi.slice.handlers.RadialMenuHandler;
 import com.ansi.slice.helpers.JsonHelper;
 import com.ansi.slice.helpers.RadialMenuHelper;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderPipelines;

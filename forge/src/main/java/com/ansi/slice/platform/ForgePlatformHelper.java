@@ -1,7 +1,6 @@
 package com.ansi.slice.platform;
 
 import com.ansi.slice.Constants;
-import com.ansi.slice.handlers.RadialMenuHandler;
 import com.ansi.slice.platform.services.IPlatformHelper;
 import com.mojang.blaze3d.platform.Window;
 import com.ansi.slice.SliceClient;

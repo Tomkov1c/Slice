@@ -8,7 +8,6 @@ import com.ansi.slice.handlers.RadialMenuHandler;
 import com.ansi.slice.helpers.JsonHelper;
 import com.ansi.slice.helpers.RadialMenuHelper;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;

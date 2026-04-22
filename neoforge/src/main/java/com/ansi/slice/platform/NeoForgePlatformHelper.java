@@ -9,7 +9,6 @@ import com.ansi.slice.Constants;
 import com.ansi.slice.SliceClient;
 import com.ansi.slice.platform.services.IPlatformHelper;
 import net.minecraft.client.Minecraft;
-import com.ansi.slice.handlers.RadialMenuHandler;
 
 public class NeoForgePlatformHelper implements IPlatformHelper {
 
