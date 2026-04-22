@@ -8,7 +8,6 @@ import com.mojang.blaze3d.platform.Window;
 import com.ansi.slice.Constants;
 import com.ansi.slice.SliceClient;
 import com.ansi.slice.platform.services.IPlatformHelper;
-import net.minecraft.client.Minecraft;
 
 public class NeoForgePlatformHelper implements IPlatformHelper {
 

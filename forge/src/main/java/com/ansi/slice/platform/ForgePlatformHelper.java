@@ -5,7 +5,6 @@ import com.ansi.slice.platform.services.IPlatformHelper;
 import com.mojang.blaze3d.platform.Window;
 import com.ansi.slice.SliceClient;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import java.lang.reflect.Field;
 
