@@ -31,7 +31,7 @@
 
 ## Supported Versions
 > ✅ - Supported, ❌ - Unsupported, 🔍 - Planned / In development
-<br> Minimum loader versions are in the same order as loaders in `Loaders` column <br> `Latest Slice version` doesn't cite the latest ***published*** version. Check the [Modrinth page](https://modrinth.com/mod/slice) for the latest available version.<br> Main development currently resides on version **`26.1.2`**. Why? idk
+<br> Minimum loader versions are in the same order as the loaders in the `Loaders` column. <br> `Latest Slice version` doesn't refer to the latest ***published*** version. Check the [Modrinth page](https://modrinth.com/mod/slice) for the latest available version.<br> Main development currently resides on version **`26.1.2`**. Why? idk
 
 <table>
     <th>Version</th>
@@ -214,7 +214,7 @@
 
 ## How to customize/configure
 
-### <img width="20" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/compact-minimal/supported/neoforge_vector.svg?raw=true"> Neoforge
+### <img width="20" src="https://github.com/intergrav/devins-badges/blob/8494ec1ac495cfb481dc7e458356325510933eb0/assets/compact-minimal/supported/neoforge_vector.svg?raw=true"> NeoForge
 NeoForge offers an in-game config menu.
 ```
 Main Menu > Mods > *Select Slice* > Config
@@ -241,6 +241,7 @@ Download [Mod Menu](https://modrinth.com/mod/modmenu) and use their config menu 
 ```
 Main Menu > Mods > *Select Slice* > -Config button next to the name-
 ```
+
 ### <img width="20" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/quilt_vector.svg"> Quilt
 Download [Mod Menu](https://modrinth.com/mod/modmenu) and use their config menu instead.
 ```
@@ -263,7 +264,6 @@ Feel free to send feedback on the [issues page](https://github.com/ansi-sudo/Sli
     <li><a href="https://www.aseprite.org/">Aseprite</li></a>
   </ul>
 </details>
-
 
 <hr>
 
