@@ -25,20 +25,8 @@ public class RadialMenuRenderer {
 	@SuppressWarnings("unused")
     private double cursorY = -1;
 
+    public RadialMenuRendererHelper helper = new RadialMenuRendererHelper();
     TexturePackCustomValues jsonConfig = new TexturePackCustomValues();
-
-    // Cache
-    private int cachedCenterX = 0;
-    private int cachedCenterY = 0;
-    private int[] cachedVisibleSlots = null;
-    private SlotPosition[] cachedSlotPositions = null;
-
-    private int cachedScreenWidth = -1;
-    private int cachedScreenHeight = -1;
-
-    private LocalPlayer cachedPlayer = null;
-    private Inventory cachedInventory = null;
-    //
 
     public void onMenuOpen() {
         RadialMenuHandler.hoveredSlot = -1;
@@ -50,72 +38,38 @@ public class RadialMenuRenderer {
     }
 
     public void onMenuClose() {
-        clearCache();
-
+        helper.clearCache();
         cursorX = -1;
         cursorY = -1;
     }
 
-    public void clearCache() {
-        cachedScreenWidth = -1;
-        cachedScreenHeight = -1;
-        cachedCenterX = -1;
-        cachedCenterY = -1;
-
-        cachedPlayer = null;
-        cachedInventory = null;
-        cachedSlotPositions = null;
-
-    }
-
-    private void initializeCache() {
-
-        jsonConfig.parseFromResource(Constants.TEXTURE_CONFIG_JSON_NAMESPACE_PATH);
-
-        if (cachedScreenWidth == -1 && cachedScreenHeight == -1) {
-            cachedScreenWidth = Constants.MINECRAFT.getWindow().getGuiScaledWidth();
-            cachedScreenHeight = Constants.MINECRAFT.getWindow().getGuiScaledHeight();
-            cachedCenterX = cachedScreenWidth / 2;
-            cachedCenterY = cachedScreenHeight / 2;
-        }
-
-        if (Constants.MINECRAFT.player != null) cachedPlayer = Constants.MINECRAFT.player;
-
-        if (cachedInventory == null && cachedPlayer != null) cachedInventory = cachedPlayer.getInventory();
-
-        if (cachedSlotPositions == null) {
-            cachedVisibleSlots = RadialMenuHelper.getVisibleSlots(cachedInventory);
-
-            if (cachedVisibleSlots.length == 0) return;
-
-            cachedSlotPositions = RadialMenuHelper.calculateSlotPositions(cachedVisibleSlots, cachedCenterX, cachedCenterY);
-        }
-    }
 
     public void render(GuiGraphics graphics, float partialTick) {
         if (!isRendering) return;
 
         if (!hasRenderedOnce) {
-            initializeCache();
-            if (cachedVisibleSlots.length == 0) return;
+            helper.initializeCache(jsonConfig);
+            if (helper.cachedVisibleSlots.length == 0) return;
         }
 
         double mouseX = RadialMenuRendererHelper.projectMouseX(
-            Constants.MINECRAFT.mouseHandler.xpos(), cachedScreenWidth,
-            Constants.MINECRAFT.getWindow().getScreenWidth(), cachedCenterX);
+            Constants.MINECRAFT.mouseHandler.xpos(), helper.cachedScreenWidth,
+            Constants.MINECRAFT.getWindow().getScreenWidth(), helper.cachedCenterX);
 
         double mouseY = RadialMenuRendererHelper.projectMouseY(
-            Constants.MINECRAFT.mouseHandler.ypos(), cachedScreenHeight,
-            Constants.MINECRAFT.getWindow().getScreenHeight(), cachedCenterY);
+            Constants.MINECRAFT.mouseHandler.ypos(), helper.cachedScreenHeight,
+            Constants.MINECRAFT.getWindow().getScreenHeight(), helper.cachedCenterY);
 
         boolean cursorInSelectionArea = RadialMenuHelper.isCursorInSelectionArea(mouseX, mouseY);
 
-        if (cursorInSelectionArea) RadialMenuHandler.hoveredSlot = RadialMenuHelper.getHoveredSlot( mouseX, mouseY, cachedSlotPositions );
-        else RadialMenuHandler.hoveredSlot = -1;
+        if (cursorInSelectionArea)
+            RadialMenuHandler.hoveredSlot = RadialMenuHelper.getHoveredSlot(mouseX, mouseY, helper.cachedSlotPositions);
+        else
+            RadialMenuHandler.hoveredSlot = -1;
 
-        RadialMenuHandler.selectedSlot = cachedInventory.selected;
+        RadialMenuHandler.selectedSlot = helper.cachedInventory.selected;
 
-        if (GlobalConfig.BACKGROUND_OPACITY > 0) renderBackground(graphics, cachedScreenWidth, cachedScreenHeight);
+        if (GlobalConfig.BACKGROUND_OPACITY > 0) renderBackground(graphics, helper.cachedScreenWidth, helper.cachedScreenHeight);
 
         renderVisibleSlots(graphics);
 
@@ -125,7 +79,7 @@ public class RadialMenuRenderer {
     }
 
     private void renderVisibleSlots(GuiGraphics graphics) {
-        for (SlotPosition pos : cachedSlotPositions) {
+        for (SlotPosition pos : helper.cachedSlotPositions) {
             boolean isActive = RadialMenuRendererHelper.isSlotActive(pos);
             boolean isHovered = RadialMenuRendererHelper.isSlotHovered(pos);
 
@@ -134,9 +88,10 @@ public class RadialMenuRenderer {
 
             if (!GlobalConfig.HIDE_SLOT_SPRITE) renderSlot(graphics, x, y, isActive, isHovered);
 
-            ItemStack stack = cachedInventory.getItem(pos.slotIndex);
 
-            if (!stack.isEmpty()) renderItem(graphics, cachedInventory.getItem(pos.slotIndex), x, y, isActive, isHovered);
+            ItemStack stack = helper.cachedInventory.getItem(pos.slotIndex);
+
+            if (!stack.isEmpty()) renderItem(graphics, stack, x, y, isActive, isHovered);
             if (!GlobalConfig.HIDE_SLOT_NUMBER) renderSlotNumber(graphics, pos.slotIndex, x, y, isActive, isHovered);
         }
     }

@@ -55,7 +55,7 @@ public class ForgePlatformHelper implements IPlatformHelper {
             SliceClient.renderer.isRendering = false;
             SliceClient.renderer.hasRenderedOnce = false;
             SliceClient.renderer.onMenuClose();
-            SliceClient.renderer.clearCache();
+            SliceClient.renderer.helper.clearCache();
         }
     }
 
