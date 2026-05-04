@@ -28,6 +28,14 @@ body:
     validations:
       required: true
 
+  - type: input
+    id: relation
+    attributes:
+        label: Related to another mod
+        placeholder: Mod Menu (v17.0.0 for 1.21.11)
+    validations:
+        required: false
+
   - type: textarea
     id: description
     attributes:
