@@ -66,8 +66,8 @@ public class RadialMenuHandler {
     private static void handleSlotSelecting(int index) {
         selectSlot(index);
 
-        if(GlobalConfig.CLOSE_ON_SELECT && isMenuOpen) { closeMenu(); }
-        if(GlobalConfig.RECENTER_ON_SELECT && isMenuOpen) { centerCursor(); }
+        if (GlobalConfig.CLOSE_ON_SELECT && isMenuOpen) { closeMenu(); }
+        if (GlobalConfig.RECENTER_ON_SELECT && isMenuOpen) { centerCursor(); }
     }
 
     private static void selectSlot(int index) {
