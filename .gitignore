@@ -8,6 +8,7 @@ bin *
 .project
 .vscode
 .eclipse
+.zed
 
 # idea
 out
