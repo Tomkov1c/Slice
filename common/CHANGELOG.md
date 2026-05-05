@@ -1,1 +1,2 @@
-- Add Ko-fi link to mod properties because I'm a greedy bastard
+- Remove constant instance refreshing
+- Move some universal renderer thing to `common` (Remove duplicate code that needs to be maintained)
