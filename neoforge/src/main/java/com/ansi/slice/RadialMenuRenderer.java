@@ -9,7 +9,6 @@ import com.ansi.slice.helpers.RadialMenuHelper;
 import com.ansi.slice.helpers.RadialMenuRendererHelper;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
