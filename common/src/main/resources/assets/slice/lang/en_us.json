@@ -5,13 +5,9 @@
   "key.slice.open_radial_menu": "Open Radial Menu",
   "key.slice.click_to_select": "Select Slot (if CtS is enabled)",
 
-    //
-    //Display
     "slice.configuration.category.display": "Display Options",
     "slice.configuration.category.display.tooltip": "Options for the visual appearance of the menu.",
 
-      //
-      //Size
       "slice.configuration.category.display.size": "Size Options",
       "slice.configuration.category.display.size.tooltip": "Options for adjusting the size of UI elements.",
 
@@ -24,8 +20,6 @@
       "slice.configuration.display.size.slotSize": "Slot Size",
       "slice.configuration.display.size.slotSize.tooltip": "Size of the slot background texture.",
 
-      //
-      // Visibility
       "slice.configuration.category.display.visibility": "Visibility Options",
       "slice.configuration.category.display.visibility.tooltip": "Options for hiding UI elements.",
 
@@ -41,8 +35,6 @@
       "slice.configuration.display.visibility.hideSlotSprite": "Hide Slot Sprites",
       "slice.configuration.display.visibility.hideSlotSprite.tooltip": "When enabled, slot sprites will not be displayed.",
 
-        //
-        // Disable Slots
         "slice.configuration.category.display.visibility.disabledSlots": "Disabled Slots",
         "slice.configuration.category.display.visibility.disabledSlots.tooltip": "Options to disable specific slots from appearing in the menu.",
 
@@ -83,8 +75,6 @@
     "slice.configuration.display.counterclockwiseRotation": "Reverse Rotation",
     "slice.configuration.display.counterclockwiseRotation.tooltip": "When enabled, the radial menu will reverse its slot order (9th slot → 1st slot).",
 
-    //
-    //Behaviour
     "slice.configuration.category.behaviour": "Behavior Options",
     "slice.configuration.category.behaviour.tooltip": "Options for changing how the mod behaves during gameplay.",
 
@@ -109,12 +99,9 @@
       "slice.configuration.behaviour.outerDeadzone.tooltip": "Extends the selectable area outward from the menu radius. Increase this to require keeping the mouse closer to the menu for slot selection.",
 
 
-    //
-    // Misc
     "slice.configuration.category.misc": "Miscellaneous",
     "slice.configuration.category.misc.tooltip": "Miscellaneous options.",
 
-        //
         "slice.configuration.misc.disableScrollingOnHotbar": "Disable Scrolling",
         "slice.configuration.misc.disableScrollingOnHotbar.tooltip": "Disable mouse wheel scrolling for the hotbar.",
 
