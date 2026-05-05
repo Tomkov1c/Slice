@@ -1,14 +1,12 @@
 package com.ansi.slice.handlers;
 
+import com.ansi.slice.Constants;
 import com.ansi.slice.GlobalConfig;
 import com.ansi.slice.platform.Services;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Inventory;
 
 public class RadialMenuHandler {
-
-    public static Minecraft mc() { return Minecraft.getInstance(); }
 
     public static boolean isMenuOpen = false;
 
@@ -19,14 +17,14 @@ public class RadialMenuHandler {
 
     public static void openMenu() {
         isMenuOpen = true;
-        mc().mouseHandler.releaseMouse();
+        Constants.MINECRAFT.mouseHandler.releaseMouse();
 
         Services.PLATFORM.renderMenu();
     }
 
     public static void closeMenu() {
         isMenuOpen = false;
-        mc().mouseHandler.grabMouse();
+        Constants.MINECRAFT.mouseHandler.grabMouse();
 
         Services.PLATFORM.derenderMenu();
     }
@@ -75,7 +73,7 @@ public class RadialMenuHandler {
 
     private static void selectSlot(int index) {
     	if (index == selectedSlot) return;
-        if (index < 0 || index > Inventory.getSelectionSize()-1 || mc().player == null) return;
+        if (index < 0 || index > Inventory.getSelectionSize()-1 || Constants.MINECRAFT.player == null) return;
 
         Services.PLATFORM.setSelectedSlot(index);
         selectedSlot = index;

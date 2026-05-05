@@ -5,11 +5,9 @@ import com.ansi.slice.SliceClient;
 import java.lang.reflect.Field;
 
 import com.ansi.slice.Constants;
-import com.ansi.slice.handlers.RadialMenuHandler;
 import com.ansi.slice.platform.services.IPlatformHelper;
 import com.mojang.blaze3d.platform.Window;
 
-import net.minecraft.client.Minecraft;
 
 import org.lwjgl.glfw.GLFW;
 
@@ -17,11 +15,9 @@ public class FabricPlatformHelper implements IPlatformHelper {
 
     private static Field windowHandleField = null;
 
-    private Minecraft mc = RadialMenuHandler.mc();
-
     @Override
     public void setSelectedSlot(int index) {
-        mc.player.getInventory().selected = index;
+        Constants.MINECRAFT.player.getInventory().selected = index;
     }
 
     @Override
@@ -45,7 +41,7 @@ public class FabricPlatformHelper implements IPlatformHelper {
 
     @Override
     public void centerCursor() {
-        Window window = mc.getWindow();
+        Window window = Constants.MINECRAFT.getWindow();
 
         try {
             if (windowHandleField == null) {

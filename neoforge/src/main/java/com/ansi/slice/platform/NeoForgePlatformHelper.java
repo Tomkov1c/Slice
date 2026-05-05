@@ -8,18 +8,15 @@ import com.mojang.blaze3d.platform.Window;
 import com.ansi.slice.Constants;
 import com.ansi.slice.SliceClient;
 import com.ansi.slice.platform.services.IPlatformHelper;
-import net.minecraft.client.Minecraft;
-import com.ansi.slice.handlers.RadialMenuHandler;
 
 public class NeoForgePlatformHelper implements IPlatformHelper {
 
     private static Field windowHandleField = null;
 
-    private Minecraft mc = RadialMenuHandler.mc();
 
     @Override
     public void setSelectedSlot(int index) {
-        mc.player.getInventory().selected = index;
+        Constants.MINECRAFT.player.getInventory().selected = index;
     }
 
     @Override
@@ -45,8 +42,7 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
 
     @Override
     public void centerCursor() {
-        Minecraft mc = Minecraft.getInstance();
-        Window window = mc.getWindow();
+        Window window = Constants.MINECRAFT.getWindow();
 
         double centerX = window.getScreenWidth() / 2.0;
         double centerY = window.getScreenHeight() / 2.0;
