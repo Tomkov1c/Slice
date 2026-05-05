@@ -53,7 +53,7 @@ public class SliceClient {
 
     @SubscribeEvent
     public static void onScreenClose(ScreenEvent.Closing event) {
-        if (renderer != null) allowKeyBindHandling(true);
+        if (renderer != null && Constants.MINECRAFT.screen == null) allowKeyBindHandling(true);
     }
 
     @SubscribeEvent
