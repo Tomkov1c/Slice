@@ -85,10 +85,9 @@ public class TexturePackCustomValues {
 
     public void parseFromResource(String path) {
         try {
-            Minecraft mc = Minecraft.getInstance();
-            if (mc == null) return;
+            if (Constants.MINECRAFT == null) return;
 
-            ResourceManager resourceManager = mc.getResourceManager();
+            ResourceManager resourceManager = Constants.MINECRAFT.getResourceManager();
             if (resourceManager == null) return;
 
             JsonObject json = JsonHelper.readJsonFromResources(resourceManager, path);

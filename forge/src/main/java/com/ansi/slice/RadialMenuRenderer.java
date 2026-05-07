@@ -18,8 +18,6 @@ import net.minecraft.world.item.ItemStack;
 
 public class RadialMenuRenderer {
 
-    Minecraft mc = RadialMenuHandler.mc();
-
     public boolean isRendering = false;
     public boolean hasRenderedOnce = false;
 
@@ -47,9 +45,9 @@ public class RadialMenuRenderer {
     public void onMenuOpen() {
         RadialMenuHandler.hoveredSlot = -1;
 
-        if (RadialMenuHandler.mc().mouseHandler != null) {
-            cursorX = RadialMenuHandler.mc().mouseHandler.xpos();
-            cursorY = RadialMenuHandler.mc().mouseHandler.ypos();
+        if (Constants.MINECRAFT.mouseHandler != null) {
+            cursorX = Constants.MINECRAFT.mouseHandler.xpos();
+            cursorY = Constants.MINECRAFT.mouseHandler.ypos();
         }
     }
 
@@ -77,13 +75,13 @@ public class RadialMenuRenderer {
         jsonConfig.parseFromResource(Constants.TEXTURE_CONFIG_JSON_NAMESPACE_PATH);
 
         if (cachedScreenWidth == -1 && cachedScreenHeight == -1) {
-            cachedScreenWidth = mc.getWindow().getGuiScaledWidth();
-            cachedScreenHeight = mc.getWindow().getGuiScaledHeight();
+            cachedScreenWidth = Constants.MINECRAFT.getWindow().getGuiScaledWidth();
+            cachedScreenHeight = Constants.MINECRAFT.getWindow().getGuiScaledHeight();
             cachedCenterX = cachedScreenWidth / 2;
             cachedCenterY = cachedScreenHeight / 2;
         }
 
-        if (mc.player != null) cachedPlayer = mc.player;
+        if (Constants.MINECRAFT.player != null) cachedPlayer = Constants.MINECRAFT.player;
 
         if (cachedInventory == null && cachedPlayer != null) cachedInventory = cachedPlayer.getInventory();
 
@@ -104,8 +102,8 @@ public class RadialMenuRenderer {
             if (cachedVisibleSlots.length == 0) return;
         }
 
-        double mouseX = mc.mouseHandler.xpos() * cachedScreenWidth / mc.getWindow().getScreenWidth() - cachedCenterX;
-        double mouseY = mc.mouseHandler.ypos() * cachedScreenHeight / mc.getWindow().getScreenHeight() - cachedCenterY;
+        double mouseX = Constants.MINECRAFT.mouseHandler.xpos() * cachedScreenWidth / Constants.MINECRAFT.getWindow().getScreenWidth() - cachedCenterX;
+        double mouseY = Constants.MINECRAFT.mouseHandler.ypos() * cachedScreenHeight / Constants.MINECRAFT.getWindow().getScreenHeight() - cachedCenterY;
 
         boolean cursorInSelectionArea = RadialMenuHelper.isCursorInSelectionArea(mouseX, mouseY);
 
@@ -120,7 +118,7 @@ public class RadialMenuRenderer {
 
         renderVisibleSlots(graphics);
 
-        mc.renderBuffers().bufferSource().endBatch();
+        Constants.MINECRAFT.renderBuffers().bufferSource().endBatch();
 
         hasRenderedOnce = true;
     }
@@ -173,9 +171,9 @@ public class RadialMenuRenderer {
 
         graphics.renderItem(stack, ix, iy);
 
-        if (mc.font == null) return;
+        if (Constants.MINECRAFT.font == null) return;
 
-        graphics.renderItemDecorations(mc.font, stack, ix, iy);
+        graphics.renderItemDecorations(Constants.MINECRAFT.font, stack, ix, iy);
         graphics.pose().popMatrix();
     }
 
@@ -188,16 +186,16 @@ public class RadialMenuRenderer {
 
         if (num == null) return;
 
-        int tx = x - mc.font.width(num) / 2 + xOffset;
+        int tx = x - Constants.MINECRAFT.font.width(num) / 2 + xOffset;
         int ty = y + GlobalConfig.ITEM_SIZE / 2 + yOffset + ((GlobalConfig.SLOT_SIZE - 16) / 2);
 
         int col = active ? JsonHelper.parseColor(jsonConfig.slotNumberColorActive, 0) :
             hovered ? JsonHelper.parseColor(jsonConfig.slotNumberColorHovered, 0) :
             JsonHelper.parseColor(jsonConfig.slotNumberColor, 0);
 
-        if (mc.font == null) return;
+        if (Constants.MINECRAFT.font == null) return;
 
-        graphics.drawString(mc.font, num, tx, ty, col);
+        graphics.drawString(Constants.MINECRAFT.font, num, tx, ty, col);
     }
 
     private void renderBackground(GuiGraphics graphics, int screenWidth, int screenHeight) {
