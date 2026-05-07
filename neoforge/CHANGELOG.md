@@ -1,0 +1,2 @@
+- Make the mod appear as client only
+- Fix menu opening in the mod menu [#7](https://github.com/ansi-sudo/Slice/issues/7)
