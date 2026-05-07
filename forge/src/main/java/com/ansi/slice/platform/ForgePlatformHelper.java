@@ -24,11 +24,9 @@ public class ForgePlatformHelper implements IPlatformHelper {
 
     private static Field windowHandleField = null;
 
-    private Minecraft mc = RadialMenuHandler.mc();
-
     @Override
     public void setSelectedSlot(int index) {
-        LocalPlayer player = mc.player;
+        LocalPlayer player = Constants.MINECRAFT.player;
 
         try {
             if (selectedField == null) {
@@ -63,8 +61,7 @@ public class ForgePlatformHelper implements IPlatformHelper {
 
     @Override
     public void centerCursor() {
-        Minecraft mc = Minecraft.getInstance();
-        Window window = mc.getWindow();
+        Window window = Constants.MINECRAFT.getWindow();
 
         double centerX = window.getScreenWidth() / 2.0;
         double centerY = window.getScreenHeight() / 2.0;

@@ -23,7 +23,7 @@ public class SliceClient {
         event.enqueueWork(() -> {
             Config.pushConfigToGlobal();
             Minecraft mc = Minecraft.getInstance();
-            mc.gui.layers.add(
+            Constants.MINECRAFT.gui.layers.add(
                 (guiGraphics, deltaTracker) -> {
                     if (SliceClient.renderer != null) SliceClient.renderer.render(guiGraphics, deltaTracker.getGameTimeDeltaTicks());
                 }
