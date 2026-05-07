@@ -19,11 +19,9 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
 
     private static Field windowHandleField = null;
 
-    private Minecraft mc = RadialMenuHandler.mc();
-
     @Override
     public void setSelectedSlot(int index) {
-        mc.player.getInventory().selected = index;
+        Constants.MINECRAFT.player.getInventory().selected = index;
     }
 
     @Override
@@ -49,8 +47,7 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
 
     @Override
     public void centerCursor() {
-        Minecraft mc = Minecraft.getInstance();
-        Window window = mc.getWindow();
+        Window window = Constants.MINECRAFT.getWindow();
 
         double centerX = window.getScreenWidth() / 2.0;
         double centerY = window.getScreenHeight() / 2.0;

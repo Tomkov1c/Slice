@@ -5,9 +5,12 @@ import org.slf4j.LoggerFactory;
 
 import com.ansi.slice.helpers.RadialMenuHelper;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 
 public class Constants {
+
+    public static Minecraft MINECRAFT = Minecraft.getInstance();
 
 	public static final String MOD_ID = "slice";
 	public static final String MOD_NAME = "Slice";
