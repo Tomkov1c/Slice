@@ -1,1 +1,2 @@
 - Fix menu opening in the mod menu [#7](https://github.com/ansi-sudo/Slice/issues/7)
+- Fix scroll input on items (e.g., Create: Contraption Controls) being canceled by the `Disable hotbar scrolling` setting
