@@ -2,12 +2,9 @@ package com.ansi.slice.mixins;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.ansi.slice.GlobalConfig;
-import com.ansi.slice.handlers.RadialMenuHandler;
 
 import net.minecraft.client.MouseHandler;
 
