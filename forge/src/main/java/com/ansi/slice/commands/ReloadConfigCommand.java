@@ -25,7 +25,7 @@ public class ReloadConfigCommand {
 
     private static int reloadConfig(CommandContext<CommandSourceStack> context) {
         try {
-            Path configPath = FMLPaths.CONFIGDIR.get().resolve(Constants.MOD_ID + "-common.toml");
+            Path configPath = FMLPaths.CONFIGDIR.get().resolve(Constants.MOD_ID + "-client.toml");
 
             if (!configPath.toFile().exists()) {
                 context.getSource().sendFailure(

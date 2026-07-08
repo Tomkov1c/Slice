@@ -14,12 +14,13 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 minecraft {
     runs {
         configureEach {
-            workingDir = layout.projectDirectory.dir('run')
             systemProperty 'eventbus.api.strictRuntimeChecks', 'true'
-            systemProperty 'forge.enabledGameTestNamespaces', mod_id
         }
         register('client') {
             workingDir = layout.projectDirectory.dir('runs/client')
+            if (org.gradle.internal.os.OperatingSystem.current().isMacOsX()) {
+                jvmArgs '-XstartOnFirstThread'
+            }
         }
         register('server') {
             workingDir = layout.projectDirectory.dir('runs/server')
@@ -42,7 +43,6 @@ repositories {
 }
 
 dependencies {
-    implementation project(':common')
     implementation minecraft.dependency("net.minecraftforge:forge:${minecraft_version}-${forge_version}")
     annotationProcessor 'net.minecraftforge:eventbus-validator:7.0.1'
 }
@@ -56,14 +56,20 @@ jar {
             'Implementation-Title'  : mod_name,
             'Implementation-Version': version,
             'Implementation-Vendor' : mod_author,
+            'MixinConfigs'          : 'slice.mixins.json',
+            'MixinConnector'        : 'com.ansi.slice.SliceMixinConnector',
         ])
     }
 }
 
-sourceSets.each {
-    def dir = layout.buildDirectory.dir("sourcesSets/$it.name")
-    it.output.resourcesDir = dir
-    it.java.destinationDirectory = dir
+sourceSets.configureEach {
+    def dir = layout.buildDirectory.dir("sourcesSets/$name")
+    output.resourcesDir = dir
+    java.destinationDirectory = dir
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
 }
 
 processResources {

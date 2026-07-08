@@ -1,0 +1,1 @@
+- Fix scroll input on items (e.g., Create: Contraption Controls) being canceled by the `Disable hotbar scrolling` setting
