@@ -103,9 +103,6 @@ processResources {
     filesMatching('fabric.mod.json') {
         expand expandProps
     }
-    filesMatching('slice.mixins.json') {
-        expand expandProps
-    }
     inputs.properties(expandProps)
 }
 

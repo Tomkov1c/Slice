@@ -34,7 +34,7 @@
         "java": ">=${java_version}"
     },
     "mixins": [
-        "slice.mixins.json"
+        "slice.client.mixins.json"
     ],
     "suggests": {
         "another-mod": "*"

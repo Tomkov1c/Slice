@@ -56,7 +56,7 @@ jar {
             'Implementation-Title'  : mod_name,
             'Implementation-Version': version,
             'Implementation-Vendor' : mod_author,
-            'MixinConfigs'          : 'slice.mixins.json',
+            'MixinConfigs'          : 'slice.client.mixins.json',
             'MixinConnector'        : 'com.ansi.slice.SliceMixinConnector',
         ])
     }

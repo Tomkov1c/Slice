@@ -33,4 +33,4 @@ side = "BOTH"
 #openGLVersion="[3.2,)"
 
 [[mixins]]
-config = "slice.mixins.json"
+config = "slice.client.mixins.json"
