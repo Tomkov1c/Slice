@@ -46,6 +46,7 @@ repositories {
 }
 
 sourcesJar {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
     from(rootProject.file('LICENSE')) {
         rename { "${it}_${mod_name}" }
     }

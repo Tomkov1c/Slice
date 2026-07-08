@@ -8,7 +8,7 @@
 
   ],
   "client": [
-  	"MouseMixin"
+    "KeyMappingMixin"
   ],
   "injectors": {
     "defaultRequire": 1

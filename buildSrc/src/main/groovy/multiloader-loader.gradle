@@ -27,6 +27,10 @@ tasks.named('compileJava', JavaCompile) {
 }
 
 processResources {
+    from(project(":common").sourceSets.main.resources)
+    from(sourceSets.main.resources)
+
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
     dependsOn(configurations.commonResources)
     from(configurations.commonResources)
 }
