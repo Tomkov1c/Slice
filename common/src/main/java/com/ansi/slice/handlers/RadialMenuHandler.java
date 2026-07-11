@@ -4,7 +4,10 @@ import com.ansi.slice.GlobalConfig;
 import com.ansi.slice.platform.Services;
 import com.ansi.slice.Constants;
 
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 public class RadialMenuHandler {
     public static boolean isMenuOpen = false;
@@ -30,6 +33,17 @@ public class RadialMenuHandler {
 
     public static void centerCursor() {
         Services.PLATFORM.centerCursor();
+    }
+
+    public static void handleOffhandSwap() {
+        Inventory inventory = Constants.PLAYER.getInventory();
+
+        ItemStack fromSlot = inventory.getItem(hoveredSlot);
+        ItemStack currentOffhand = Constants.PLAYER.getItemBySlot(EquipmentSlot.OFFHAND);
+
+        inventory.setItem(hoveredSlot, currentOffhand);
+        Constants.PLAYER.setItemSlot(EquipmentSlot.OFFHAND, fromSlot);
+
     }
 
     public static void handleOpenMenuKeyBehaviour(boolean isPressed) {

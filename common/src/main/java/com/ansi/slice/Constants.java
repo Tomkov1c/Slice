@@ -6,11 +6,13 @@ import org.slf4j.LoggerFactory;
 import com.ansi.slice.helpers.RadialMenuHelper;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.Identifier;
 
 public class Constants {
 
     public static final Minecraft MINECRAFT = Minecraft.getInstance();
+    public static final LocalPlayer PLAYER = MINECRAFT.player;
 
 	public static final String MOD_ID = "slice";
 	public static final String MOD_NAME = "Slice";
