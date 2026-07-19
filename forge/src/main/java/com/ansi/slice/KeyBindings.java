@@ -44,6 +44,15 @@ public class KeyBindings {
         0
     );
 
+    @Nonnull
+    public static final KeyMapping SWAP_TO_OFFHAND = new KeyMapping(
+        "key.slice.swap_to_offhand",
+        KeyConflictContext.GUI,
+        InputConstants.Type.KEYSYM.getOrCreate(GLFW.GLFW_KEY_F),
+        CATEGORY_OBJECT,
+        0
+    );
+
     @SubscribeEvent
     public static void onKeyInput(InputEvent.Key event) {
         if(!canHandleKeyBind) return;
@@ -57,6 +66,10 @@ public class KeyBindings {
             else if (event.getAction() == GLFW.GLFW_RELEASE) {
                 RadialMenuHandler.handleOpenMenuKeyBehaviour(false);
             }
+        }
+
+        if (SWAP_TO_OFFHAND.getKey().getType() == InputConstants.Type.KEYSYM && event.getKey() == SWAP_TO_OFFHAND.getKey().getValue() && event.getAction() == GLFW.GLFW_PRESS) {
+            RadialMenuHandler.handleOffhandSwap();
         }
     }
 

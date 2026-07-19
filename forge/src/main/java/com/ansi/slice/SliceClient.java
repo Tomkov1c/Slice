@@ -35,6 +35,7 @@ public class SliceClient {
         public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
             event.register(KeyBindings.OPEN_RADIAL_MENU);
             event.register(KeyBindings.CLICK_TO_SELECT);
+            event.register(KeyBindings.SWAP_TO_OFFHAND);
         }
 
         @SubscribeEvent
