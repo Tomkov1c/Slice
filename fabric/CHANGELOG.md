@@ -1,1 +1,3 @@
 - Fix scroll input on items (e.g., Create: Contraption Controls) being canceled by the `Disable hotbar scrolling` setting
+- Add a keybind to swap the hovered slot's item to the off-hand slot [#3](https://github.com/ansi-sudo/Slice/issues/3)
+- Fix keybinds not being registered in the config menu which is partially responsible for issue [#8](https://github.com/ansi-sudo/Slice/issues/8)
