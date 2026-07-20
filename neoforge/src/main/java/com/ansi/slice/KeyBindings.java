@@ -42,6 +42,15 @@ public class KeyBindings {
         CATEGORY_OBJECT
     );
 
+    @Nonnull
+    public static final KeyMapping SWAP_TO_OFFHAND = new KeyMapping(
+        "key.slice.swap_to_offhand",
+        KeyConflictContext.GUI,
+        InputConstants.Type.KEYSYM,
+        GLFW.GLFW_KEY_F,
+        CATEGORY_OBJECT
+    );
+
     @SubscribeEvent
     public static void onKeyInput(InputEvent.Key event) {
         if(!canHandleKeyBind) return;
@@ -55,6 +64,10 @@ public class KeyBindings {
             else if (event.getAction() == GLFW.GLFW_RELEASE) {
                 RadialMenuHandler.handleOpenMenuKeyBehaviour(false);
             }
+        }
+
+        if (SWAP_TO_OFFHAND.getKey().getType() == InputConstants.Type.KEYSYM && event.getKey() == SWAP_TO_OFFHAND.getKey().getValue() && event.getAction() == GLFW.GLFW_PRESS) {
+            RadialMenuHandler.handleOffhandSwap();
         }
     }
 
@@ -93,6 +106,7 @@ public class KeyBindings {
     public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
         event.register(OPEN_RADIAL_MENU);
         event.register(CLICK_TO_SELECT);
+        event.register(SWAP_TO_OFFHAND);
     }
 
 }

@@ -47,13 +47,6 @@ public class SliceClient {
     @SubscribeEvent
     public static void onScreenOpen(ScreenEvent.Opening event) {
         if (RadialMenuHandler.isMenuOpen && event.getScreen() != null) RadialMenuHandler.closeMenu();
-
-        allowKeyBindHandling(false);
-    }
-
-    @SubscribeEvent
-    public static void onScreenClose(ScreenEvent.Closing event) {
-        if (renderer != null && Constants.MINECRAFT.screen == null) allowKeyBindHandling(true);
     }
 
     @SubscribeEvent
