@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.resources.Identifier;
 
 public class SliceClient implements ClientModInitializer {
@@ -31,6 +32,11 @@ public class SliceClient implements ClientModInitializer {
             }
         );
 
+        KeyMappingHelper.registerKeyMapping(KeyBindings.CLICK_TO_SELECT);
+        KeyMappingHelper.registerKeyMapping(KeyBindings.OPEN_RADIAL_MENU);
+        KeyMappingHelper.registerKeyMapping(KeyBindings.SWAP_TO_OFFHAND);
+
+
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (client.screen == null && !RadialMenuHandler.canHandleKeyBind) {
                 RadialMenuHandler.canHandleKeyBind = true;
@@ -38,6 +44,7 @@ public class SliceClient implements ClientModInitializer {
             }
             KeyBindings.handleOpenRadialMenu();
             KeyBindings.handleClickToSelect();
+            KeyBindings.handleSwapToOffhand();
         });
 
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
