@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.ansi.slice.handlers.RadialMenuHandler;
+import com.ansi.slice.Constants;
 import com.ansi.slice.KeyBindings;
 
 import net.minecraft.client.KeyMapping;
@@ -19,6 +20,8 @@ public class KeyMappingMixin {
             KeyMapping self = (KeyMapping) (Object) this;
 
             if (self != KeyBindings.CLICK_TO_SELECT) cir.setReturnValue(false);
+
+            if (self == Constants.MINECRAFT.options.keySwapOffhand && RadialMenuHandler.isMenuOpen) cir.setReturnValue(false);
         }
     }
 

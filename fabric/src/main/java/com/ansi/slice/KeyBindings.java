@@ -20,6 +20,7 @@ public class KeyBindings {
 
     public static boolean OPEN_RADIAL_MENU_Privious_State = false;
     public static boolean CLICK_TO_SELECT_Privious_State = false;
+    public static boolean SWAP_TO_OFFHAND_Privious_State = false;
 
     @NotNull
     public static final KeyMapping OPEN_RADIAL_MENU = new KeyMapping(
@@ -35,6 +36,15 @@ public class KeyBindings {
         "key.slice.click_to_select",
         InputConstants.Type.MOUSE,
         GLFW.GLFW_MOUSE_BUTTON_1,
+        CATEGORY_OBJECT,
+        0
+    );
+
+    @NotNull
+    public static final KeyMapping SWAP_TO_OFFHAND = new KeyMapping(
+        "key.slice.swap_to_offhand",
+        InputConstants.Type.KEYSYM,
+        GLFW.GLFW_KEY_F,
         CATEGORY_OBJECT,
         0
     );
@@ -61,6 +71,23 @@ public class KeyBindings {
 	    if (isKeyDown) RadialMenuHandler.handleClickToSelect();
 
 	    CLICK_TO_SELECT_Privious_State = isKeyDown;
+    }
+
+    public static void handleSwapToOffhand() {
+        if (!RadialMenuHandler.isMenuOpen) {
+            SWAP_TO_OFFHAND_Privious_State = false;
+            return;
+        }
+
+        boolean isKeyDown = InputConstants.isKeyDown(
+            Constants.MINECRAFT.getWindow(),
+            GLFW.GLFW_KEY_F
+        );
+
+        if (SWAP_TO_OFFHAND_Privious_State == isKeyDown) return;
+        if (isKeyDown) RadialMenuHandler.handleOffhandSwap();
+
+        SWAP_TO_OFFHAND_Privious_State = isKeyDown;
     }
 
 }
