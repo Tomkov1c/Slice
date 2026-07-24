@@ -35,6 +35,9 @@ public class RadialMenuHandler {
     }
 
     public static void handleOffhandSwap() {
+        if (hoveredSlot < 0)
+            return;
+
         Inventory inventory = Constants.PLAYER.getInventory();
 
         ItemStack fromSlot = inventory.getItem(hoveredSlot);
