@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.ansi.slice.mixins",
+  "compatibilityLevel": "JAVA_21",
+  "priority": 1001,
+  "mixins": [
+
+  ],
+  "client": [
+    "KeyMappingMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
