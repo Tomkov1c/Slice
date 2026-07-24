@@ -2,3 +2,4 @@
 - Fix scroll input on items (e.g., Create: Contraption Controls) being canceled by the `Disable hotbar scrolling` setting
 - Fix the menu not rendering if the player exited the pause menu back to the game.
 - Add a keybind to swap the hovered slot's item to the off-hand slot [#3](https://github.com/ansi-sudo/Slice/issues/3)
+- Fix item duplication when pressing `SWAP_TO_OFFHAND` key
