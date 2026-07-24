@@ -1,3 +1,4 @@
 - Remove constant instance refreshing
 - Move some universal renderer thing to `common` (Remove doplicate code that needs to be maintained)
 - Add a universal way to swap hoverd slot to offhand and vice versa
+- Prevent crashing when no slot is selected when `SWAP_TO_OFFHAND` is pressed
