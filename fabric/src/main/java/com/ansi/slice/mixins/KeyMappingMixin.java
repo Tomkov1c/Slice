@@ -27,10 +27,17 @@ public class KeyMappingMixin {
 
     @Inject(method = "isDown", at = @At("HEAD"), cancellable = true)
     private void preventIsDown(CallbackInfoReturnable<Boolean> cir) {
-        if (RadialMenuHandler.isMenuOpen) {
-            KeyMapping self = (KeyMapping) (Object) this;
+        if (!RadialMenuHandler.isMenuOpen) return;
 
-            if (self != KeyBindings.CLICK_TO_SELECT && self != KeyBindings.OPEN_RADIAL_MENU) cir.setReturnValue(false);
-        }
+        KeyMapping self = (KeyMapping) (Object) this;
+        var options = Constants.MINECRAFT.options;
+
+        boolean isBlocked = self == options.keyAttack
+            || self == options.keyUse
+            || self == options.keyInventory
+            || self == options.keySwapOffhand
+            || self == options.keyPickItem;
+
+        if (isBlocked) cir.setReturnValue(false);
     }
 }
