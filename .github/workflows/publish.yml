@@ -131,8 +131,60 @@ jobs:
           FABRIC_B="https://badges.penpow.dev/badges/supported/fabric/cozy-minimal.svg"
           QUILT_B="https://badges.penpow.dev/badges/supported/quilt/cozy-minimal.svg"
 
+          # Keep the common changelog's own heading levels exactly as written —
+          # it is the reference hierarchy. Then shift the loader-specific
+          # changelog's headings so its shallowest heading picks up one level
+          # deeper than the deepest heading used in the common changelog,
+          # preserving the loader changelog's own internal hierarchy.
+          #
+          # e.g. common uses  # .. ##   (max level 2)
+          #      loader uses  # .. ##   (min level 1)
+          #      -> loader shift = (2 + 1) - 1 = 2
+          #      -> loader becomes ### .. ####
+          cat > /tmp/heading_levels.py << 'PYEOF'
+          import re, sys
+
+          def heading_levels(text):
+              levels = []
+              for l in text.splitlines():
+                  m = re.match(r'^(#{1,6})\s', l)
+                  if m:
+                      levels.append(len(m.group(1)))
+              return levels
+
+          if __name__ == '__main__':
+              mode = sys.argv[1]  # "max" or "min"
+              levels = heading_levels(sys.stdin.read())
+              if not levels:
+                  print(0)
+              elif mode == 'max':
+                  print(max(levels))
+              else:
+                  print(min(levels))
+          PYEOF
+
+          cat > /tmp/shift_headings.py << 'PYEOF'
+          import re, sys
+
+          def shift_headings(text, shift):
+              out = []
+              for l in text.splitlines():
+                  m = re.match(r'^(#{1,6})(\s.*)$', l)
+                  if m:
+                      new_level = max(1, min(6, len(m.group(1)) + shift))
+                      out.append('#' * new_level + m.group(2))
+                  else:
+                      out.append(l)
+              return '\n'.join(out)
+
+          if __name__ == '__main__':
+              shift = int(sys.argv[1])
+              sys.stdout.write(shift_headings(sys.stdin.read(), shift))
+          PYEOF
+
           {
-            COMMON_CONTENT=$(cat common/CHANGELOG.md)
+            COMMON_RAW=$(cat common/CHANGELOG.md)
+            COMMON_CONTENT="$COMMON_RAW"
             if [ -n "$COMMON_CONTENT" ]; then
               echo "## <img width=\"20\" src=\"$COMMON_B\"> Common and General"
               echo "$COMMON_CONTENT"
@@ -140,7 +192,20 @@ jobs:
               echo ""
             fi
 
-            LOADER_CONTENT=$(cat $LOADER/CHANGELOG.md)
+            COMMON_MAX_LEVEL=$(echo "$COMMON_RAW" | python3 /tmp/heading_levels.py max)
+            if [ "$COMMON_MAX_LEVEL" -eq 0 ]; then
+              COMMON_MAX_LEVEL=2  # fallback: nest under the "##" section header level
+            fi
+
+            LOADER_RAW=$(cat $LOADER/CHANGELOG.md)
+            LOADER_MIN_LEVEL=$(echo "$LOADER_RAW" | python3 /tmp/heading_levels.py min)
+            if [ "$LOADER_MIN_LEVEL" -eq 0 ]; then
+              LOADER_SHIFT=0
+            else
+              LOADER_SHIFT=$((COMMON_MAX_LEVEL + 1 - LOADER_MIN_LEVEL))
+            fi
+
+            LOADER_CONTENT=$(echo "$LOADER_RAW" | python3 /tmp/shift_headings.py "$LOADER_SHIFT")
             if [ -n "$LOADER_CONTENT" ]; then
               if [ "$LOADER" = "neoforge" ]; then
                 echo "## <img width=\"20\" src=\"$NEO_B\"> NeoForge"
